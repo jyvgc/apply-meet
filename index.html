@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신청 시스템</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; background: #f0f4f8; min-height: 100vh; }
+
+  .hero {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
+    color: #fff; padding: 40px 20px; text-align: center;
+  }
+  .hero h1 { font-size: 2rem; margin-bottom: 12px; line-height: 1.3; }
+  .hero p  { font-size: 1rem; opacity: .85; max-width: 680px; margin: 0 auto; line-height: 1.7; white-space: pre-wrap; }
+
+  .container { max-width: 780px; margin: 32px auto; padding: 0 16px 60px; }
+
+  .status-bar {
+    background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px;
+    padding: 10px 16px; margin-bottom: 20px; font-size: .9rem; color: #856404;
+    display: none;
+  }
+
+  .section-title { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin-bottom: 14px; }
+
+  /* 날짜 탭 */
+  .date-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .date-tab {
+    padding: 8px 18px; border-radius: 20px; border: 2px solid #2d6a9f;
+    cursor: pointer; font-size: .9rem; color: #2d6a9f; background: #fff;
+    transition: all .2s;
+  }
+  .date-tab.active { background: #2d6a9f; color: #fff; }
+  .date-tab:hover:not(.active) { background: #e8f0fb; }
+
+  /* 슬롯 그리드 */
+  .slots-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;
+    margin-bottom: 32px;
+  }
+  .slot {
+    padding: 14px 8px; border-radius: 10px; text-align: center;
+    font-size: .95rem; font-weight: 600; cursor: pointer; transition: all .2s;
+    border: 2px solid transparent;
+  }
+  .slot.available {
+    background: #e8f5e9; color: #2e7d32; border-color: #66bb6a;
+  }
+  .slot.available:hover { background: #66bb6a; color: #fff; transform: translateY(-2px); }
+  .slot.booked {
+    background: #f5f5f5; color: #9e9e9e; border-color: #e0e0e0; cursor: not-allowed;
+  }
+  .slot.selected { background: #2d6a9f; color: #fff; border-color: #1e3a5f; }
+
+  .no-slots { text-align: center; color: #888; padding: 32px; font-size: .95rem; }
+
+  /* 모달 */
+  .overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
+    z-index: 100; justify-content: center; align-items: center; padding: 16px;
+  }
+  .overlay.show { display: flex; }
+  .modal {
+    background: #fff; border-radius: 16px; padding: 32px; width: 100%; max-width: 460px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.2);
+  }
+  .modal h2 { font-size: 1.3rem; color: #1e3a5f; margin-bottom: 8px; }
+  .modal .slot-info {
+    background: #e8f0fb; border-radius: 8px; padding: 10px 14px;
+    font-size: .95rem; color: #2d6a9f; margin-bottom: 20px; font-weight: 600;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: .85rem; color: #555; margin-bottom: 6px; font-weight: 600; }
+  .form-group input {
+    width: 100%; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 8px;
+    font-size: .95rem; transition: border-color .2s;
+  }
+  .form-group input:focus { outline: none; border-color: #2d6a9f; }
+  .btn-row { display: flex; gap: 10px; margin-top: 20px; }
+  .btn {
+    flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 1rem;
+    font-weight: 700; cursor: pointer; transition: all .2s;
+  }
+  .btn-primary { background: #2d6a9f; color: #fff; }
+  .btn-primary:hover { background: #1e3a5f; }
+  .btn-secondary { background: #f0f0f0; color: #555; }
+  .btn-secondary:hover { background: #ddd; }
+
+  /* 완료 모달 */
+  .success-icon { font-size: 3rem; text-align: center; margin-bottom: 12px; }
+  .success-detail {
+    background: #f0f4f8; border-radius: 8px; padding: 14px; font-size: .9rem;
+    line-height: 1.8; color: #333; margin-bottom: 20px;
+  }
+
+  .loading { text-align: center; padding: 48px; color: #888; }
+  .closed-msg {
+    text-align: center; padding: 48px; color: #888;
+    font-size: 1.1rem; background: #fff; border-radius: 12px;
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.5rem; }
+    .slots-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1 id="prog-title">로딩 중...</h1>
+  <p id="prog-desc"></p>
+</div>
+
+<div class="container">
+  <div class="status-bar" id="status-bar"></div>
+  <div id="main-content"><div class="loading">⏳ 프로그램 정보를 불러오는 중...</div></div>
+</div>
+
+<!-- 신청 모달 -->
+<div class="overlay" id="apply-overlay">
+  <div class="modal">
+    <h2>📝 신청하기</h2>
+    <div class="slot-info" id="selected-slot-info"></div>
+    <div class="form-group">
+      <label>이름 *</label>
+      <input type="text" id="input-name" placeholder="이름을 입력하세요">
+    </div>
+    <div class="form-group">
+      <label>추가 정보 (학번 / 수험번호 등)</label>
+      <input type="text" id="input-extra" placeholder="선택 입력">
+    </div>
+    <div class="form-group">
+      <label>연락처 (선택)</label>
+      <input type="text" id="input-contact" placeholder="010-0000-0000">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="closeApplyModal()">취소</button>
+      <button class="btn btn-primary" onclick="submitApply()">신청 완료</button>
+    </div>
+  </div>
+</div>
+
+<!-- 완료 모달 -->
+<div class="overlay" id="done-overlay">
+  <div class="modal" style="text-align:center">
+    <div class="success-icon">✅</div>
+    <h2 style="margin-bottom:12px">신청이 완료되었습니다!</h2>
+    <div class="success-detail" id="done-detail"></div>
+    <button class="btn btn-primary" onclick="closeDoneModal()">확인</button>
+  </div>
+</div>
+
+<script>
+let activeRound = null;
+let selectedSlotKey = null;
+let selectedDate = null;
+let slotsRef = null;
+let slotsListener = null;
+let allSlots = {};
+
+// 활성 회차 로드
+db.ref('rounds').orderByChild('active').equalTo(true).limitToLast(1)
+  .once('value', snap => {
+    const data = snap.val();
+    if (!data) {
+      document.getElementById('prog-title').textContent = '현재 진행 중인 신청이 없습니다';
+      document.getElementById('main-content').innerHTML = '<div class="closed-msg">🔒 현재 신청 가능한 프로그램이 없습니다.<br>관리자에게 문의하세요.</div>';
+      return;
+    }
+    const key = Object.keys(data)[0];
+    activeRound = { id: key, ...data[key] };
+    document.getElementById('prog-title').textContent = activeRound.title || '신청 프로그램';
+    document.getElementById('prog-desc').textContent = activeRound.description || '';
+    renderDates();
+    listenSlots();
+  });
+
+function listenSlots() {
+  slotsRef = db.ref(`rounds/${activeRound.id}/slots`);
+  slotsRef.on('value', snap => {
+    allSlots = snap.val() || {};
+    renderSlots(selectedDate);
+  });
+}
+
+function renderDates() {
+  const slots = activeRound.slots || {};
+  const dates = [...new Set(Object.values(slots).map(s => s.date))].sort();
+  if (dates.length === 0) {
+    document.getElementById('main-content').innerHTML = '<div class="no-slots">등록된 시간 슬롯이 없습니다.</div>';
+    return;
+  }
+  selectedDate = dates[0];
+
+  let html = `<p class="section-title">📅 날짜 선택</p><div class="date-tabs">`;
+  dates.forEach(d => {
+    const label = formatDate(d);
+    html += `<div class="date-tab${d===selectedDate?' active':''}" onclick="selectDate('${d}')" id="tab-${d}">${label}</div>`;
+  });
+  html += `</div><p class="section-title">🕐 시간 선택 <span style="font-size:.8rem;color:#888;font-weight:400">— 초록색: 신청 가능 / 회색: 마감</span></p>`;
+  html += `<div class="slots-grid" id="slots-grid"></div>`;
+  document.getElementById('main-content').innerHTML = html;
+}
+
+function selectDate(date) {
+  selectedDate = date;
+  document.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById(`tab-${date}`);
+  if (tab) tab.classList.add('active');
+  renderSlots(date);
+}
+
+function renderSlots(date) {
+  const grid = document.getElementById('slots-grid');
+  if (!grid) return;
+  const filtered = Object.entries(allSlots)
+    .filter(([,s]) => s.date === date)
+    .sort(([,a],[,b]) => a.time.localeCompare(b.time));
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="no-slots" style="grid-column:1/-1">이 날짜에 슬롯이 없습니다.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(([key, s]) => {
+    const cls = s.booked ? 'booked' : 'available';
+    const label = s.booked ? `${s.time}<br><small>마감</small>` : s.time;
+    return `<div class="slot ${cls}" onclick="${s.booked?'':` openApply('${key}','${s.date}','${s.time}')`}">${label}</div>`;
+  }).join('');
+}
+
+function formatDate(d) {
+  const [y,m,dd] = d.split('-');
+  const days = ['일','월','화','수','목','금','토'];
+  const day = days[new Date(d).getDay()];
+  return `${m}/${dd}(${day})`;
+}
+
+function openApply(key, date, time) {
+  selectedSlotKey = key;
+  document.getElementById('selected-slot-info').textContent = `📌 ${date} ${time}`;
+  document.getElementById('input-name').value = '';
+  document.getElementById('input-extra').value = '';
+  document.getElementById('input-contact').value = '';
+  document.getElementById('apply-overlay').classList.add('show');
+}
+function closeApplyModal() {
+  document.getElementById('apply-overlay').classList.remove('show');
+  selectedSlotKey = null;
+}
+function closeDoneModal() {
+  document.getElementById('done-overlay').classList.remove('show');
+}
+
+function submitApply() {
+  const name = document.getElementById('input-name').value.trim();
+  if (!name) { alert('이름을 입력해주세요.'); return; }
+  const extra = document.getElementById('input-extra').value.trim();
+  const contact = document.getElementById('input-contact').value.trim();
+  const slotRef = db.ref(`rounds/${activeRound.id}/slots/${selectedSlotKey}`);
+
+  slotRef.transaction(slot => {
+    if (!slot) return slot;
+    if (slot.booked) return; // abort — already booked
+    slot.booked = true;
+    slot.bookedBy = name;
+    slot.bookedExtra = extra;
+    slot.bookedContact = contact;
+    slot.bookedAt = new Date().toISOString();
+    return slot;
+  }, (err, committed, snap) => {
+    if (err) { alert('오류가 발생했습니다. 다시 시도해주세요.'); return; }
+    if (!committed) {
+      alert('😔 방금 다른 분이 신청하셨습니다. 다른 시간을 선택해주세요.');
+      closeApplyModal();
+      return;
+    }
+    const s = snap.val();
+    closeApplyModal();
+    document.getElementById('done-detail').innerHTML =
+      `<b>${name}</b> 님의 신청이 완료되었습니다.<br>
+       📅 날짜: ${s.date}<br>
+       🕐 시간: ${s.time}<br>
+       ${extra ? `📋 정보: ${extra}<br>` : ''}
+       ${contact ? `📞 연락처: ${contact}` : ''}`;
+    document.getElementById('done-overlay').classList.add('show');
+  });
+}
+</script>
+</body>
+</html>
