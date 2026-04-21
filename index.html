@@ -8,129 +8,122 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="firebase-config.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; background: #f0f4f8; min-height: 100vh; }
-  .hero {
-    background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
-    color: #fff; padding: 40px 20px; text-align: center;
-  }
-  .hero h1 { font-size: 2rem; margin-bottom: 12px; line-height: 1.3; }
-  .hero p  { font-size: 1rem; opacity: .85; max-width: 680px; margin: 0 auto; line-height: 1.7; white-space: pre-wrap; }
-  .container { max-width: 780px; margin: 32px auto; padding: 0 16px 60px; }
-  .section-title { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin-bottom: 14px; }
-  .date-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-  .date-tab {
-    padding: 8px 18px; border-radius: 20px; border: 2px solid #2d6a9f;
-    cursor: pointer; font-size: .9rem; color: #2d6a9f; background: #fff; transition: all .2s;
-  }
-  .date-tab.active { background: #2d6a9f; color: #fff; }
-  .date-tab:hover:not(.active) { background: #e8f0fb; }
-  .slots-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px;
-    margin-bottom: 32px;
-  }
-  .slot {
-    padding: 14px 8px; border-radius: 10px; text-align: center;
-    font-size: .95rem; font-weight: 600; cursor: pointer; transition: all .2s;
-    border: 2px solid transparent;
-  }
-  .slot.available { background: #e8f5e9; color: #2e7d32; border-color: #66bb6a; }
-  .slot.available:hover { background: #66bb6a; color: #fff; transform: translateY(-2px); }
-  .slot.booked { background: #f5f5f5; color: #9e9e9e; border-color: #e0e0e0; cursor: not-allowed; }
-  .slot.mine { background: #fff3e0; color: #e65100; border-color: #ffa726; cursor: pointer; }
-  .slot.mine:hover { background: #ffa726; color: #fff; transform: translateY(-2px); }
-  .no-slots { text-align: center; color: #888; padding: 32px; font-size: .95rem; }
-  .my-booking-bar {
-    background: #fff3e0; border: 1.5px solid #ffa726; border-radius: 10px;
-    padding: 14px 18px; margin-bottom: 20px; display: none; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
-  }
-  .my-booking-bar .info { font-size: .9rem; color: #e65100; font-weight: 600; }
-  .my-booking-bar .info span { font-weight: 400; color: #555; margin-left: 6px; }
-  .my-booking-bar .btn-cancel {
-    padding: 7px 16px; border-radius: 6px; border: none; background: #e53935;
-    color: #fff; font-size: .85rem; font-weight: 700; cursor: pointer;
-  }
-  .overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5);
-    z-index: 100; justify-content: center; align-items: center; padding: 16px;
-  }
-  .overlay.show { display: flex; }
-  .modal {
-    background: #fff; border-radius: 16px; padding: 32px; width: 100%; max-width: 460px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.2);
-  }
-  .modal h2 { font-size: 1.3rem; color: #1e3a5f; margin-bottom: 8px; }
-  .modal .slot-info {
-    background: #e8f0fb; border-radius: 8px; padding: 10px 14px;
-    font-size: .95rem; color: #2d6a9f; margin-bottom: 20px; font-weight: 600;
-  }
-  .form-group { margin-bottom: 16px; }
-  .form-group label { display: block; font-size: .85rem; color: #555; margin-bottom: 6px; font-weight: 600; }
-  .form-group input {
-    width: 100%; padding: 10px 14px; border: 1.5px solid #ddd; border-radius: 8px; font-size: .95rem;
-  }
-  .form-group input:focus { outline: none; border-color: #2d6a9f; }
-  .btn-row { display: flex; gap: 10px; margin-top: 20px; }
-  .btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all .2s; }
-  .btn-primary { background: #2d6a9f; color: #fff; }
-  .btn-primary:hover { background: #1e3a5f; }
-  .btn-secondary { background: #f0f0f0; color: #555; }
-  .btn-secondary:hover { background: #ddd; }
-  .success-icon { font-size: 3rem; text-align: center; margin-bottom: 12px; }
-  .success-detail {
-    background: #f0f4f8; border-radius: 8px; padding: 14px; font-size: .9rem;
-    line-height: 1.8; color: #333; margin-bottom: 20px;
-  }
-  .change-info {
-    background: #fff3e0; border-radius: 8px; padding: 10px 14px; font-size: .88rem;
-    color: #e65100; margin-bottom: 14px; line-height: 1.6; display: none;
-  }
-  .loading { text-align: center; padding: 48px; color: #888; }
-  .closed-msg { text-align: center; padding: 48px; color: #888; font-size: 1.1rem; background: #fff; border-radius: 12px; }
-  @media (max-width: 480px) {
-    .hero h1 { font-size: 1.5rem; }
-    .slots-grid { grid-template-columns: repeat(3, 1fr); }
-  }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;min-height:100vh}
+.hero{background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;padding:36px 20px;text-align:center}
+.hero h1{font-size:1.9rem;margin-bottom:10px;line-height:1.3}
+.hero p{font-size:.95rem;opacity:.85;max-width:680px;margin:0 auto;line-height:1.7;white-space:pre-wrap}
+.deadline-bar{background:rgba(0,0,0,.25);margin-top:16px;border-radius:8px;padding:10px 16px;font-size:.88rem;display:inline-block}
+.deadline-bar span{font-weight:700}
+.container{max-width:780px;margin:28px auto;padding:0 16px 60px}
+.section-title{font-size:1.05rem;font-weight:700;color:#1e3a5f;margin-bottom:12px}
+
+/* 확인코드 배너 */
+.code-banner{background:#e8f5e9;border:1.5px solid #66bb6a;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:none;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.code-banner .cb-left{font-size:.9rem;color:#2e7d32}
+.code-banner .cb-code{font-size:1.6rem;font-weight:900;color:#1b5e20;letter-spacing:4px;background:#fff;border-radius:6px;padding:4px 14px;margin:4px 0}
+.code-banner .cb-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-chg{padding:8px 16px;border-radius:7px;border:none;background:#2d6a9f;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer}
+.btn-cancel-bk{padding:8px 16px;border-radius:7px;border:none;background:#e53935;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer}
+
+/* 확인코드 조회 박스 */
+.lookup-box{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:20px;border:1.5px solid #e0e0e0;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.lookup-box input{flex:1;min-width:120px;padding:9px 14px;border:1.5px solid #ddd;border-radius:7px;font-size:1rem;text-align:center;letter-spacing:4px;font-weight:700}
+.lookup-box input:focus{outline:none;border-color:#2d6a9f}
+.lookup-box button{padding:9px 18px;border-radius:7px;border:none;background:#2d6a9f;color:#fff;font-size:.9rem;font-weight:700;cursor:pointer}
+
+/* 날짜탭 */
+.date-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.date-tab{padding:8px 16px;border-radius:20px;border:2px solid #2d6a9f;cursor:pointer;font-size:.88rem;color:#2d6a9f;background:#fff;transition:all .2s}
+.date-tab.active{background:#2d6a9f;color:#fff}
+.date-tab:hover:not(.active){background:#e8f0fb}
+
+/* 슬롯 */
+.slots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-bottom:28px}
+.slot{padding:14px 6px;border-radius:10px;text-align:center;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;border:2px solid transparent;line-height:1.4}
+.slot.available{background:#e8f5e9;color:#2e7d32;border-color:#66bb6a}
+.slot.available:hover{background:#66bb6a;color:#fff;transform:translateY(-2px)}
+.slot.booked{background:#f5f5f5;color:#bdbdbd;border-color:#e0e0e0;cursor:not-allowed}
+.slot.mine{background:#fff3e0;color:#e65100;border-color:#ffa726;cursor:pointer}
+.slot.mine:hover{background:#ffa726;color:#fff;transform:translateY(-2px)}
+.slot.locked{background:#fce4ec;color:#c62828;border-color:#ef9a9a;cursor:not-allowed;font-size:.8rem}
+.no-slots{text-align:center;color:#aaa;padding:32px;font-size:.9rem;grid-column:1/-1}
+
+/* 공통 모달 */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:100;justify-content:center;align-items:center;padding:16px}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:460px;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+.modal h2{font-size:1.2rem;color:#1e3a5f;margin-bottom:10px}
+.slot-chip{background:#e8f0fb;border-radius:8px;padding:9px 14px;font-size:.92rem;color:#2d6a9f;margin-bottom:18px;font-weight:600}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:.82rem;color:#555;margin-bottom:5px;font-weight:600}
+.form-group input{width:100%;padding:10px 13px;border:1.5px solid #ddd;border-radius:8px;font-size:.95rem}
+.form-group input:focus{outline:none;border-color:#2d6a9f}
+.btn-row{display:flex;gap:10px;margin-top:18px}
+.btn{flex:1;padding:11px;border-radius:8px;border:none;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-primary{background:#2d6a9f;color:#fff}
+.btn-primary:hover{background:#1e3a5f}
+.btn-secondary{background:#f0f0f0;color:#555}
+.btn-secondary:hover{background:#ddd}
+.success-icon{font-size:3rem;text-align:center;margin-bottom:10px}
+.success-detail{background:#f0f4f8;border-radius:8px;padding:14px;font-size:.9rem;line-height:1.9;color:#333;margin-bottom:14px}
+.code-display{background:#1e3a5f;border-radius:10px;padding:14px;text-align:center;margin-bottom:14px}
+.code-display .label{font-size:.82rem;color:#90caf9;margin-bottom:4px}
+.code-display .code{font-size:2.4rem;font-weight:900;color:#fff;letter-spacing:8px}
+.code-display .hint{font-size:.78rem;color:#90caf9;margin-top:6px}
+.warn-box{background:#fff3e0;border-radius:8px;padding:10px 14px;font-size:.85rem;color:#e65100;margin-bottom:14px;line-height:1.5}
+.closed-overlay{text-align:center;padding:56px 20px;background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.closed-overlay h2{font-size:1.3rem;color:#555;margin-bottom:10px}
+.closed-overlay p{color:#888;font-size:.92rem;line-height:1.7}
+.loading{text-align:center;padding:48px;color:#aaa}
+@media(max-width:480px){.hero h1{font-size:1.4rem}.slots-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
 <div class="hero">
   <h1 id="prog-title">로딩 중...</h1>
   <p id="prog-desc"></p>
-</div>
-<div class="container">
-  <!-- 내 신청 현황 바 -->
-  <div class="my-booking-bar" id="my-booking-bar">
-    <div class="info">
-      📌 내 신청: <span id="my-booking-text"></span>
-      <span style="font-size:.8rem;color:#888;margin-left:8px">시간 변경은 다른 슬롯을 클릭하세요</span>
-    </div>
-    <button class="btn-cancel" onclick="cancelMyBooking()">신청 취소</button>
+  <div class="deadline-bar" id="deadline-bar" style="display:none">
+    ⏱ 신청 마감까지: <span id="countdown"></span>
   </div>
+</div>
+
+<div class="container">
+  <!-- 확인코드 조회 -->
+  <div class="lookup-box" id="lookup-box" style="display:none">
+    <span style="font-size:.88rem;color:#555;white-space:nowrap">📋 기존 신청 조회</span>
+    <input type="text" id="lookup-input" maxlength="4" placeholder="확인코드 4자리" oninput="this.value=this.value.replace(/\D/g,'')">
+    <button onclick="lookupCode()">확인</button>
+  </div>
+
+  <!-- 내 신청 배너 -->
+  <div class="code-banner" id="code-banner">
+    <div>
+      <div class="cb-left">📌 내 신청 현황</div>
+      <div id="banner-info" style="font-size:.88rem;color:#555;margin-top:2px"></div>
+      <div class="cb-code" id="banner-code"></div>
+    </div>
+    <div class="cb-actions">
+      <button class="btn-chg" onclick="startChange()">🔄 시간 변경</button>
+      <button class="btn-cancel-bk" onclick="cancelBooking()">✕ 취소</button>
+    </div>
+  </div>
+
   <div id="main-content"><div class="loading">⏳ 불러오는 중...</div></div>
 </div>
 
-<!-- 신청/변경 모달 -->
+<!-- 신청 모달 -->
 <div class="overlay" id="apply-overlay">
   <div class="modal">
-    <h2 id="modal-title">📝 신청하기</h2>
-    <div class="change-info" id="change-info"></div>
-    <div class="modal .slot-info" id="selected-slot-info" style="background:#e8f0fb;border-radius:8px;padding:10px 14px;font-size:.95rem;color:#2d6a9f;margin-bottom:20px;font-weight:600;"></div>
-    <div class="form-group">
-      <label>이름 *</label>
-      <input type="text" id="input-name" placeholder="이름을 입력하세요">
-    </div>
-    <div class="form-group">
-      <label>추가 정보 (학번 / 수험번호 등)</label>
-      <input type="text" id="input-extra" placeholder="선택 입력">
-    </div>
-    <div class="form-group">
-      <label>연락처 (선택)</label>
-      <input type="text" id="input-contact" placeholder="010-0000-0000">
-    </div>
+    <h2 id="apply-title">📝 신청하기</h2>
+    <div class="slot-chip" id="apply-slot-chip"></div>
+    <div class="warn-box" id="apply-warn" style="display:none"></div>
+    <div class="form-group"><label>이름 *</label><input type="text" id="i-name" placeholder="이름을 입력하세요"></div>
+    <div class="form-group"><label>추가 정보 (학번 / 수험번호 등)</label><input type="text" id="i-extra" placeholder="선택 입력"></div>
+    <div class="form-group"><label>연락처 (선택)</label><input type="text" id="i-contact" placeholder="010-0000-0000"></div>
     <div class="btn-row">
-      <button class="btn btn-secondary" onclick="closeApplyModal()">취소</button>
-      <button class="btn btn-primary" id="submit-btn" onclick="submitApply()">신청 완료</button>
+      <button class="btn btn-secondary" onclick="closeApply()">취소</button>
+      <button class="btn btn-primary" id="apply-submit-btn" onclick="submitApply()">신청 완료</button>
     </div>
   </div>
 </div>
@@ -139,213 +132,259 @@
 <div class="overlay" id="done-overlay">
   <div class="modal" style="text-align:center">
     <div class="success-icon" id="done-icon">✅</div>
-    <h2 style="margin-bottom:12px" id="done-title">신청이 완료되었습니다!</h2>
+    <h2 id="done-title" style="margin-bottom:10px">신청 완료</h2>
     <div class="success-detail" id="done-detail"></div>
-    <button class="btn btn-primary" onclick="closeDoneModal()">확인</button>
+    <div class="code-display" id="done-code-wrap" style="display:none">
+      <div class="label">나의 확인코드 (변경·취소 시 필요)</div>
+      <div class="code" id="done-code"></div>
+      <div class="hint">이 코드를 반드시 메모해두세요!</div>
+    </div>
+    <button class="btn btn-primary" onclick="closeDone()" style="width:100%">확인</button>
+  </div>
+</div>
+
+<!-- 변경 모드 안내 -->
+<div class="overlay" id="change-mode-overlay">
+  <div class="modal" style="text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:10px">🔄</div>
+    <h2 style="margin-bottom:10px">시간 변경 모드</h2>
+    <p style="font-size:.9rem;color:#555;line-height:1.7;margin-bottom:20px">
+      아래 슬롯 목록에서 새로 원하는 시간을 선택하세요.<br>
+      <b>현재:</b> <span id="current-slot-text" style="color:#2d6a9f"></span>
+    </p>
+    <button class="btn btn-secondary" style="width:100%" onclick="cancelChangeMode()">변경 취소</button>
   </div>
 </div>
 
 <script>
-let activeRound = null;
-let selectedSlotKey = null;
-let allSlots = {};
-let selectedDate = null;
-let myBookingKey = null; // 현재 사용자 신청 슬롯
-const MY_KEY = 'myBooking_' + location.hostname + location.pathname;
+let activeRound=null, allSlots={}, selectedDate=null;
+let myCode=null, mySlotKey=null, isChangeMode=false;
 
-// 로컬스토리지에서 내 신청 복원
-function loadMyBooking() {
-  try { return JSON.parse(localStorage.getItem(MY_KEY) || 'null'); } catch { return null; }
+function genCode(){ return String(Math.floor(1000+Math.random()*9000)); }
+function formatDate(d){
+  const [,m,dd]=d.split('-');
+  return `${m}/${dd}(${'일월화수목금토'[new Date(d).getDay()]})`;
 }
-function saveMyBooking(roundId, slotKey, name, extra, contact) {
-  localStorage.setItem(MY_KEY, JSON.stringify({ roundId, slotKey, name, extra, contact }));
-}
-function clearMyBooking() { localStorage.removeItem(MY_KEY); }
+function toTs(str){ return str ? new Date(str).getTime() : null; }
 
+// 카운트다운
+function startCountdown(endStr){
+  const bar=document.getElementById('deadline-bar');
+  const cd=document.getElementById('countdown');
+  bar.style.display='inline-block';
+  function tick(){
+    const diff=new Date(endStr)-Date.now();
+    if(diff<=0){cd.textContent='마감됨';return;}
+    const d=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),
+          m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
+    cd.textContent=(d>0?d+'일 ':'')+`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    setTimeout(tick,1000);
+  }
+  tick();
+}
+
+// 활성 회차 로드
 db.ref('rounds').orderByChild('active').equalTo(true).limitToLast(1)
-  .once('value', snap => {
-    const data = snap.val();
-    if (!data) {
-      document.getElementById('prog-title').textContent = '현재 진행 중인 신청이 없습니다';
-      document.getElementById('main-content').innerHTML = '<div class="closed-msg">🔒 현재 신청 가능한 프로그램이 없습니다.</div>';
+  .once('value', snap=>{
+    const data=snap.val();
+    if(!data){
+      document.getElementById('prog-title').textContent='현재 신청 가능한 프로그램이 없습니다';
+      document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>🔒 준비 중</h2><p>현재 진행 중인 신청 프로그램이 없습니다.<br>관리자에게 문의하세요.</p></div>';
       return;
     }
-    const key = Object.keys(data)[0];
-    activeRound = { id: key, ...data[key] };
-    document.getElementById('prog-title').textContent = activeRound.title || '신청 프로그램';
-    document.getElementById('prog-desc').textContent = activeRound.description || '';
+    const key=Object.keys(data)[0];
+    activeRound={id:key,...data[key]};
+    document.getElementById('prog-title').textContent=activeRound.title||'신청 프로그램';
+    document.getElementById('prog-desc').textContent=activeRound.description||'';
 
-    // 내 신청 확인
-    const saved = loadMyBooking();
-    if (saved && saved.roundId === activeRound.id) {
-      myBookingKey = saved.slotKey;
+    const now=Date.now();
+    const applyStart=toTs(activeRound.applyStart);
+    const applyEnd=toTs(activeRound.applyEnd);
+
+    // 기한 전
+    if(applyStart && now < applyStart){
+      document.getElementById('main-content').innerHTML=`<div class="closed-overlay"><h2>🕐 신청 대기 중</h2><p>신청 시작: <b>${activeRound.applyStart.replace('T',' ').slice(0,16)}</b></p></div>`;
+      return;
     }
-
+    // 기한 후
+    if(applyEnd && now > applyEnd){
+      document.getElementById('main-content').innerHTML=`<div class="closed-overlay"><h2>⏰ 신청이 마감되었습니다</h2><p>신청 마감: <b>${activeRound.applyEnd.replace('T',' ').slice(0,16)}</b></p></div>`;
+      return;
+    }
+    if(applyEnd) startCountdown(activeRound.applyEnd);
+    document.getElementById('lookup-box').style.display='flex';
     renderDates();
-    listenSlots();
+    db.ref(`rounds/${activeRound.id}/slots`).on('value', snap=>{
+      allSlots=snap.val()||{};
+      // 내 슬롯 상태 업데이트
+      if(mySlotKey && allSlots[mySlotKey] && !allSlots[mySlotKey].booked){
+        // 취소된 경우
+        myCode=null; mySlotKey=null;
+        document.getElementById('code-banner').style.display='none';
+      }
+      renderSlots(selectedDate);
+    });
   });
 
-function listenSlots() {
-  db.ref(`rounds/${activeRound.id}/slots`).on('value', snap => {
-    allSlots = snap.val() || {};
-    updateMyBookingBar();
-    renderSlots(selectedDate);
-  });
+function renderDates(){
+  const slots=activeRound.slots||{};
+  const dates=[...new Set(Object.values(slots).map(s=>s.date))].sort();
+  if(!dates.length){document.getElementById('main-content').innerHTML='<div class="no-slots">등록된 슬롯이 없습니다.</div>';return;}
+  selectedDate=dates[0];
+  let html=`<p class="section-title">📅 날짜 선택</p><div class="date-tabs">`;
+  dates.forEach(d=>{ html+=`<div class="date-tab${d===selectedDate?' active':''}" onclick="selectDate('${d}')" id="tab-${d}">${formatDate(d)}</div>`; });
+  html+=`</div><p class="section-title">🕐 시간 선택 <span style="font-size:.8rem;color:#888;font-weight:400">초록:가능 / 주황:내신청 / 회색:마감 / 빨강:잠금</span></p>`;
+  html+=`<div class="slots-grid" id="slots-grid"></div>`;
+  document.getElementById('main-content').innerHTML=html;
 }
 
-function updateMyBookingBar() {
-  const bar = document.getElementById('my-booking-bar');
-  const saved = loadMyBooking();
-  if (saved && saved.roundId === activeRound.id && allSlots[saved.slotKey] && allSlots[saved.slotKey].booked) {
-    const s = allSlots[saved.slotKey];
-    myBookingKey = saved.slotKey;
-    document.getElementById('my-booking-text').textContent = `${s.date} ${s.time} (${saved.name})`;
-    bar.style.display = 'flex';
-  } else {
-    myBookingKey = null;
-    bar.style.display = 'none';
-  }
-}
-
-function renderDates() {
-  const slots = activeRound.slots || {};
-  const dates = [...new Set(Object.values(slots).map(s => s.date))].sort();
-  if (!dates.length) { document.getElementById('main-content').innerHTML = '<div class="no-slots">등록된 슬롯이 없습니다.</div>'; return; }
-  selectedDate = dates[0];
-  let html = `<p class="section-title">📅 날짜 선택</p><div class="date-tabs">`;
-  dates.forEach(d => {
-    html += `<div class="date-tab${d===selectedDate?' active':''}" onclick="selectDate('${d}')" id="tab-${d}">${formatDate(d)}</div>`;
-  });
-  html += `</div><p class="section-title">🕐 시간 선택 <span style="font-size:.8rem;color:#888;font-weight:400">— 초록: 가능 / 주황: 내 신청 / 회색: 마감</span></p>`;
-  html += `<div class="slots-grid" id="slots-grid"></div>`;
-  document.getElementById('main-content').innerHTML = html;
-}
-
-function selectDate(date) {
-  selectedDate = date;
-  document.querySelectorAll('.date-tab').forEach(t => t.classList.remove('active'));
-  const tab = document.getElementById(`tab-${date}`);
-  if (tab) tab.classList.add('active');
+function selectDate(date){
+  selectedDate=date;
+  document.querySelectorAll('.date-tab').forEach(t=>t.classList.remove('active'));
+  const tab=document.getElementById(`tab-${date}`);
+  if(tab) tab.classList.add('active');
   renderSlots(date);
 }
 
-function renderSlots(date) {
-  const grid = document.getElementById('slots-grid');
-  if (!grid) return;
-  const filtered = Object.entries(allSlots)
-    .filter(([,s]) => s.date === date)
-    .sort(([,a],[,b]) => a.time.localeCompare(b.time));
-  if (!filtered.length) { grid.innerHTML = '<div class="no-slots" style="grid-column:1/-1">이 날짜에 슬롯이 없습니다.</div>'; return; }
-  grid.innerHTML = filtered.map(([key, s]) => {
-    const isMine = key === myBookingKey;
-    const cls = isMine ? 'mine' : (s.booked ? 'booked' : 'available');
-    const label = isMine ? `${s.time}<br><small>내 신청</small>` : (s.booked ? `${s.time}<br><small>마감</small>` : s.time);
-    const onclick = (!s.booked || isMine) ? `openApply('${key}','${s.date}','${s.time}')` : '';
-    return `<div class="slot ${cls}" onclick="${onclick}">${label}</div>`;
+function renderSlots(date){
+  const grid=document.getElementById('slots-grid');
+  if(!grid) return;
+  const filtered=Object.entries(allSlots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time));
+  if(!filtered.length){grid.innerHTML='<div class="no-slots">이 날짜에 슬롯이 없습니다.</div>';return;}
+  grid.innerHTML=filtered.map(([key,s])=>{
+    const isMine=key===mySlotKey;
+    if(s.locked) return `<div class="slot locked">🔒<br>${s.time}<br><small>잠금</small></div>`;
+    if(isMine) return `<div class="slot mine" onclick="startChange()">${s.time}<br><small>내 신청</small></div>`;
+    if(s.booked) return `<div class="slot booked">${s.time}<br><small>마감</small></div>`;
+    if(isChangeMode) return `<div class="slot available" onclick="doChange('${key}','${s.date}','${s.time}')">${s.time}</div>`;
+    return `<div class="slot available" onclick="openApply('${key}','${s.date}','${s.time}')">${s.time}</div>`;
   }).join('');
 }
 
-function formatDate(d) {
-  const [,m,dd] = d.split('-');
-  const day = ['일','월','화','수','목','금','토'][new Date(d).getDay()];
-  return `${m}/${dd}(${day})`;
+// 확인코드 조회
+function lookupCode(){
+  const code=document.getElementById('lookup-input').value.trim();
+  if(code.length!==4){alert('4자리 확인코드를 입력하세요.');return;}
+  db.ref(`rounds/${activeRound.id}/slots`).orderByChild('confirmCode').equalTo(code).once('value',snap=>{
+    const data=snap.val();
+    if(!data){alert('해당 확인코드로 신청된 내역이 없습니다.');return;}
+    const [slotKey,slot]=Object.entries(data)[0];
+    if(!slot.booked){alert('이미 취소된 신청입니다.');return;}
+    myCode=code; mySlotKey=slotKey;
+    showBanner(slot);
+    document.getElementById('lookup-input').value='';
+  });
 }
 
-function openApply(key, date, time) {
-  selectedSlotKey = key;
-  const isChange = !!myBookingKey && myBookingKey !== key;
-  const isMine = key === myBookingKey;
-  if (isMine) return; // 내 슬롯 클릭 시 무시 (취소는 바 버튼 사용)
+function showBanner(slot){
+  document.getElementById('banner-info').textContent=`${slot.date} ${slot.time} | ${slot.bookedBy}`;
+  document.getElementById('banner-code').textContent=myCode;
+  document.getElementById('code-banner').style.display='flex';
+  // 해당 날짜로 이동
+  selectDate(slot.date);
+}
 
-  document.getElementById('modal-title').textContent = isChange ? '🔄 시간 변경하기' : '📝 신청하기';
-  document.getElementById('selected-slot-info').textContent = `📌 ${date} ${time}`;
+// 변경 모드
+function startChange(){
+  if(!mySlotKey){return;}
+  const s=allSlots[mySlotKey];
+  isChangeMode=true;
+  document.getElementById('current-slot-text').textContent=`${s.date} ${s.time}`;
+  document.getElementById('change-mode-overlay').classList.add('show');
+}
+function cancelChangeMode(){
+  isChangeMode=false;
+  document.getElementById('change-mode-overlay').classList.remove('show');
+  renderSlots(selectedDate);
+}
 
-  const changeInfo = document.getElementById('change-info');
-  const saved = loadMyBooking();
-  if (isChange && saved) {
-    const prev = allSlots[myBookingKey];
-    changeInfo.style.display = 'block';
-    changeInfo.textContent = `기존 신청(${prev ? prev.date+' '+prev.time : ''})이 취소되고 새 시간으로 변경됩니다.`;
-    document.getElementById('input-name').value = saved.name || '';
-    document.getElementById('input-extra').value = saved.extra || '';
-    document.getElementById('input-contact').value = saved.contact || '';
-  } else {
-    changeInfo.style.display = 'none';
-    document.getElementById('input-name').value = '';
-    document.getElementById('input-extra').value = '';
-    document.getElementById('input-contact').value = '';
-  }
-  document.getElementById('submit-btn').textContent = isChange ? '변경 완료' : '신청 완료';
+function doChange(newKey, date, time){
+  document.getElementById('change-mode-overlay').classList.remove('show');
+  if(!confirm(`${date} ${time} 으로 시간을 변경하시겠습니까?`)) return;
+  const newRef=db.ref(`rounds/${activeRound.id}/slots/${newKey}`);
+  const oldRef=db.ref(`rounds/${activeRound.id}/slots/${mySlotKey}`);
+  const prevSlot=allSlots[mySlotKey];
+  newRef.transaction(slot=>{
+    if(!slot||slot.booked||slot.locked) return;
+    slot.booked=true; slot.bookedBy=prevSlot.bookedBy;
+    slot.bookedExtra=prevSlot.bookedExtra; slot.bookedContact=prevSlot.bookedContact;
+    slot.confirmCode=myCode; slot.bookedAt=new Date().toISOString();
+    return slot;
+  },(err,committed,snap)=>{
+    if(!committed){alert('😔 방금 다른 분이 신청하셨습니다. 다른 시간을 선택해주세요.');isChangeMode=false;renderSlots(selectedDate);return;}
+    oldRef.update({booked:false,bookedBy:null,bookedExtra:null,bookedContact:null,confirmCode:null,bookedAt:null});
+    mySlotKey=newKey;
+    const s=snap.val();
+    showBanner(s);
+    isChangeMode=false;
+    document.getElementById('done-icon').textContent='🔄';
+    document.getElementById('done-title').textContent='시간이 변경되었습니다!';
+    document.getElementById('done-detail').innerHTML=`<b>${s.bookedBy}</b> 님<br>📅 ${s.date} ${s.time}<br>🔑 확인코드: <b>${myCode}</b>`;
+    document.getElementById('done-code-wrap').style.display='none';
+    document.getElementById('done-overlay').classList.add('show');
+  });
+}
+
+// 신청
+function openApply(key,date,time){
+  if(isChangeMode) return;
+  document.getElementById('apply-title').textContent='📝 신청하기';
+  document.getElementById('apply-slot-chip').textContent=`📌 ${date} ${time}`;
+  document.getElementById('apply-warn').style.display='none';
+  document.getElementById('i-name').value='';
+  document.getElementById('i-extra').value='';
+  document.getElementById('i-contact').value='';
+  document.getElementById('apply-submit-btn').dataset.key=key;
+  document.getElementById('apply-submit-btn').dataset.date=date;
+  document.getElementById('apply-submit-btn').dataset.time=time;
   document.getElementById('apply-overlay').classList.add('show');
 }
+function closeApply(){ document.getElementById('apply-overlay').classList.remove('show'); }
 
-function closeApplyModal() {
-  document.getElementById('apply-overlay').classList.remove('show');
-  selectedSlotKey = null;
-}
-function closeDoneModal() { document.getElementById('done-overlay').classList.remove('show'); }
-
-function submitApply() {
-  const name = document.getElementById('input-name').value.trim();
-  if (!name) { alert('이름을 입력해주세요.'); return; }
-  const extra   = document.getElementById('input-extra').value.trim();
-  const contact = document.getElementById('input-contact').value.trim();
-  const isChange = !!myBookingKey && myBookingKey !== selectedSlotKey;
-
-  if (isChange) {
-    // 1. 기존 슬롯 해제 후 새 슬롯 신청
-    const oldRef = db.ref(`rounds/${activeRound.id}/slots/${myBookingKey}`);
-    const newRef = db.ref(`rounds/${activeRound.id}/slots/${selectedSlotKey}`);
-    newRef.transaction(slot => {
-      if (!slot || slot.booked) return; // abort
-      slot.booked = true; slot.bookedBy = name; slot.bookedExtra = extra;
-      slot.bookedContact = contact; slot.bookedAt = new Date().toISOString();
-      return slot;
-    }, (err, committed, snap) => {
-      if (!committed) { alert('😔 방금 다른 분이 신청하셨습니다. 다른 시간을 선택해주세요.'); closeApplyModal(); return; }
-      oldRef.update({ booked: false, bookedBy: null, bookedExtra: null, bookedContact: null, bookedAt: null });
-      saveMyBooking(activeRound.id, selectedSlotKey, name, extra, contact);
-      closeApplyModal();
-      showDone(snap.val(), name, '🔄', '시간이 변경되었습니다!');
-    });
-  } else {
-    const slotRef = db.ref(`rounds/${activeRound.id}/slots/${selectedSlotKey}`);
-    slotRef.transaction(slot => {
-      if (!slot || slot.booked) return;
-      slot.booked = true; slot.bookedBy = name; slot.bookedExtra = extra;
-      slot.bookedContact = contact; slot.bookedAt = new Date().toISOString();
-      return slot;
-    }, (err, committed, snap) => {
-      if (!committed) { alert('😔 방금 다른 분이 신청하셨습니다. 다른 시간을 선택해주세요.'); closeApplyModal(); return; }
-      saveMyBooking(activeRound.id, selectedSlotKey, name, extra, contact);
-      closeApplyModal();
-      showDone(snap.val(), name, '✅', '신청이 완료되었습니다!');
-    });
-  }
+function submitApply(){
+  const name=document.getElementById('i-name').value.trim();
+  if(!name){alert('이름을 입력해주세요.');return;}
+  const extra=document.getElementById('i-extra').value.trim();
+  const contact=document.getElementById('i-contact').value.trim();
+  const btn=document.getElementById('apply-submit-btn');
+  const key=btn.dataset.key;
+  const code=genCode();
+  const slotRef=db.ref(`rounds/${activeRound.id}/slots/${key}`);
+  slotRef.transaction(slot=>{
+    if(!slot||slot.booked||slot.locked) return;
+    slot.booked=true; slot.bookedBy=name; slot.bookedExtra=extra;
+    slot.bookedContact=contact; slot.confirmCode=code; slot.bookedAt=new Date().toISOString();
+    return slot;
+  },(err,committed,snap)=>{
+    if(!committed){alert('😔 방금 다른 분이 신청하셨습니다. 다른 시간을 선택해주세요.');closeApply();return;}
+    myCode=code; mySlotKey=key;
+    showBanner(snap.val());
+    closeApply();
+    document.getElementById('done-icon').textContent='✅';
+    document.getElementById('done-title').textContent='신청이 완료되었습니다!';
+    const s=snap.val();
+    document.getElementById('done-detail').innerHTML=`<b>${name}</b> 님<br>📅 ${s.date} ${s.time}${extra?'<br>📋 '+extra:''}${contact?'<br>📞 '+contact:''}`;
+    document.getElementById('done-code-wrap').style.display='block';
+    document.getElementById('done-code').textContent=code;
+    document.getElementById('done-overlay').classList.add('show');
+  });
 }
 
-function cancelMyBooking() {
-  if (!confirm('신청을 취소하시겠습니까?')) return;
-  const saved = loadMyBooking();
-  if (!saved) return;
-  db.ref(`rounds/${activeRound.id}/slots/${saved.slotKey}`)
-    .update({ booked: false, bookedBy: null, bookedExtra: null, bookedContact: null, bookedAt: null })
-    .then(() => {
-      clearMyBooking();
-      myBookingKey = null;
-      document.getElementById('my-booking-bar').style.display = 'none';
-      showDone(null, saved.name, '🗑️', '신청이 취소되었습니다.');
+function cancelBooking(){
+  if(!confirm('신청을 취소하시겠습니까?')) return;
+  db.ref(`rounds/${activeRound.id}/slots/${mySlotKey}`)
+    .update({booked:false,bookedBy:null,bookedExtra:null,bookedContact:null,confirmCode:null,bookedAt:null})
+    .then(()=>{
+      document.getElementById('code-banner').style.display='none';
+      document.getElementById('done-icon').textContent='🗑️';
+      document.getElementById('done-title').textContent='신청이 취소되었습니다';
+      document.getElementById('done-detail').textContent='언제든지 다시 신청하실 수 있습니다.';
+      document.getElementById('done-code-wrap').style.display='none';
+      document.getElementById('done-overlay').classList.add('show');
+      myCode=null; mySlotKey=null;
     });
 }
-
-function showDone(s, name, icon, title) {
-  document.getElementById('done-icon').textContent = icon;
-  document.getElementById('done-title').textContent = title;
-  let detail = `<b>${name}</b> 님`;
-  if (s) detail += `<br>📅 날짜: ${s.date}<br>🕐 시간: ${s.time}${s.bookedExtra ? '<br>📋 '+s.bookedExtra : ''}`;
-  document.getElementById('done-detail').innerHTML = detail;
-  document.getElementById('done-overlay').classList.add('show');
-}
+function closeDone(){ document.getElementById('done-overlay').classList.remove('show'); }
 </script>
 </body>
 </html>
