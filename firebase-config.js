@@ -9,7 +9,7 @@ const firebaseConfig = {
 };
 
 // 관리자 비밀번호 (원하는 값으로 변경)
-const ADMIN_PASSWORD = "admin1234";
+const ADMIN_PASSWORD = "game1234";
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
