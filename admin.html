@@ -16,9 +16,12 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .login-box input{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;margin-bottom:14px}
 .login-box input:focus{outline:none;border-color:#2d6a9f}
 .admin-wrap{display:none}
-.top-bar{background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.top-bar{background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .top-bar h1{font-size:1.15rem}
-.top-bar button{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer}
+.top-bar-right{display:flex;gap:8px;align-items:center}
+.top-bar a{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;text-decoration:none;font-size:.85rem}
+.top-bar a:hover{background:rgba(255,255,255,.35)}
+.top-bar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
 .tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;padding:0 20px;overflow-x:auto}
 .tab{padding:13px 18px;cursor:pointer;font-weight:600;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
 .tab.active{color:#2d6a9f;border-bottom-color:#2d6a9f}
@@ -30,8 +33,9 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .form-group label{display:block;font-size:.82rem;color:#555;margin-bottom:5px;font-weight:600}
 .form-group input,.form-group textarea,.form-group select{width:100%;padding:9px 13px;border:1.5px solid #ddd;border-radius:8px;font-size:.93rem;font-family:inherit}
 .form-group input:focus,.form-group textarea:focus{outline:none;border-color:#2d6a9f}
-.form-group textarea{resize:vertical;min-height:75px}
+.form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .btn{padding:9px 20px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
 .btn-primary{background:#2d6a9f;color:#fff}.btn-primary:hover{background:#1e3a5f}
 .btn-warning{background:#f57c00;color:#fff}.btn-warning:hover{background:#e65100}
@@ -69,15 +73,23 @@ tr:hover td{background:#e8f0fb}
 .dft.active{background:#2d6a9f;color:#fff;border-color:#2d6a9f}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center;padding:16px}
 .overlay.show{display:flex}
-.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal h2{font-size:1.15rem;color:#1e3a5f;margin-bottom:18px}
 .preview-box{background:#e8f0fb;border-radius:8px;padding:11px 14px;font-size:.86rem;color:#1e3a5f;margin-bottom:14px;display:none}
-@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
+
+/* 날짜별 슬롯 그룹 */
+.slot-group{border:1.5px solid #e0e0e0;border-radius:10px;padding:16px;margin-bottom:12px;background:#fafafa;position:relative}
+.slot-group .group-num{font-size:.8rem;font-weight:700;color:#2d6a9f;margin-bottom:10px}
+.slot-group .remove-btn{position:absolute;top:10px;right:12px;background:#fce4ec;border:none;color:#c62828;border-radius:5px;padding:3px 9px;font-size:.8rem;cursor:pointer}
+.slot-group .remove-btn:hover{background:#e53935;color:#fff}
+.add-group-btn{width:100%;padding:10px;border:2px dashed #2d6a9f;border-radius:8px;background:#e8f0fb;color:#2d6a9f;font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:16px;transition:all .2s}
+.add-group-btn:hover{background:#2d6a9f;color:#fff}
+
+@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.form-row3{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- 로그인 -->
 <div class="login-wrap" id="login-wrap">
   <div class="login-box">
     <h1>🔐 관리자 로그인</h1>
@@ -86,11 +98,13 @@ tr:hover td{background:#e8f0fb}
   </div>
 </div>
 
-<!-- 관리자 패널 -->
 <div class="admin-wrap" id="admin-wrap">
   <div class="top-bar">
     <h1>⚙️ 신청 시스템 관리자</h1>
-    <button onclick="doLogout()">로그아웃</button>
+    <div class="top-bar-right">
+      <a href="index.html" target="_blank">🔗 신청 홈</a>
+      <button onclick="doLogout()">로그아웃</button>
+    </div>
   </div>
   <div class="tabs">
     <div class="tab active" onclick="switchTab('rounds')">📋 회차 관리</div>
@@ -118,30 +132,12 @@ tr:hover td{background:#e8f0fb}
         <div class="form-group"><label>⏰ 신청 마감 일시</label><input type="datetime-local" id="c-apply-end"></div>
       </div>
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
-      <p style="font-size:.88rem;font-weight:700;color:#555;margin-bottom:12px">⏱ 슬롯 설정</p>
-      <div class="form-row">
-        <div class="form-group"><label>시작 날짜 *</label><input type="date" id="c-start"></div>
-        <div class="form-group"><label>종료 날짜 *</label><input type="date" id="c-end"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <p style="font-size:.95rem;font-weight:700;color:#1e3a5f">⏱ 날짜별 시간 슬롯 설정</p>
+        <span style="font-size:.8rem;color:#888">날짜마다 다른 시간대 설정 가능</span>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>시작 시간 *</label><input type="time" id="c-time-start" value="09:00"></div>
-        <div class="form-group"><label>종료 시간 *</label><input type="time" id="c-time-end" value="17:00"></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>시간 간격(분) *</label>
-          <select id="c-interval">
-            <option value="10">10분</option><option value="15">15분</option>
-            <option value="20">20분</option><option value="30" selected>30분</option><option value="60">60분</option>
-          </select>
-        </div>
-        <div class="form-group"><label>점심 시간 제외</label>
-          <select id="c-lunch">
-            <option value="">없음</option>
-            <option value="12:00-13:00">12:00~13:00</option>
-            <option value="12:30-13:30">12:30~13:30</option>
-          </select>
-        </div>
-      </div>
+      <div id="c-groups"></div>
+      <button class="add-group-btn" onclick="addGroup('c')">+ 날짜 그룹 추가</button>
       <div class="preview-box" id="slot-preview"><b>슬롯 미리보기:</b> <span id="preview-text"></span></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn btn-primary" onclick="previewSlots()">미리보기</button>
@@ -180,8 +176,8 @@ tr:hover td{background:#e8f0fb}
   <div class="panel" id="panel-slots">
     <div class="card">
       <h2>슬롯 잠금 / 해제 관리</h2>
-      <p style="font-size:.85rem;color:#888;margin-bottom:14px">특정 슬롯을 잠금하면 신청 페이지에서 선택 불가로 표시됩니다. (신청된 슬롯은 잠금 불가)</p>
-      <div style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+      <p style="font-size:.85rem;color:#888;margin-bottom:14px">특정 슬롯을 잠금하면 신청 페이지에서 선택 불가로 표시됩니다.</p>
+      <div style="margin-bottom:14px">
         <select id="slot-round-select" onchange="loadSlotMgmt()" style="padding:8px;border:1.5px solid #ddd;border-radius:6px;font-family:inherit">
           <option value="">회차 선택</option>
         </select>
@@ -204,29 +200,15 @@ tr:hover td{background:#e8f0fb}
     <details style="margin-bottom:14px">
       <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">🔄 시간 슬롯 재생성 (기존 신청 초기화됨)</summary>
       <div style="padding-top:12px">
-        <div class="form-row">
-          <div class="form-group"><label>시작 날짜</label><input type="date" id="e-start"></div>
-          <div class="form-group"><label>종료 날짜</label><input type="date" id="e-end"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>시작 시간</label><input type="time" id="e-time-start" value="09:00"></div>
-          <div class="form-group"><label>종료 시간</label><input type="time" id="e-time-end" value="17:00"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>시간 간격(분)</label>
-            <select id="e-interval"><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="30" selected>30분</option><option value="60">60분</option></select>
-          </div>
-          <div class="form-group"><label>점심 제외</label>
-            <select id="e-lunch"><option value="">없음</option><option value="12:00-13:00">12:00~13:00</option><option value="12:30-13:30">12:30~13:30</option></select>
-          </div>
-        </div>
-        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#e65100;cursor:pointer">
-          <input type="checkbox" id="e-regen"> 슬롯 재생성 (기존 신청 초기화)
+        <div id="e-groups"></div>
+        <button class="add-group-btn" onclick="addGroup('e')">+ 날짜 그룹 추가</button>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#e65100;cursor:pointer;margin-top:4px">
+          <input type="checkbox" id="e-regen"> 슬롯 재생성 확인 (체크 시 기존 신청 초기화)
         </label>
       </div>
     </details>
     <div style="display:flex;gap:10px">
-      <button class="btn btn-secondary" style="flex:1;background:#f0f0f0;color:#555" onclick="closeEdit()">취소</button>
+      <button class="btn" style="flex:1;background:#f0f0f0;color:#555" onclick="closeEdit()">취소</button>
       <button class="btn btn-primary" style="flex:1" onclick="saveEdit()">저장</button>
     </div>
   </div>
@@ -234,12 +216,13 @@ tr:hover td{background:#e8f0fb}
 
 <script>
 let editingId=null, statusListener=null, selectedStatusRound=null, statusAllSlots={}, statusFilterDate='all';
+let cGroupCount=0, eGroupCount=0;
 
 function doLogin(){
   if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
     document.getElementById('login-wrap').style.display='none';
     document.getElementById('admin-wrap').style.display='block';
-    initAdmin();
+    initAdmin(); addGroup('c');
   } else alert('비밀번호가 틀렸습니다.');
 }
 function doLogout(){
@@ -256,9 +239,107 @@ function switchTab(name){
   if(name==='slots') populateSlotRoundSelect();
 }
 
-// ── 회차 목록 ──
+/* ── 날짜 그룹 UI ── */
+function groupHTML(prefix, idx){
+  return `<div class="slot-group" id="${prefix}-grp-${idx}">
+    <div class="group-num">📅 날짜 그룹 ${idx+1}</div>
+    <button class="remove-btn" onclick="removeGroup('${prefix}',${idx})">✕ 제거</button>
+    <div class="form-row">
+      <div class="form-group"><label>시작 날짜 *</label><input type="date" id="${prefix}-start-${idx}"></div>
+      <div class="form-group"><label>종료 날짜 *</label><input type="date" id="${prefix}-end-${idx}"></div>
+    </div>
+    <div class="form-row3">
+      <div class="form-group"><label>시작 시간 *</label><input type="time" id="${prefix}-ts-${idx}" value="09:00"></div>
+      <div class="form-group"><label>종료 시간 *</label><input type="time" id="${prefix}-te-${idx}" value="17:00"></div>
+      <div class="form-group"><label>간격(분) *</label>
+        <select id="${prefix}-iv-${idx}">
+          <option value="10">10분</option><option value="15">15분</option>
+          <option value="20">20분</option><option value="30" selected>30분</option><option value="60">60분</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>점심 시간 제외</label>
+      <select id="${prefix}-ln-${idx}">
+        <option value="">없음</option>
+        <option value="12:00-13:00">12:00~13:00</option>
+        <option value="12:30-13:30">12:30~13:30</option>
+      </select>
+    </div>
+  </div>`;
+}
+
+function addGroup(prefix){
+  const container=document.getElementById(`${prefix}-groups`);
+  const idx=(prefix==='c'?cGroupCount++:eGroupCount++);
+  const div=document.createElement('div');div.innerHTML=groupHTML(prefix,idx);
+  container.appendChild(div.firstElementChild);
+}
+function removeGroup(prefix,idx){
+  const el=document.getElementById(`${prefix}-grp-${idx}`);
+  if(el) el.remove();
+}
+
+function getGroupSlots(prefix){
+  const container=document.getElementById(`${prefix}-groups`);
+  const groups=container.querySelectorAll('.slot-group');
+  let allSlots={};
+  let ok=true;
+  groups.forEach(grp=>{
+    const idx=grp.id.split('-').pop();
+    const s=document.getElementById(`${prefix}-start-${idx}`)?.value;
+    const e=document.getElementById(`${prefix}-end-${idx}`)?.value;
+    const ts=document.getElementById(`${prefix}-ts-${idx}`)?.value;
+    const te=document.getElementById(`${prefix}-te-${idx}`)?.value;
+    const iv=document.getElementById(`${prefix}-iv-${idx}`)?.value;
+    const ln=document.getElementById(`${prefix}-ln-${idx}`)?.value;
+    if(!s||!e||!ts||!te){ok=false;return;}
+    Object.assign(allSlots, generateSlots(s,e,ts,te,iv,ln));
+  });
+  return ok?allSlots:null;
+}
+
+/* ── 슬롯 생성 ── */
+function generateSlots(startDate,endDate,timeStart,timeEnd,interval,lunch){
+  const slots={};
+  let lS=null,lE=null;
+  if(lunch){[lS,lE]=lunch.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
+  for(let d=new Date(startDate);d<=new Date(endDate);d.setDate(d.getDate()+1)){
+    const ds=d.toISOString().slice(0,10);
+    let[sh,sm]=timeStart.split(':').map(Number);
+    const[eh,em]=timeEnd.split(':').map(Number);
+    while(sh*60+sm<eh*60+em){
+      const tot=sh*60+sm,ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
+      if(!lS||tot<lS||tot>=lE) slots[`${ds}_${ts.replace(':','')}`]={date:ds,time:ts,booked:false,locked:false};
+      sm+=parseInt(interval);if(sm>=60){sh+=Math.floor(sm/60);sm=sm%60;}
+    }
+  }
+  return slots;
+}
+
+function previewSlots(){
+  const slots=getGroupSlots('c');
+  if(!slots){alert('모든 날짜 그룹의 필수 항목을 입력하세요.');return;}
+  const cnt=Object.keys(slots).length,days=[...new Set(Object.values(slots).map(x=>x.date))].length;
+  document.getElementById('preview-text').textContent=`총 ${days}일 × ${cnt}개 슬롯`;
+  document.getElementById('slot-preview').style.display='block';
+}
+
+function createRound(){
+  const title=document.getElementById('c-title').value.trim();
+  if(!title){alert('제목을 입력하세요.');return;}
+  const slots=getGroupSlots('c');
+  if(!slots||!Object.keys(slots).length){alert('날짜 그룹을 추가하고 필수 항목을 입력하세요.');return;}
+  const applyStart=document.getElementById('c-apply-start').value||null;
+  const applyEnd=document.getElementById('c-apply-end').value||null;
+  db.ref('rounds').push({
+    title,description:document.getElementById('c-desc').value.trim(),
+    active:false,applyStart,applyEnd,createdAt:new Date().toISOString(),slots
+  }).then(()=>{alert(`✅ 회차 생성 완료! (슬롯 ${Object.keys(slots).length}개)`);switchTab('rounds');});
+}
+
+/* ── 회차 목록 ── */
 function initAdmin(){
-  db.ref('rounds').on('value', snap=>{
+  db.ref('rounds').on('value',snap=>{
     const data=snap.val()||{};
     const list=document.getElementById('rounds-list');
     const rounds=Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''));
@@ -267,15 +348,16 @@ function initAdmin(){
       const total=Object.keys(r.slots||{}).length;
       const booked=Object.values(r.slots||{}).filter(s=>s.booked).length;
       const applyInfo=r.applyStart||r.applyEnd
-        ? `신청기간: ${r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞'} ~ ${r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞'} |` : '';
+        ?`신청기간: ${r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞'} ~ ${r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞'} | `:'';
       return `<div class="round-item ${r.active?'active-round':''}">
         <div class="round-header">
           <div>
             <div class="round-title">${r.title} <span class="badge ${r.active?'badge-active':'badge-inactive'}">${r.active?'🟢 활성':'⚫ 비활성'}</span></div>
-            <div class="round-meta">${applyInfo} 슬롯 ${total}개 | 신청 ${booked}명</div>
+            <div class="round-meta">${applyInfo}슬롯 ${total}개 | 신청 ${booked}명</div>
           </div>
           <div class="round-actions">
-            ${r.active?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a><button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
+            ${r.active?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>
+              <button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
               :`<button class="btn btn-success btn-sm" onclick="toggleActive('${id}',true)">활성화</button>`}
             <button class="btn btn-warning btn-sm" onclick="openEdit('${id}')">✏️ 수정</button>
             <button class="btn btn-danger btn-sm" onclick="deleteRound('${id}','${r.title.replace(/'/g,"\\'")}')">삭제</button>
@@ -288,8 +370,7 @@ function initAdmin(){
 
 function toggleActive(id,val){
   db.ref('rounds').once('value',snap=>{
-    const updates={};
-    snap.forEach(c=>{updates[`rounds/${c.key}/active`]=false;});
+    const updates={};snap.forEach(c=>{updates[`rounds/${c.key}/active`]=false;});
     if(val) updates[`rounds/${id}/active`]=true;
     db.ref().update(updates);
   });
@@ -299,9 +380,10 @@ function deleteRound(id,title){
   db.ref(`rounds/${id}`).remove();
 }
 
-// ── 회차 수정 ──
+/* ── 회차 수정 ── */
 function openEdit(id){
-  editingId=id;
+  editingId=id;eGroupCount=0;
+  document.getElementById('e-groups').innerHTML='';
   db.ref(`rounds/${id}`).once('value',snap=>{
     const r=snap.val();
     document.getElementById('e-title').value=r.title||'';
@@ -309,72 +391,29 @@ function openEdit(id){
     document.getElementById('e-apply-start').value=r.applyStart||'';
     document.getElementById('e-apply-end').value=r.applyEnd||'';
     document.getElementById('e-regen').checked=false;
+    addGroup('e');
     document.getElementById('edit-overlay').classList.add('show');
   });
 }
-function closeEdit(){ document.getElementById('edit-overlay').classList.remove('show'); editingId=null; }
+function closeEdit(){document.getElementById('edit-overlay').classList.remove('show');editingId=null;}
 function saveEdit(){
   const title=document.getElementById('e-title').value.trim();
   if(!title){alert('제목을 입력하세요.');return;}
   const updates={
-    title,
-    description:document.getElementById('e-desc').value.trim(),
+    title,description:document.getElementById('e-desc').value.trim(),
     applyStart:document.getElementById('e-apply-start').value||null,
     applyEnd:document.getElementById('e-apply-end').value||null
   };
   if(document.getElementById('e-regen').checked){
-    const s=document.getElementById('e-start').value,e=document.getElementById('e-end').value;
-    const ts=document.getElementById('e-time-start').value,te=document.getElementById('e-time-end').value;
-    const iv=document.getElementById('e-interval').value,ln=document.getElementById('e-lunch').value;
-    if(!s||!e||!ts||!te){alert('날짜와 시간을 모두 입력하세요.');return;}
-    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.')) return;
-    updates.slots=generateSlots(s,e,ts,te,iv,ln);
+    const slots=getGroupSlots('e');
+    if(!slots||!Object.keys(slots).length){alert('날짜 그룹의 필수 항목을 입력하세요.');return;}
+    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.'))return;
+    updates.slots=slots;
   }
   db.ref(`rounds/${editingId}`).update(updates).then(()=>{alert('✅ 수정되었습니다.');closeEdit();});
 }
 
-// ── 슬롯 생성 ──
-function generateSlots(startDate,endDate,timeStart,timeEnd,interval,lunch){
-  const slots={};
-  let lS=null,lE=null;
-  if(lunch){[lS,lE]=lunch.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
-  for(let d=new Date(startDate);d<=new Date(endDate);d.setDate(d.getDate()+1)){
-    const ds=d.toISOString().slice(0,10);
-    let [sh,sm]=timeStart.split(':').map(Number);
-    const[eh,em]=timeEnd.split(':').map(Number);
-    while(sh*60+sm<eh*60+em){
-      const tot=sh*60+sm,ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
-      if(!lS||tot<lS||tot>=lE) slots[`${ds}_${ts.replace(':','')}`]={date:ds,time:ts,booked:false,locked:false};
-      sm+=parseInt(interval);if(sm>=60){sh+=Math.floor(sm/60);sm=sm%60;}
-    }
-  }
-  return slots;
-}
-function previewSlots(){
-  const s=document.getElementById('c-start').value,e=document.getElementById('c-end').value;
-  const ts=document.getElementById('c-time-start').value,te=document.getElementById('c-time-end').value;
-  const iv=document.getElementById('c-interval').value,ln=document.getElementById('c-lunch').value;
-  if(!s||!e||!ts||!te){alert('날짜와 시간을 모두 입력하세요.');return;}
-  const slots=generateSlots(s,e,ts,te,iv,ln);
-  const cnt=Object.keys(slots).length,days=[...new Set(Object.values(slots).map(x=>x.date))].length;
-  document.getElementById('preview-text').textContent=`총 ${days}일 × ${cnt}개 슬롯`;
-  document.getElementById('slot-preview').style.display='block';
-}
-function createRound(){
-  const title=document.getElementById('c-title').value.trim();
-  const desc=document.getElementById('c-desc').value.trim();
-  const s=document.getElementById('c-start').value,e=document.getElementById('c-end').value;
-  const ts=document.getElementById('c-time-start').value,te=document.getElementById('c-time-end').value;
-  const iv=document.getElementById('c-interval').value,ln=document.getElementById('c-lunch').value;
-  const applyStart=document.getElementById('c-apply-start').value||null;
-  const applyEnd=document.getElementById('c-apply-end').value||null;
-  if(!title||!s||!e||!ts||!te){alert('필수 항목을 입력하세요.');return;}
-  const slots=generateSlots(s,e,ts,te,iv,ln);
-  db.ref('rounds').push({title,description:desc,active:false,applyStart,applyEnd,createdAt:new Date().toISOString(),slots})
-    .then(()=>{alert(`✅ 회차 생성 완료! (슬롯 ${Object.keys(slots).length}개)`);switchTab('rounds');});
-}
-
-// ── 신청 현황 ──
+/* ── 신청 현황 ── */
 function renderStatusGrid(){
   db.ref('rounds').once('value',snap=>{
     const data=snap.val()||{};
@@ -389,24 +428,19 @@ function renderStatusGrid(){
         <div class="rc-meta">신청 ${booked} / ${total}명</div>
       </div>`;
     }).join('');
-    if(!selectedStatusRound){
-      const active=rounds.find(([,r])=>r.active);
-      if(active) selectStatusRound(active[0],active[1].title);
-    }
+    if(!selectedStatusRound){const a=rounds.find(([,r])=>r.active);if(a)selectStatusRound(a[0],a[1].title);}
   });
 }
 
 function selectStatusRound(id,title){
-  selectedStatusRound=id; statusFilterDate='all';
+  selectedStatusRound=id;statusFilterDate='all';
   document.querySelectorAll('.round-card').forEach(c=>c.classList.remove('selected'));
   event&&event.currentTarget&&event.currentTarget.classList.add('selected');
   document.getElementById('status-content').style.display='block';
   document.getElementById('status-title').textContent=`📊 ${title}`;
-  if(statusListener){db.ref().off();statusListener=null;}
+  if(statusListener){db.ref(`rounds/${selectedStatusRound}/slots`).off('value');statusListener=null;}
   statusListener=db.ref(`rounds/${id}/slots`).on('value',snap=>{
-    statusAllSlots=snap.val()||{};
-    renderStatusTable();
-    renderDateFilter();
+    statusAllSlots=snap.val()||{};renderStatusTable();renderDateFilter();
   });
 }
 
@@ -429,43 +463,40 @@ function renderStatusTable(){
     .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
   const tbody=document.getElementById('status-tbody');
   if(!filtered.length){tbody.innerHTML='<tr><td colspan="8" class="empty">신청자가 없습니다.</td></tr>';return;}
-  tbody.innerHTML=filtered.map((s,i)=>{
-    // 슬롯 키 찾기
+  tbody.innerHTML=filtered.map(s=>{
     const sKey=Object.entries(statusAllSlots).find(([,v])=>v.date===s.date&&v.time===s.time)?.[0]||'';
     return `<tr>
       <td>${s.date}</td><td>${s.time}</td><td>${s.bookedBy||'-'}</td>
       <td>${s.bookedExtra||'-'}</td><td>${s.bookedContact||'-'}</td>
       <td><b style="font-size:1rem;letter-spacing:2px">${s.confirmCode||'-'}</b></td>
       <td style="white-space:nowrap">${(s.bookedAt||'').slice(0,16).replace('T',' ')}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="adminCancelSlot('${selectedStatusRound}','${sKey}')">취소</button></td>
+      <td><button class="btn btn-danger btn-sm" onclick="adminCancel('${selectedStatusRound}','${sKey}')">취소</button></td>
     </tr>`;
   }).join('');
 }
-
-function adminCancelSlot(roundId,slotKey){
-  if(!confirm('이 신청을 취소(삭제)하시겠습니까?')) return;
+function adminCancel(roundId,slotKey){
+  if(!confirm('이 신청을 취소하시겠습니까?'))return;
   db.ref(`rounds/${roundId}/slots/${slotKey}`)
     .update({booked:false,bookedBy:null,bookedExtra:null,bookedContact:null,confirmCode:null,bookedAt:null});
 }
-
 function exportCSV(){
   const rows=[...document.getElementById('status-tbody').querySelectorAll('tr')]
     .map(tr=>[...tr.querySelectorAll('td')].slice(0,7).map(td=>`"${td.textContent.trim()}"`).join(','))
     .filter(r=>!r.includes('신청자가'));
   if(!rows.length){alert('데이터가 없습니다.');return;}
   const csv='\uFEFF'+['"날짜","시간","이름","추가정보","연락처","확인코드","신청시각"',...rows].join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download=`신청현황_${new Date().toISOString().slice(0,10)}.csv`;a.click();
 }
 
-// ── 슬롯 관리 ──
+/* ── 슬롯 관리 ── */
 function populateSlotRoundSelect(){
   db.ref('rounds').once('value',snap=>{
     const sel=document.getElementById('slot-round-select');
     const data=snap.val()||{};
-    const rounds=Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''));
-    sel.innerHTML='<option value="">회차 선택</option>'+rounds.map(([id,r])=>`<option value="${id}">${r.title}${r.active?' 🟢':''}</option>`).join('');
+    sel.innerHTML='<option value="">회차 선택</option>'+
+      Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''))
+        .map(([id,r])=>`<option value="${id}">${r.title}${r.active?' 🟢':''}</option>`).join('');
   });
 }
 function loadSlotMgmt(){
@@ -478,20 +509,20 @@ function loadSlotMgmt(){
     if(!dates.length){content.innerHTML='<div class="empty">슬롯이 없습니다.</div>';return;}
     let html='<div style="overflow-x:auto"><table><thead><tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr></thead><tbody>';
     dates.forEach(date=>{
-      const daySlots=Object.entries(slots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time));
-      daySlots.forEach(([key,s])=>{
-        const status=s.locked?'🔒 잠금':(s.booked?`✅ 신청됨 (${s.bookedBy})`:'⭕ 가능');
-        const btn=s.booked?'':s.locked
-          ?`<button class="btn btn-success btn-sm" onclick="toggleSlotLock('${id}','${key}',false)">해제</button>`
-          :`<button class="btn btn-warning btn-sm" onclick="toggleSlotLock('${id}','${key}',true)">잠금</button>`;
-        html+=`<tr><td>${s.date}</td><td>${s.time}</td><td>${status}</td><td>${btn}</td></tr>`;
-      });
+      Object.entries(slots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time))
+        .forEach(([key,s])=>{
+          const status=s.locked?'🔒 잠금':(s.booked?`✅ 신청됨 (${s.bookedBy})`:'⭕ 가능');
+          const btn=s.booked?'':s.locked
+            ?`<button class="btn btn-success btn-sm" onclick="toggleLock('${id}','${key}',false)">해제</button>`
+            :`<button class="btn btn-warning btn-sm" onclick="toggleLock('${id}','${key}',true)">잠금</button>`;
+          html+=`<tr><td>${s.date}</td><td>${s.time}</td><td>${status}</td><td>${btn}</td></tr>`;
+        });
     });
     html+='</tbody></table></div>';
     content.innerHTML=html;
   });
 }
-function toggleSlotLock(roundId,slotKey,lock){
+function toggleLock(roundId,slotKey,lock){
   db.ref(`rounds/${roundId}/slots/${slotKey}`).update({locked:lock}).then(()=>loadSlotMgmt());
 }
 </script>
