@@ -9,7 +9,7 @@
 <script src="firebase-config.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;min-height:100vh}
+body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;min-height:100vh;font-size:14px}
 .login-wrap{min-height:100vh;display:flex;justify-content:center;align-items:center}
 .login-box{background:#fff;border-radius:16px;padding:40px;width:340px;box-shadow:0 8px 32px rgba(0,0,0,.12);text-align:center}
 .login-box h1{font-size:1.5rem;color:#1e3a5f;margin-bottom:24px}
@@ -17,79 +17,99 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .login-box input:focus{outline:none;border-color:#2d6a9f}
 .admin-wrap{display:none}
 .top-bar{background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.top-bar h1{font-size:1.15rem}
+.top-bar h1{font-size:1.1rem}
 .top-bar-right{display:flex;gap:8px;align-items:center}
-.top-bar a{background:rgba(255,255,255,.2);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;text-decoration:none;font-size:.85rem}
+.top-bar a{background:rgba(255,255,255,.2);color:#fff;padding:7px 14px;border-radius:6px;text-decoration:none;font-size:.85rem}
 .top-bar a:hover{background:rgba(255,255,255,.35)}
 .top-bar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
 .tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;padding:0 20px;overflow-x:auto}
 .tab{padding:13px 18px;cursor:pointer;font-weight:600;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
 .tab.active{color:#2d6a9f;border-bottom-color:#2d6a9f}
-.panel{display:none;padding:24px;max-width:980px;margin:0 auto}
+.panel{display:none;padding:24px;max-width:1000px;margin:0 auto}
 .panel.active{display:block}
 .card{background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:18px}
 .card h2{font-size:1.05rem;color:#1e3a5f;margin-bottom:16px;border-bottom:2px solid #e8f0fb;padding-bottom:9px}
 .form-group{margin-bottom:14px}
 .form-group label{display:block;font-size:.82rem;color:#555;margin-bottom:5px;font-weight:600}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:9px 13px;border:1.5px solid #ddd;border-radius:8px;font-size:.93rem;font-family:inherit}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:9px 12px;border:1.5px solid #ddd;border-radius:8px;font-size:.9rem;font-family:inherit}
 .form-group input:focus,.form-group textarea:focus{outline:none;border-color:#2d6a9f}
 .form-group textarea{resize:vertical;min-height:70px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.btn{padding:9px 20px;border-radius:8px;border:none;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn{padding:9px 20px;border-radius:8px;border:none;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s}
 .btn-primary{background:#2d6a9f;color:#fff}.btn-primary:hover{background:#1e3a5f}
 .btn-warning{background:#f57c00;color:#fff}.btn-warning:hover{background:#e65100}
 .btn-danger{background:#e53935;color:#fff}.btn-danger:hover{background:#b71c1c}
 .btn-success{background:#388e3c;color:#fff}.btn-success:hover{background:#1b5e20}
 .btn-link{background:#e8f0fb;color:#2d6a9f}.btn-link:hover{background:#2d6a9f;color:#fff}
-.btn-sm{padding:5px 12px;font-size:.8rem}
+.btn-sm{padding:5px 12px;font-size:.78rem}
+.btn-outline{background:#fff;color:#2d6a9f;border:1.5px solid #2d6a9f}.btn-outline:hover{background:#2d6a9f;color:#fff}
+
+/* ── 날짜 테이블 ── */
+.slot-table-wrap{margin-top:14px;overflow-x:auto;border-radius:10px;border:1.5px solid #e0e0e0}
+.slot-table{width:100%;border-collapse:collapse;min-width:680px}
+.slot-table th{padding:10px 10px;text-align:center;font-size:.8rem;font-weight:700;white-space:nowrap;background:#1e3a5f;color:#fff}
+.slot-table th:first-child{border-radius:9px 0 0 0}
+.slot-table th:last-child{border-radius:0 9px 0 0}
+.slot-table td{padding:7px 8px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
+.bulk-row td{background:#e8f0fb;font-weight:700}
+.bulk-row td:first-child{color:#2d6a9f;font-size:.85rem}
+.date-row:hover td{background:#f5f9ff}
+.date-row.excluded td{background:#fafafa;opacity:.5}
+.date-row.excluded td input,.date-row.excluded td select{pointer-events:none;background:#f0f0f0}
+.slot-table input[type="time"],.slot-table select{
+  width:100%;padding:5px 6px;border:1.5px solid #ddd;border-radius:6px;
+  font-size:.82rem;font-family:inherit;text-align:center
+}
+.slot-table input[type="time"]:focus,.slot-table select:focus{outline:none;border-color:#2d6a9f}
+.slot-table input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:#2d6a9f}
+.day-badge{display:inline-block;width:26px;height:26px;border-radius:50%;font-size:.78rem;font-weight:700;line-height:26px;text-align:center}
+.day-0,.day-6{background:#fce4ec;color:#c62828}
+.day-1,.day-2,.day-3,.day-4,.day-5{background:#e8f0fb;color:#1e3a5f}
+.slot-count-badge{display:inline-block;background:#388e3c;color:#fff;border-radius:12px;padding:2px 10px;font-size:.78rem;font-weight:700;margin-left:8px}
+.preview-summary{background:#e8f5e9;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#2e7d32;display:none;line-height:1.8}
+
+/* 회차 목록 */
 .round-item{border:1.5px solid #e0e0e0;border-radius:10px;padding:15px 18px;margin-bottom:10px}
 .round-item.active-round{border-color:#2d6a9f;background:#e8f0fb}
 .round-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
-.round-title{font-weight:700;color:#1e3a5f}
-.round-meta{font-size:.8rem;color:#888;margin-top:3px;line-height:1.6}
+.round-title{font-weight:700;color:#1e3a5f;font-size:.95rem}
+.round-meta{font-size:.78rem;color:#888;margin-top:3px;line-height:1.6}
 .round-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.76rem;font-weight:700}
 .badge-active{background:#e8f5e9;color:#2e7d32}
 .badge-inactive{background:#f5f5f5;color:#9e9e9e}
+
+/* 현황 */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .stat-box{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .stat-num{font-size:1.8rem;font-weight:700;color:#2d6a9f}
-.stat-label{font-size:.78rem;color:#888;margin-top:3px}
-table{width:100%;border-collapse:collapse;font-size:.85rem}
-th{background:#1e3a5f;color:#fff;padding:9px 10px;text-align:left;white-space:nowrap}
-td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
-tr:nth-child(even) td{background:#f8f9fa}
-tr:hover td{background:#e8f0fb}
+.stat-label{font-size:.76rem;color:#888;margin-top:3px}
+table.status-table{width:100%;border-collapse:collapse;font-size:.83rem}
+table.status-table th{background:#1e3a5f;color:#fff;padding:9px 10px;text-align:left;white-space:nowrap}
+table.status-table td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+table.status-table tr:nth-child(even) td{background:#f8f9fa}
+table.status-table tr:hover td{background:#e8f0fb}
 .empty{text-align:center;color:#aaa;padding:28px}
-.round-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin-bottom:18px}
-.round-card{padding:14px 16px;border-radius:10px;border:2px solid #ddd;background:#fff;cursor:pointer;transition:all .2s;text-align:left}
+.round-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:18px}
+.round-card{padding:14px 16px;border-radius:10px;border:2px solid #ddd;background:#fff;cursor:pointer;transition:all .2s}
 .round-card:hover{border-color:#2d6a9f;background:#e8f0fb}
 .round-card.selected{border-color:#2d6a9f;background:#e8f0fb}
-.round-card .rc-title{font-weight:700;color:#1e3a5f;font-size:.92rem}
-.round-card .rc-meta{font-size:.76rem;color:#888;margin-top:3px}
-.date-filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.dft{padding:6px 14px;border-radius:16px;border:1.5px solid #ddd;cursor:pointer;font-size:.82rem;color:#666;background:#fff;transition:all .2s}
+.round-card .rc-title{font-weight:700;color:#1e3a5f;font-size:.9rem}
+.round-card .rc-meta{font-size:.75rem;color:#888;margin-top:3px}
+.date-filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.dft{padding:5px 13px;border-radius:14px;border:1.5px solid #ddd;cursor:pointer;font-size:.8rem;color:#666;background:#fff;transition:all .2s}
 .dft.active{background:#2d6a9f;color:#fff;border-color:#2d6a9f}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center;padding:16px}
 .overlay.show{display:flex}
-.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal h2{font-size:1.15rem;color:#1e3a5f;margin-bottom:18px}
-.preview-box{background:#e8f0fb;border-radius:8px;padding:11px 14px;font-size:.86rem;color:#1e3a5f;margin-bottom:14px;display:none}
-
-/* 날짜별 슬롯 그룹 */
-.slot-group{border:1.5px solid #e0e0e0;border-radius:10px;padding:16px;margin-bottom:12px;background:#fafafa;position:relative}
-.slot-group .group-num{font-size:.8rem;font-weight:700;color:#2d6a9f;margin-bottom:10px}
-.slot-group .remove-btn{position:absolute;top:10px;right:12px;background:#fce4ec;border:none;color:#c62828;border-radius:5px;padding:3px 9px;font-size:.8rem;cursor:pointer}
-.slot-group .remove-btn:hover{background:#e53935;color:#fff}
-.add-group-btn{width:100%;padding:10px;border:2px dashed #2d6a9f;border-radius:8px;background:#e8f0fb;color:#2d6a9f;font-size:.9rem;font-weight:700;cursor:pointer;margin-bottom:16px;transition:all .2s}
-.add-group-btn:hover{background:#2d6a9f;color:#fff}
-
-@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.form-row3{grid-template-columns:1fr 1fr}}
+.modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal h2{font-size:1.1rem;color:#1e3a5f;margin-bottom:16px}
+.help-tip{font-size:.78rem;color:#888;margin-top:3px}
+@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
+<!-- 로그인 -->
 <div class="login-wrap" id="login-wrap">
   <div class="login-box">
     <h1>🔐 관리자 로그인</h1>
@@ -132,16 +152,38 @@ tr:hover td{background:#e8f0fb}
         <div class="form-group"><label>⏰ 신청 마감 일시</label><input type="datetime-local" id="c-apply-end"></div>
       </div>
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <p style="font-size:.95rem;font-weight:700;color:#1e3a5f">⏱ 날짜별 시간 슬롯 설정</p>
-        <span style="font-size:.8rem;color:#888">날짜마다 다른 시간대 설정 가능</span>
+
+      <!-- 날짜 테이블 설정 -->
+      <p style="font-size:.95rem;font-weight:700;color:#1e3a5f;margin-bottom:6px">⏱ 날짜별 시간 슬롯 설정</p>
+      <p class="help-tip">① 날짜 범위를 입력하고 '목록 생성' → ② 상단 행에서 일괄 적용 → ③ 날짜별로 개별 수정</p>
+      <div style="display:flex;gap:10px;align-items:flex-end;margin-top:12px;flex-wrap:wrap">
+        <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>시작 날짜 *</label><input type="date" id="c-range-start"></div>
+        <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>종료 날짜 *</label><input type="date" id="c-range-end"></div>
+        <button class="btn btn-outline" style="margin-bottom:0;height:38px" onclick="generateTable('c')">📋 목록 생성</button>
       </div>
-      <div id="c-groups"></div>
-      <button class="add-group-btn" onclick="addGroup('c')">+ 날짜 그룹 추가</button>
-      <div class="preview-box" id="slot-preview"><b>슬롯 미리보기:</b> <span id="preview-text"></span></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn btn-primary" onclick="previewSlots()">미리보기</button>
-        <button class="btn btn-success" onclick="createRound()">✅ 회차 생성</button>
+      <div id="c-table-wrap" style="display:none">
+        <div class="slot-table-wrap">
+          <table class="slot-table">
+            <thead>
+              <tr>
+                <th style="width:40px">포함</th>
+                <th>날짜</th>
+                <th style="width:36px">요일</th>
+                <th>시작 시간</th>
+                <th>종료 시간</th>
+                <th>간격(분)</th>
+                <th>점심 제외</th>
+                <th style="width:60px">슬롯 수</th>
+              </tr>
+            </thead>
+            <tbody id="c-tbody"></tbody>
+          </table>
+        </div>
+        <div class="preview-summary" id="c-preview"></div>
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="calcPreview('c')">🔍 미리보기</button>
+          <button class="btn btn-success" onclick="createRound()">✅ 회차 생성</button>
+        </div>
       </div>
     </div>
   </div>
@@ -163,7 +205,7 @@ tr:hover td{background:#e8f0fb}
           <button class="btn btn-success btn-sm" onclick="exportCSV()">📥 CSV 내보내기</button>
         </div>
         <div style="overflow-x:auto">
-          <table>
+          <table class="status-table">
             <thead><tr><th>날짜</th><th>시간</th><th>이름</th><th>추가정보</th><th>연락처</th><th>확인코드</th><th>신청시각</th><th>관리</th></tr></thead>
             <tbody id="status-tbody"></tbody>
           </table>
@@ -176,7 +218,7 @@ tr:hover td{background:#e8f0fb}
   <div class="panel" id="panel-slots">
     <div class="card">
       <h2>슬롯 잠금 / 해제 관리</h2>
-      <p style="font-size:.85rem;color:#888;margin-bottom:14px">특정 슬롯을 잠금하면 신청 페이지에서 선택 불가로 표시됩니다.</p>
+      <p style="font-size:.83rem;color:#888;margin-bottom:14px">특정 슬롯을 잠금하면 신청 페이지에서 선택 불가로 표시됩니다.</p>
       <div style="margin-bottom:14px">
         <select id="slot-round-select" onchange="loadSlotMgmt()" style="padding:8px;border:1.5px solid #ddd;border-radius:6px;font-family:inherit">
           <option value="">회차 선택</option>
@@ -187,7 +229,7 @@ tr:hover td{background:#e8f0fb}
   </div>
 </div>
 
-<!-- 회차 편집 모달 -->
+<!-- 회차 수정 모달 -->
 <div class="overlay" id="edit-overlay">
   <div class="modal">
     <h2>✏️ 회차 수정</h2>
@@ -197,14 +239,32 @@ tr:hover td{background:#e8f0fb}
       <div class="form-group"><label>신청 시작 일시</label><input type="datetime-local" id="e-apply-start"></div>
       <div class="form-group"><label>신청 마감 일시</label><input type="datetime-local" id="e-apply-end"></div>
     </div>
-    <details style="margin-bottom:14px">
-      <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">🔄 시간 슬롯 재생성 (기존 신청 초기화됨)</summary>
+    <details id="regen-details" style="margin-bottom:14px">
+      <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">🔄 시간 슬롯 재생성 (기존 신청 데이터 초기화됨)</summary>
       <div style="padding-top:12px">
-        <div id="e-groups"></div>
-        <button class="add-group-btn" onclick="addGroup('e')">+ 날짜 그룹 추가</button>
-        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#e65100;cursor:pointer;margin-top:4px">
-          <input type="checkbox" id="e-regen"> 슬롯 재생성 확인 (체크 시 기존 신청 초기화)
-        </label>
+        <p class="help-tip" style="margin-bottom:10px">① 날짜 범위 입력 후 '목록 생성' → ② 일괄 적용 / 개별 수정 → ③ 저장</p>
+        <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+          <div class="form-group" style="margin:0;flex:1;min-width:120px"><label>시작 날짜</label><input type="date" id="e-range-start"></div>
+          <div class="form-group" style="margin:0;flex:1;min-width:120px"><label>종료 날짜</label><input type="date" id="e-range-end"></div>
+          <button class="btn btn-outline" style="height:38px" onclick="generateTable('e')">📋 목록 생성</button>
+        </div>
+        <div id="e-table-wrap" style="display:none;margin-top:12px">
+          <div class="slot-table-wrap">
+            <table class="slot-table">
+              <thead>
+                <tr>
+                  <th style="width:40px">포함</th><th>날짜</th><th style="width:36px">요일</th>
+                  <th>시작 시간</th><th>종료 시간</th><th>간격(분)</th><th>점심 제외</th><th style="width:60px">슬롯 수</th>
+                </tr>
+              </thead>
+              <tbody id="e-tbody"></tbody>
+            </table>
+          </div>
+          <div class="preview-summary" id="e-preview"></div>
+          <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#e65100;cursor:pointer;margin-top:12px">
+            <input type="checkbox" id="e-regen"> 슬롯 재생성 확인 (체크 시 기존 신청 초기화)
+          </label>
+        </div>
       </div>
     </details>
     <div style="display:flex;gap:10px">
@@ -215,14 +275,16 @@ tr:hover td{background:#e8f0fb}
 </div>
 
 <script>
+const DAYS=['일','월','화','수','목','금','토'];
+const LUNCH_OPTS={'':'없음','12:00-13:00':'12:00~13:00','12:30-13:30':'12:30~13:30'};
+const IV_OPTS=[10,15,20,30,60];
 let editingId=null, statusListener=null, selectedStatusRound=null, statusAllSlots={}, statusFilterDate='all';
-let cGroupCount=0, eGroupCount=0;
 
 function doLogin(){
   if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
     document.getElementById('login-wrap').style.display='none';
     document.getElementById('admin-wrap').style.display='block';
-    initAdmin(); addGroup('c');
+    initAdmin();
   } else alert('비밀번호가 틀렸습니다.');
 }
 function doLogout(){
@@ -239,102 +301,197 @@ function switchTab(name){
   if(name==='slots') populateSlotRoundSelect();
 }
 
-/* ── 날짜 그룹 UI ── */
-function groupHTML(prefix, idx){
-  return `<div class="slot-group" id="${prefix}-grp-${idx}">
-    <div class="group-num">📅 날짜 그룹 ${idx+1}</div>
-    <button class="remove-btn" onclick="removeGroup('${prefix}',${idx})">✕ 제거</button>
-    <div class="form-row">
-      <div class="form-group"><label>시작 날짜 *</label><input type="date" id="${prefix}-start-${idx}"></div>
-      <div class="form-group"><label>종료 날짜 *</label><input type="date" id="${prefix}-end-${idx}"></div>
-    </div>
-    <div class="form-row3">
-      <div class="form-group"><label>시작 시간 *</label><input type="time" id="${prefix}-ts-${idx}" value="09:00"></div>
-      <div class="form-group"><label>종료 시간 *</label><input type="time" id="${prefix}-te-${idx}" value="17:00"></div>
-      <div class="form-group"><label>간격(분) *</label>
-        <select id="${prefix}-iv-${idx}">
-          <option value="10">10분</option><option value="15">15분</option>
-          <option value="20">20분</option><option value="30" selected>30분</option><option value="60">60분</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group"><label>점심 시간 제외</label>
-      <select id="${prefix}-ln-${idx}">
-        <option value="">없음</option>
-        <option value="12:00-13:00">12:00~13:00</option>
-        <option value="12:30-13:30">12:30~13:30</option>
-      </select>
-    </div>
-  </div>`;
+/* ════════════════════════════════
+   날짜 테이블 UI
+════════════════════════════════ */
+function lunchSelect(id, val){
+  return `<select id="${id}" onchange="updateRowCount(this)" style="font-size:.78rem">
+    ${Object.entries(LUNCH_OPTS).map(([k,v])=>`<option value="${k}"${k===val?' selected':''}>${v}</option>`).join('')}
+  </select>`;
+}
+function ivSelect(id, val){
+  return `<select id="${id}" onchange="updateRowCount(this)" style="font-size:.78rem">
+    ${IV_OPTS.map(v=>`<option value="${v}"${v==val?' selected':''}>${v}분</option>`).join('')}
+  </select>`;
 }
 
-function addGroup(prefix){
-  const container=document.getElementById(`${prefix}-groups`);
-  const idx=(prefix==='c'?cGroupCount++:eGroupCount++);
-  const div=document.createElement('div');div.innerHTML=groupHTML(prefix,idx);
-  container.appendChild(div.firstElementChild);
-}
-function removeGroup(prefix,idx){
-  const el=document.getElementById(`${prefix}-grp-${idx}`);
-  if(el) el.remove();
-}
+function generateTable(p){
+  const s=document.getElementById(`${p}-range-start`).value;
+  const e=document.getElementById(`${p}-range-end`).value;
+  if(!s||!e){alert('시작·종료 날짜를 입력하세요.');return;}
+  if(s>e){alert('종료 날짜가 시작 날짜보다 앞입니다.');return;}
 
-function getGroupSlots(prefix){
-  const container=document.getElementById(`${prefix}-groups`);
-  const groups=container.querySelectorAll('.slot-group');
-  let allSlots={};
-  let ok=true;
-  groups.forEach(grp=>{
-    const idx=grp.id.split('-').pop();
-    const s=document.getElementById(`${prefix}-start-${idx}`)?.value;
-    const e=document.getElementById(`${prefix}-end-${idx}`)?.value;
-    const ts=document.getElementById(`${prefix}-ts-${idx}`)?.value;
-    const te=document.getElementById(`${prefix}-te-${idx}`)?.value;
-    const iv=document.getElementById(`${prefix}-iv-${idx}`)?.value;
-    const ln=document.getElementById(`${prefix}-ln-${idx}`)?.value;
-    if(!s||!e||!ts||!te){ok=false;return;}
-    Object.assign(allSlots, generateSlots(s,e,ts,te,iv,ln));
+  const dates=[];
+  for(let d=new Date(s);d<=new Date(e);d.setDate(d.getDate()+1))
+    dates.push(d.toISOString().slice(0,10));
+
+  if(dates.length>60){alert('날짜 범위가 너무 큽니다. (최대 60일)');return;}
+
+  const tbody=document.getElementById(`${p}-tbody`);
+
+  // 일괄 적용 행
+  const bulkRow=`<tr class="bulk-row" id="${p}-bulk">
+    <td colspan="2" style="text-align:left;padding-left:12px">
+      <b>📋 일괄 적용</b>
+      <button class="btn btn-primary btn-sm" style="margin-left:10px;font-size:.75rem" onclick="applyBulk('${p}')">체크된 날짜에 적용 ▶</button>
+    </td>
+    <td></td>
+    <td><input type="time" id="${p}-bulk-ts" value="09:00" style="font-size:.8rem"></td>
+    <td><input type="time" id="${p}-bulk-te" value="17:00" style="font-size:.8rem"></td>
+    <td>${ivSelect(`${p}-bulk-iv`,30)}</td>
+    <td>${lunchSelect(`${p}-bulk-ln`,'')}</td>
+    <td></td>
+  </tr>`;
+
+  const dateRows=dates.map(date=>{
+    const dayIdx=new Date(date).getDay();
+    const dayLabel=`<span class="day-badge day-${dayIdx}">${DAYS[dayIdx]}</span>`;
+    const rowId=`${p}-row-${date}`;
+    // 토/일 기본 체크 해제
+    const checked=(dayIdx!==0&&dayIdx!==6)?'checked':'';
+    return `<tr class="date-row ${checked?'':'excluded'}" id="${rowId}">
+      <td><input type="checkbox" ${checked} onchange="toggleRow('${p}','${date}',this.checked)" id="${p}-chk-${date}"></td>
+      <td style="font-weight:600;color:#333">${date}</td>
+      <td>${dayLabel}</td>
+      <td><input type="time" id="${p}-ts-${date}" value="09:00" onchange="calcRowCount('${p}','${date}')"></td>
+      <td><input type="time" id="${p}-te-${date}" value="17:00" onchange="calcRowCount('${p}','${date}')"></td>
+      <td>${ivSelect(`${p}-iv-${date}`,30)}</td>
+      <td>${lunchSelect(`${p}-ln-${date}`,'')}</td>
+      <td id="${p}-cnt-${date}" style="font-weight:700;color:#388e3c">-</td>
+    </tr>`;
+  }).join('');
+
+  tbody.innerHTML=bulkRow+dateRows;
+
+  // attach onchange to dynamically created selects for bulk row
+  ['iv','ln'].forEach(field=>{
+    const el=document.getElementById(`${p}-bulk-${field}`);
+    if(el) el.onchange=()=>{};
   });
-  return ok?allSlots:null;
+
+  // 초기 슬롯 수 계산
+  dates.forEach(date=>{
+    if(document.getElementById(`${p}-chk-${date}`)?.checked)
+      calcRowCount(p,date);
+  });
+
+  document.getElementById(`${p}-table-wrap`).style.display='block';
+  document.getElementById(`${p}-preview`) && (document.getElementById(`${p}-preview`).style.display='none');
 }
 
-/* ── 슬롯 생성 ── */
-function generateSlots(startDate,endDate,timeStart,timeEnd,interval,lunch){
-  const slots={};
+function toggleRow(p, date, checked){
+  const row=document.getElementById(`${p}-row-${date}`);
+  if(checked){row.classList.remove('excluded');calcRowCount(p,date);}
+  else{row.classList.add('excluded');document.getElementById(`${p}-cnt-${date}`).textContent='-';}
+}
+
+function applyBulk(p){
+  const ts=document.getElementById(`${p}-bulk-ts`).value;
+  const te=document.getElementById(`${p}-bulk-te`).value;
+  const iv=document.getElementById(`${p}-bulk-iv`).value;
+  const ln=document.getElementById(`${p}-bulk-ln`).value;
+  // 체크된 날짜에만 적용
+  document.querySelectorAll(`#${p}-tbody .date-row:not(.excluded)`).forEach(row=>{
+    const date=row.id.replace(`${p}-row-`,'');
+    document.getElementById(`${p}-ts-${date}`).value=ts;
+    document.getElementById(`${p}-te-${date}`).value=te;
+    document.getElementById(`${p}-iv-${date}`).value=iv;
+    document.getElementById(`${p}-ln-${date}`).value=ln;
+    calcRowCount(p,date);
+  });
+}
+
+function updateRowCount(el){
+  // find parent row date
+  const row=el.closest('.date-row');
+  if(!row)return;
+  // extract prefix and date from row id like "c-row-2025-11-10"
+  const parts=row.id.split('-row-');
+  if(parts.length<2)return;
+  calcRowCount(parts[0],parts[1]);
+}
+
+function calcRowCount(p,date){
+  const ts=document.getElementById(`${p}-ts-${date}`)?.value;
+  const te=document.getElementById(`${p}-te-${date}`)?.value;
+  const iv=parseInt(document.getElementById(`${p}-iv-${date}`)?.value||30);
+  const ln=document.getElementById(`${p}-ln-${date}`)?.value||'';
+  if(!ts||!te){return;}
+  const cnt=countSlots(ts,te,iv,ln);
+  const el=document.getElementById(`${p}-cnt-${date}`);
+  if(el) el.textContent=cnt>0?cnt+'개':'⚠️0';
+}
+
+function countSlots(ts,te,iv,ln){
+  let[sh,sm]=ts.split(':').map(Number);
+  const[eh,em]=te.split(':').map(Number);
   let lS=null,lE=null;
-  if(lunch){[lS,lE]=lunch.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
-  for(let d=new Date(startDate);d<=new Date(endDate);d.setDate(d.getDate()+1)){
-    const ds=d.toISOString().slice(0,10);
-    let[sh,sm]=timeStart.split(':').map(Number);
-    const[eh,em]=timeEnd.split(':').map(Number);
-    while(sh*60+sm<eh*60+em){
-      const tot=sh*60+sm,ts=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
-      if(!lS||tot<lS||tot>=lE) slots[`${ds}_${ts.replace(':','')}`]={date:ds,time:ts,booked:false,locked:false};
-      sm+=parseInt(interval);if(sm>=60){sh+=Math.floor(sm/60);sm=sm%60;}
-    }
+  if(ln){[lS,lE]=ln.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
+  let cnt=0;
+  while(sh*60+sm<eh*60+em){
+    const tot=sh*60+sm;
+    if(!lS||tot<lS||tot>=lE)cnt++;
+    sm+=iv;if(sm>=60){sh+=Math.floor(sm/60);sm=sm%60;}
   }
-  return slots;
+  return cnt;
 }
 
-function previewSlots(){
-  const slots=getGroupSlots('c');
-  if(!slots){alert('모든 날짜 그룹의 필수 항목을 입력하세요.');return;}
-  const cnt=Object.keys(slots).length,days=[...new Set(Object.values(slots).map(x=>x.date))].length;
-  document.getElementById('preview-text').textContent=`총 ${days}일 × ${cnt}개 슬롯`;
-  document.getElementById('slot-preview').style.display='block';
+function calcPreview(p){
+  const slots=getTableSlots(p);
+  if(!slots){alert('체크된 날짜의 시작/종료 시간을 확인하세요.');return;}
+  const cnt=Object.keys(slots).length;
+  const days=[...new Set(Object.values(slots).map(s=>s.date))].length;
+  const el=document.getElementById(`${p}-preview`);
+  el.innerHTML=`✅ <b>${days}일</b> × 총 <b>${cnt}개</b> 슬롯이 생성됩니다.`;
+  el.style.display='block';
 }
 
+function getTableSlots(p){
+  const rows=document.querySelectorAll(`#${p}-tbody .date-row:not(.excluded)`);
+  if(!rows.length)return null;
+  const slots={};
+  let ok=true;
+  rows.forEach(row=>{
+    const date=row.id.replace(`${p}-row-`,'');
+    const ts=document.getElementById(`${p}-ts-${date}`)?.value;
+    const te=document.getElementById(`${p}-te-${date}`)?.value;
+    const iv=document.getElementById(`${p}-iv-${date}`)?.value||'30';
+    const ln=document.getElementById(`${p}-ln-${date}`)?.value||'';
+    if(!ts||!te){ok=false;return;}
+    let[sh,sm]=ts.split(':').map(Number);
+    const[eh,em]=te.split(':').map(Number);
+    let lS=null,lE=null;
+    if(ln){[lS,lE]=ln.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
+    while(sh*60+sm<eh*60+em){
+      const tot=sh*60+sm,t=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
+      if(!lS||tot<lS||tot>=lE) slots[`${date}_${t.replace(':','')}`]={date,time:t,booked:false,locked:false};
+      sm+=parseInt(iv);if(sm>=60){sh+=Math.floor(sm/60);sm=sm%60;}
+    }
+  });
+  return ok?slots:null;
+}
+
+/* ── 회차 생성 ── */
 function createRound(){
   const title=document.getElementById('c-title').value.trim();
   if(!title){alert('제목을 입력하세요.');return;}
-  const slots=getGroupSlots('c');
-  if(!slots||!Object.keys(slots).length){alert('날짜 그룹을 추가하고 필수 항목을 입력하세요.');return;}
+  if(document.getElementById('c-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
+  const slots=getTableSlots('c');
+  if(!slots||!Object.keys(slots).length){alert('체크된 날짜가 없거나 시간 설정을 확인하세요.');return;}
   const applyStart=document.getElementById('c-apply-start').value||null;
   const applyEnd=document.getElementById('c-apply-end').value||null;
   db.ref('rounds').push({
     title,description:document.getElementById('c-desc').value.trim(),
     active:false,applyStart,applyEnd,createdAt:new Date().toISOString(),slots
-  }).then(()=>{alert(`✅ 회차 생성 완료! (슬롯 ${Object.keys(slots).length}개)`);switchTab('rounds');});
+  }).then(()=>{
+    alert(`✅ 회차 생성 완료!\n슬롯 ${Object.keys(slots).length}개 | 날짜 ${[...new Set(Object.values(slots).map(s=>s.date))].length}일`);
+    // 초기화
+    document.getElementById('c-title').value='';document.getElementById('c-desc').value='';
+    document.getElementById('c-apply-start').value='';document.getElementById('c-apply-end').value='';
+    document.getElementById('c-range-start').value='';document.getElementById('c-range-end').value='';
+    document.getElementById('c-table-wrap').style.display='none';
+    switchTab('rounds');
+  });
 }
 
 /* ── 회차 목록 ── */
@@ -347,17 +504,19 @@ function initAdmin(){
     list.innerHTML=rounds.map(([id,r])=>{
       const total=Object.keys(r.slots||{}).length;
       const booked=Object.values(r.slots||{}).filter(s=>s.booked).length;
+      const days=[...new Set(Object.values(r.slots||{}).map(s=>s.date))].length;
       const applyInfo=r.applyStart||r.applyEnd
         ?`신청기간: ${r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞'} ~ ${r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞'} | `:'';
       return `<div class="round-item ${r.active?'active-round':''}">
         <div class="round-header">
           <div>
             <div class="round-title">${r.title} <span class="badge ${r.active?'badge-active':'badge-inactive'}">${r.active?'🟢 활성':'⚫ 비활성'}</span></div>
-            <div class="round-meta">${applyInfo}슬롯 ${total}개 | 신청 ${booked}명</div>
+            <div class="round-meta">${applyInfo}${days}일 | 슬롯 ${total}개 | 신청 ${booked}명</div>
           </div>
           <div class="round-actions">
-            ${r.active?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>
-              <button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
+            ${r.active
+              ?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>
+                <button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
               :`<button class="btn btn-success btn-sm" onclick="toggleActive('${id}',true)">활성화</button>`}
             <button class="btn btn-warning btn-sm" onclick="openEdit('${id}')">✏️ 수정</button>
             <button class="btn btn-danger btn-sm" onclick="deleteRound('${id}','${r.title.replace(/'/g,"\\'")}')">삭제</button>
@@ -367,31 +526,31 @@ function initAdmin(){
     }).join('');
   });
 }
-
 function toggleActive(id,val){
   db.ref('rounds').once('value',snap=>{
     const updates={};snap.forEach(c=>{updates[`rounds/${c.key}/active`]=false;});
-    if(val) updates[`rounds/${id}/active`]=true;
+    if(val)updates[`rounds/${id}/active`]=true;
     db.ref().update(updates);
   });
 }
 function deleteRound(id,title){
-  if(!confirm(`"${title}" 회차를 삭제하시겠습니까?`)) return;
+  if(!confirm(`"${title}" 회차를 삭제하시겠습니까?`))return;
   db.ref(`rounds/${id}`).remove();
 }
 
 /* ── 회차 수정 ── */
 function openEdit(id){
-  editingId=id;eGroupCount=0;
-  document.getElementById('e-groups').innerHTML='';
+  editingId=id;
+  document.getElementById('e-table-wrap').style.display='none';
+  document.getElementById('e-preview') && (document.getElementById('e-preview').style.display='none');
+  document.getElementById('e-regen').checked=false;
+  document.getElementById('regen-details').removeAttribute('open');
   db.ref(`rounds/${id}`).once('value',snap=>{
     const r=snap.val();
     document.getElementById('e-title').value=r.title||'';
     document.getElementById('e-desc').value=r.description||'';
     document.getElementById('e-apply-start').value=r.applyStart||'';
     document.getElementById('e-apply-end').value=r.applyEnd||'';
-    document.getElementById('e-regen').checked=false;
-    addGroup('e');
     document.getElementById('edit-overlay').classList.add('show');
   });
 }
@@ -405,9 +564,10 @@ function saveEdit(){
     applyEnd:document.getElementById('e-apply-end').value||null
   };
   if(document.getElementById('e-regen').checked){
-    const slots=getGroupSlots('e');
-    if(!slots||!Object.keys(slots).length){alert('날짜 그룹의 필수 항목을 입력하세요.');return;}
-    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.'))return;
+    if(document.getElementById('e-table-wrap').style.display==='none'){alert('슬롯 재생성을 위해 날짜 목록을 먼저 생성하세요.');return;}
+    const slots=getTableSlots('e');
+    if(!slots||!Object.keys(slots).length){alert('체크된 날짜가 없거나 시간 설정을 확인하세요.');return;}
+    if(!confirm('기존 신청 데이터가 모두 초기화됩니다. 계속하시겠습니까?'))return;
     updates.slots=slots;
   }
   db.ref(`rounds/${editingId}`).update(updates).then(()=>{alert('✅ 수정되었습니다.');closeEdit();});
@@ -425,13 +585,12 @@ function renderStatusGrid(){
       const total=Object.keys(r.slots||{}).length;
       return `<div class="round-card ${selectedStatusRound===id?'selected':''}" onclick="selectStatusRound('${id}','${r.title.replace(/'/g,"\\'")}')">
         <div class="rc-title">${r.title}${r.active?' 🟢':''}</div>
-        <div class="rc-meta">신청 ${booked} / ${total}명</div>
+        <div class="rc-meta">신청 ${booked} / ${total}</div>
       </div>`;
     }).join('');
     if(!selectedStatusRound){const a=rounds.find(([,r])=>r.active);if(a)selectStatusRound(a[0],a[1].title);}
   });
 }
-
 function selectStatusRound(id,title){
   selectedStatusRound=id;statusFilterDate='all';
   document.querySelectorAll('.round-card').forEach(c=>c.classList.remove('selected'));
@@ -443,7 +602,6 @@ function selectStatusRound(id,title){
     statusAllSlots=snap.val()||{};renderStatusTable();renderDateFilter();
   });
 }
-
 function renderDateFilter(){
   const dates=[...new Set(Object.values(statusAllSlots).map(s=>s.date))].sort();
   const tabs=document.getElementById('date-filter-tabs');
@@ -451,7 +609,6 @@ function renderDateFilter(){
     +dates.map(d=>`<div class="dft ${statusFilterDate===d?'active':''}" onclick="filterByDate('${d}')">${d.slice(5)}</div>`).join('');
 }
 function filterByDate(date){statusFilterDate=date;renderDateFilter();renderStatusTable();}
-
 function renderStatusTable(){
   const all=Object.values(statusAllSlots);
   const booked=all.filter(s=>s.booked);
@@ -468,7 +625,7 @@ function renderStatusTable(){
     return `<tr>
       <td>${s.date}</td><td>${s.time}</td><td>${s.bookedBy||'-'}</td>
       <td>${s.bookedExtra||'-'}</td><td>${s.bookedContact||'-'}</td>
-      <td><b style="font-size:1rem;letter-spacing:2px">${s.confirmCode||'-'}</b></td>
+      <td><b style="letter-spacing:2px">${s.confirmCode||'-'}</b></td>
       <td style="white-space:nowrap">${(s.bookedAt||'').slice(0,16).replace('T',' ')}</td>
       <td><button class="btn btn-danger btn-sm" onclick="adminCancel('${selectedStatusRound}','${sKey}')">취소</button></td>
     </tr>`;
@@ -507,12 +664,12 @@ function loadSlotMgmt(){
     const slots=snap.val()||{};
     const dates=[...new Set(Object.values(slots).map(s=>s.date))].sort();
     if(!dates.length){content.innerHTML='<div class="empty">슬롯이 없습니다.</div>';return;}
-    let html='<div style="overflow-x:auto"><table><thead><tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr></thead><tbody>';
+    let html='<div style="overflow-x:auto"><table class="status-table"><thead><tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr></thead><tbody>';
     dates.forEach(date=>{
       Object.entries(slots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time))
         .forEach(([key,s])=>{
           const status=s.locked?'🔒 잠금':(s.booked?`✅ 신청됨 (${s.bookedBy})`:'⭕ 가능');
-          const btn=s.booked?'':s.locked
+          const btn=s.booked?'-':s.locked
             ?`<button class="btn btn-success btn-sm" onclick="toggleLock('${id}','${key}',false)">해제</button>`
             :`<button class="btn btn-warning btn-sm" onclick="toggleLock('${id}','${key}',true)">잠금</button>`;
           html+=`<tr><td>${s.date}</td><td>${s.time}</td><td>${status}</td><td>${btn}</td></tr>`;
