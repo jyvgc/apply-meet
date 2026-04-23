@@ -7,6 +7,6 @@ const firebaseConfig = {
   messagingSenderId: "975374539952",
   appId: "1:975374539952:web:e78290008b25970be1ef75"
 };
-const ADMIN_PASSWORD = "game1234";
+const ADMIN_PASSWORD = "admin1234";
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
