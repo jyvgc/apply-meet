@@ -176,6 +176,10 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 let activeRound=null, allSlots={}, selectedDate=null;
 let myCode=null, mySlotKey=null, isChangeMode=false, datesBuilt=false;
 
+// URL 파라미터 ?id= 확인
+const urlParams = new URLSearchParams(location.search);
+const roundIdParam = urlParams.get('id');
+
 function formatDate(d){
   const[,m,dd]=d.split('-');
   return `${m}/${dd}(${'일월화수목금토'[new Date(d).getDay()]})`;
@@ -194,15 +198,8 @@ function startCountdown(endStr){
   })();
 }
 
-db.ref('rounds').orderByChild('active').equalTo(true).limitToLast(1).once('value',snap=>{
-  const data=snap.val();
-  if(!data){
-    document.getElementById('prog-title').textContent='현재 신청 가능한 프로그램이 없습니다';
-    document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>🔒 준비 중</h2><p>현재 진행 중인 신청 프로그램이 없습니다.</p></div>';
-    return;
-  }
-  const key=Object.keys(data)[0];
-  activeRound={id:key,...data[key]};
+function initRound(key, roundData){
+  activeRound={id:key,...roundData};
   document.getElementById('prog-title').textContent=activeRound.title||'신청 프로그램';
   document.getElementById('prog-desc').textContent=activeRound.description||'';
   const now=Date.now(),applyStart=toTs(activeRound.applyStart),applyEnd=toTs(activeRound.applyEnd);
@@ -224,7 +221,31 @@ db.ref('rounds').orderByChild('active').equalTo(true).limitToLast(1).once('value
     if(!datesBuilt){buildDateTabs();datesBuilt=true;}
     renderSlots(selectedDate);
   });
-});
+}
+
+// ?id= 파라미터가 있으면 해당 회차, 없으면 활성 회차 로드
+if(roundIdParam){
+  db.ref(`rounds/${roundIdParam}`).once('value', snap=>{
+    const data=snap.val();
+    if(!data){
+      document.getElementById('prog-title').textContent='존재하지 않는 신청 페이지입니다';
+      document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>❌ 찾을 수 없음</h2><p>유효하지 않은 신청 URL입니다.<br>관리자에게 문의하세요.</p></div>';
+      return;
+    }
+    initRound(roundIdParam, data);
+  });
+} else {
+  db.ref('rounds').orderByChild('active').equalTo(true).limitToLast(1).once('value',snap=>{
+    const data=snap.val();
+    if(!data){
+      document.getElementById('prog-title').textContent='현재 신청 가능한 프로그램이 없습니다';
+      document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>🔒 준비 중</h2><p>현재 진행 중인 신청 프로그램이 없습니다.</p></div>';
+      return;
+    }
+    const key=Object.keys(data)[0];
+    initRound(key, data[key]);
+  });
+}
 
 function buildDateTabs(){
   const dates=[...new Set(Object.values(allSlots).map(s=>s.date))].sort();

@@ -661,6 +661,22 @@ function deleteRound(id,title){
   db.ref(`rounds/${id}`).remove();
 }
 
+function copyRoundUrl(id, title){
+  const base = location.href.replace('admin.html','index.html').split('?')[0];
+  const url = `${base}?id=${id}`;
+  navigator.clipboard.writeText(url).then(()=>{
+    alert(`✅ URL이 복사되었습니다!
+
+📋 "${title}" 신청 URL:
+${url}
+
+이 URL을 신청자에게 공유하세요.`);
+  }).catch(()=>{
+    // 클립보드 API 실패 시 직접 표시
+    prompt(`📋 "${title}" 신청 URL (직접 복사하세요):`, url);
+  });
+}
+
 /* ═══ 회차 수정 ═══ */
 function openEdit(id){
   editingId=id;
