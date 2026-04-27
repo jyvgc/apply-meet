@@ -43,11 +43,29 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .btn-link{background:#e8f0fb;color:#2d6a9f}.btn-link:hover{background:#2d6a9f;color:#fff}
 .btn-sm{padding:5px 12px;font-size:.78rem}
 .btn-outline{background:#fff;color:#2d6a9f;border:1.5px solid #2d6a9f}.btn-outline:hover{background:#2d6a9f;color:#fff}
+.btn-purple{background:#f3e5f5;color:#6a1b9a}.btn-purple:hover{background:#6a1b9a;color:#fff}
 
-/* ── 날짜 테이블 ── */
+/* 신청서 항목 편집기 */
+.fields-editor{background:#f8f9fa;border-radius:10px;padding:16px;border:1.5px solid #e0e0e0}
+.fields-editor .editor-title{font-size:.9rem;font-weight:700;color:#1e3a5f;margin-bottom:10px}
+.fixed-fields-row{background:#e8f0fb;border-radius:7px;padding:10px 14px;font-size:.83rem;color:#555;margin-bottom:10px;line-height:1.7}
+.fixed-fields-row b{color:#1e3a5f}
+.custom-field-row{display:flex;gap:8px;align-items:center;background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid #e0e0e0}
+.custom-field-row .cf-label{flex:2;min-width:0}
+.custom-field-row .cf-ph{flex:3;min-width:0}
+.custom-field-row .cf-req-wrap{display:flex;align-items:center;gap:4px;font-size:.78rem;color:#555;white-space:nowrap}
+.custom-field-row input[type="text"]{padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:.82rem;width:100%}
+.custom-field-row input[type="text"]:focus{outline:none;border-color:#2d6a9f}
+.custom-field-row input[type="checkbox"]{width:14px;height:14px;accent-color:#2d6a9f}
+.btn-remove-field{padding:4px 9px;border:none;background:#fce4ec;color:#c62828;border-radius:5px;font-size:.78rem;cursor:pointer;white-space:nowrap}
+.btn-remove-field:hover{background:#e53935;color:#fff}
+.btn-add-field{width:100%;padding:8px;border:2px dashed #2d6a9f;border-radius:7px;background:#e8f0fb;color:#2d6a9f;font-size:.85rem;font-weight:700;cursor:pointer;margin-top:6px}
+.btn-add-field:hover{background:#2d6a9f;color:#fff}
+
+/* 날짜 슬롯 테이블 */
 .slot-table-wrap{margin-top:14px;overflow-x:auto;border-radius:10px;border:1.5px solid #e0e0e0}
 .slot-table{width:100%;border-collapse:collapse;min-width:680px}
-.slot-table th{padding:10px 10px;text-align:center;font-size:.8rem;font-weight:700;white-space:nowrap;background:#1e3a5f;color:#fff}
+.slot-table th{padding:9px 10px;text-align:center;font-size:.8rem;font-weight:700;white-space:nowrap;background:#1e3a5f;color:#fff}
 .slot-table th:first-child{border-radius:9px 0 0 0}.slot-table th:last-child{border-radius:0 9px 0 0}
 .slot-table td{padding:7px 8px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
 .bulk-row td{background:#e8f0fb;font-weight:700}
@@ -60,7 +78,7 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .day-badge{display:inline-block;width:26px;height:26px;border-radius:50%;font-size:.78rem;font-weight:700;line-height:26px;text-align:center}
 .day-0,.day-6{background:#fce4ec;color:#c62828}
 .day-1,.day-2,.day-3,.day-4,.day-5{background:#e8f0fb;color:#1e3a5f}
-.preview-summary{background:#e8f5e9;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#2e7d32;display:none;line-height:1.8}
+.preview-summary{background:#e8f5e9;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#2e7d32;display:none}
 .help-tip{font-size:.78rem;color:#888;margin-top:3px}
 
 /* 회차 목록 */
@@ -74,7 +92,7 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .badge-active{background:#e8f5e9;color:#2e7d32}
 .badge-inactive{background:#f5f5f5;color:#9e9e9e}
 
-/* ── 신청현황 ── */
+/* 신청현황 */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .stat-box{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .stat-num{font-size:1.8rem;font-weight:700;color:#2d6a9f}
@@ -94,38 +112,30 @@ table.status-table tr:hover td{background:#e8f0fb}
 .date-filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
 .dft{padding:5px 13px;border-radius:14px;border:1.5px solid #ddd;cursor:pointer;font-size:.8rem;color:#666;background:#fff;transition:all .2s}
 .dft.active{background:#2d6a9f;color:#fff;border-color:#2d6a9f}
-
-/* 뷰 전환 토글 */
-.view-toggle{display:flex;gap:0;border:1.5px solid #2d6a9f;border-radius:8px;overflow:hidden;margin-bottom:16px;width:fit-content}
+.view-toggle{display:flex;border:1.5px solid #2d6a9f;border-radius:8px;overflow:hidden;margin-bottom:14px;width:fit-content}
 .view-btn{padding:7px 18px;border:none;background:#fff;color:#2d6a9f;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
 .view-btn.active{background:#2d6a9f;color:#fff}
 .view-btn:not(:last-child){border-right:1.5px solid #2d6a9f}
-
-/* ── 슬롯 뷰 (관리자용) ── */
 .adm-date-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .adm-date-tab{padding:8px 16px;border-radius:20px;border:2px solid #2d6a9f;cursor:pointer;font-size:.88rem;color:#2d6a9f;background:#fff;transition:all .2s}
 .adm-date-tab.active{background:#2d6a9f;color:#fff}
-.adm-date-tab:hover:not(.active){background:#e8f0fb}
-.adm-slots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
-/* 가능 슬롯 */
-.adm-slot{border-radius:12px;border:2px solid;padding:14px 12px;font-size:.85rem;line-height:1.7;transition:all .2s}
-.adm-slot.avail{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;text-align:center;font-weight:700;font-size:.9rem}
+.adm-slots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.adm-slot{border-radius:12px;border:2px solid;padding:14px 12px;font-size:.85rem;line-height:1.7}
+.adm-slot.avail{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;text-align:center;font-weight:700}
 .adm-slot.locked{background:#fce4ec;border-color:#ef9a9a;color:#c62828;text-align:center;font-size:.82rem}
-/* 신청된 슬롯 */
 .adm-slot.filled{background:#fff;border-color:#2d6a9f;box-shadow:0 2px 8px rgba(45,106,159,.12)}
-.adm-slot.filled .slot-time{font-size:1rem;font-weight:900;color:#1e3a5f;margin-bottom:6px}
-.adm-slot.filled .slot-info{font-size:.82rem;color:#333;line-height:1.8}
-.adm-slot.filled .slot-info span{color:#888;font-size:.76rem;margin-right:4px}
-.adm-slot.filled .slot-cancel{margin-top:8px;width:100%;padding:5px;border:none;border-radius:6px;background:#fce4ec;color:#c62828;font-size:.78rem;font-weight:700;cursor:pointer}
+.adm-slot.filled .slot-time{font-size:1rem;font-weight:900;color:#1e3a5f;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8f0fb}
+.adm-slot.filled .slot-info{font-size:.82rem;color:#333;line-height:1.9}
+.adm-slot.filled .slot-info .si-row{display:flex;gap:6px}
+.adm-slot.filled .slot-info .si-key{color:#888;font-size:.75rem;min-width:52px;padding-top:2px}
+.adm-slot.filled .slot-info .si-val{color:#1e3a5f;font-weight:600;word-break:break-all}
+.adm-slot.filled .slot-cancel{margin-top:10px;width:100%;padding:5px;border:none;border-radius:6px;background:#fce4ec;color:#c62828;font-size:.78rem;font-weight:700;cursor:pointer}
 .adm-slot.filled .slot-cancel:hover{background:#e53935;color:#fff}
-
-/* 모달 */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center;padding:16px}
 .overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal h2{font-size:1.1rem;color:#1e3a5f;margin-bottom:16px}
-
-@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
+@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.custom-field-row{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -166,15 +176,27 @@ table.status-table tr:hover td{background:#e8f0fb}
     <div class="card">
       <h2>새 신청 회차 만들기</h2>
       <div class="form-group"><label>프로그램 제목 *</label><input type="text" id="c-title" placeholder="예) 2025 면접 일정 신청"></div>
-      <div class="form-group"><label>안내 본문</label><textarea id="c-desc" placeholder="신청자에게 보여줄 안내 내용을 입력하세요."></textarea></div>
+      <div class="form-group"><label>안내 본문</label><textarea id="c-desc" placeholder="신청자에게 보여줄 안내 내용"></textarea></div>
       <div class="form-row">
         <div class="form-group"><label>📅 신청 시작 일시</label><input type="datetime-local" id="c-apply-start"></div>
         <div class="form-group"><label>⏰ 신청 마감 일시</label><input type="datetime-local" id="c-apply-end"></div>
       </div>
+
+      <!-- 신청서 항목 편집 -->
+      <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
+      <div class="fields-editor">
+        <div class="editor-title">📝 신청서 항목 설정</div>
+        <div class="fixed-fields-row">
+          🔒 기본 포함 항목 (편집 불가): <b>이름</b> (필수) &nbsp;|&nbsp; <b>비밀번호</b> (필수, 조회·취소용)
+        </div>
+        <div id="c-fields-list"></div>
+        <button class="btn-add-field" onclick="addField('c')">+ 항목 추가 (학번, 연락처, 수험번호 등)</button>
+      </div>
+
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
       <p style="font-size:.95rem;font-weight:700;color:#1e3a5f;margin-bottom:4px">⏱ 날짜별 시간 슬롯 설정</p>
       <p class="help-tip">① 날짜 범위 입력 후 '목록 생성' → ② 일괄 적용 → ③ 개별 날짜 수정</p>
-      <div style="display:flex;gap:10px;align-items:flex-end;margin-top:12px;flex-wrap:wrap">
+      <div style="display:flex;gap:10px;align-items:flex-end;margin-top:10px;flex-wrap:wrap">
         <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>시작 날짜 *</label><input type="date" id="c-range-start"></div>
         <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>종료 날짜 *</label><input type="date" id="c-range-end"></div>
         <button class="btn btn-outline" style="height:38px" onclick="generateTable('c')">📋 목록 생성</button>
@@ -208,11 +230,9 @@ table.status-table tr:hover td{background:#e8f0fb}
         <div class="stat-box"><div class="stat-num" id="stat-remain">-</div><div class="stat-label">잔여 슬롯</div></div>
         <div class="stat-box"><div class="stat-num" id="stat-rate">-</div><div class="stat-label">신청률</div></div>
       </div>
-
-      <!-- 뷰 전환 -->
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:4px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:10px">
         <h3 id="status-title" style="font-size:1rem;font-weight:700;color:#1e3a5f"></h3>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <div class="view-toggle">
             <button class="view-btn active" id="vbtn-slot" onclick="setView('slot')">🗓 슬롯 보기</button>
             <button class="view-btn" id="vbtn-list" onclick="setView('list')">📋 목록 보기</button>
@@ -220,24 +240,14 @@ table.status-table tr:hover td{background:#e8f0fb}
           <button class="btn btn-success btn-sm" onclick="exportCSV()">📥 CSV 내보내기</button>
         </div>
       </div>
-
-      <!-- 날짜 필터 (공통) -->
       <div class="date-filter-tabs" id="date-filter-tabs"></div>
-
-      <!-- 슬롯 뷰 -->
-      <div id="view-slot">
-        <div class="adm-slots-grid" id="adm-slots-grid"></div>
-      </div>
-
-      <!-- 목록 뷰 -->
+      <div id="view-slot"><div class="adm-slots-grid" id="adm-slots-grid"></div></div>
       <div id="view-list" style="display:none">
-        <div class="card" style="padding:0;overflow:hidden">
-          <div style="overflow-x:auto">
-            <table class="status-table">
-              <thead><tr><th>날짜</th><th>시간</th><th>이름</th><th>추가정보</th><th>연락처</th><th>확인번호</th><th>신청시각</th><th>관리</th></tr></thead>
-              <tbody id="status-tbody"></tbody>
-            </table>
-          </div>
+        <div style="overflow-x:auto">
+          <table class="status-table">
+            <thead><tr id="status-thead-row"></tr></thead>
+            <tbody id="status-tbody"></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -268,10 +278,18 @@ table.status-table tr:hover td{background:#e8f0fb}
       <div class="form-group"><label>신청 시작 일시</label><input type="datetime-local" id="e-apply-start"></div>
       <div class="form-group"><label>신청 마감 일시</label><input type="datetime-local" id="e-apply-end"></div>
     </div>
+    <!-- 신청서 항목 편집 -->
+    <div class="fields-editor" style="margin-bottom:14px">
+      <div class="editor-title">📝 신청서 항목 설정</div>
+      <div class="fixed-fields-row">
+        🔒 기본 포함: <b>이름</b> (필수) &nbsp;|&nbsp; <b>비밀번호</b> (필수)
+      </div>
+      <div id="e-fields-list"></div>
+      <button class="btn-add-field" onclick="addField('e')">+ 항목 추가</button>
+    </div>
     <details id="regen-details" style="margin-bottom:14px">
-      <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">🔄 시간 슬롯 재생성 (기존 신청 데이터 초기화됨)</summary>
+      <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">🔄 시간 슬롯 재생성 (기존 신청 초기화됨)</summary>
       <div style="padding-top:12px">
-        <p class="help-tip" style="margin-bottom:10px">① 날짜 범위 입력 후 '목록 생성' → ② 일괄 적용 → ③ 저장</p>
         <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
           <div class="form-group" style="margin:0;flex:1;min-width:120px"><label>시작 날짜</label><input type="date" id="e-range-start"></div>
           <div class="form-group" style="margin:0;flex:1;min-width:120px"><label>종료 날짜</label><input type="date" id="e-range-end"></div>
@@ -289,7 +307,7 @@ table.status-table tr:hover td{background:#e8f0fb}
           </div>
           <div class="preview-summary" id="e-preview"></div>
           <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#e65100;cursor:pointer;margin-top:10px">
-            <input type="checkbox" id="e-regen"> 슬롯 재생성 확인 (체크 시 기존 신청 초기화)
+            <input type="checkbox" id="e-regen"> 슬롯 재생성 확인 (기존 신청 초기화)
           </label>
         </div>
       </div>
@@ -307,7 +325,9 @@ const LUNCH_OPTS={'':'없음','12:00-13:00':'12:00~13:00','12:30-13:30':'12:30~1
 const IV_OPTS=[10,15,20,30,60];
 let editingId=null, statusListener=null, selectedStatusRound=null;
 let statusAllSlots={}, statusFilterDate='all', currentView='slot', admSelectedDate=null;
+let statusRoundData=null; // 현재 선택된 회차 데이터 (formFields 포함)
 
+/* ── 로그인 ── */
 function doLogin(){
   if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
     document.getElementById('login-wrap').style.display='none';
@@ -329,148 +349,159 @@ function switchTab(name){
   if(name==='slots') populateSlotRoundSelect();
 }
 
-/* ═══ 뷰 전환 ═══ */
-function setView(v){
-  currentView=v;
-  document.getElementById('vbtn-slot').classList.toggle('active',v==='slot');
-  document.getElementById('vbtn-list').classList.toggle('active',v==='list');
-  document.getElementById('view-slot').style.display=v==='slot'?'block':'none';
-  document.getElementById('view-list').style.display=v==='list'?'block':'none';
-  renderCurrentView();
+/* ══ 신청서 항목 편집기 ══ */
+let fieldCounters={c:0, e:0};
+function addField(p){
+  const idx=fieldCounters[p]++;
+  const row=document.createElement('div');
+  row.className='custom-field-row';
+  row.id=`${p}-field-${idx}`;
+  row.innerHTML=`
+    <input type="text" class="cf-label" placeholder="항목명 (예: 학번)" title="항목명">
+    <input type="text" class="cf-ph" placeholder="입력 안내문구" title="안내문구">
+    <label class="cf-req-wrap"><input type="checkbox" class="fl-req"> 필수</label>
+    <button class="btn-remove-field" onclick="document.getElementById('${p}-field-${idx}').remove()">✕</button>`;
+  document.getElementById(`${p}-fields-list`).appendChild(row);
 }
-function renderCurrentView(){
-  if(currentView==='slot') renderAdmSlots();
-  else renderStatusTable();
+function getFormFields(p){
+  const rows=document.querySelectorAll(`#${p}-fields-list .custom-field-row`);
+  return Array.from(rows).map(row=>({
+    label:row.querySelector('.cf-label').value.trim(),
+    placeholder:row.querySelector('.cf-ph').value.trim(),
+    required:row.querySelector('.fl-req').checked
+  })).filter(f=>f.label);
 }
-
-/* ═══ 날짜 필터 ═══ */
-function renderDateFilter(){
-  const dates=[...new Set(Object.values(statusAllSlots).map(s=>s.date))].sort();
-  admSelectedDate = admSelectedDate || dates[0];
-  const tabs=document.getElementById('date-filter-tabs');
-  if(currentView==='list'){
-    tabs.innerHTML=`<div class="dft ${statusFilterDate==='all'?'active':''}" onclick="filterByDate('all')">전체</div>`
-      +dates.map(d=>`<div class="dft ${statusFilterDate===d?'active':''}" onclick="filterByDate('${d}')">${d.slice(5)}</div>`).join('');
-  } else {
-    tabs.innerHTML=dates.map(d=>
-      `<div class="adm-date-tab${d===admSelectedDate?' active':''}" onclick="selectAdmDate('${d}')">${formatDate(d)}</div>`
-    ).join('');
-  }
-}
-function filterByDate(date){statusFilterDate=date;renderDateFilter();renderStatusTable();}
-function selectAdmDate(date){admSelectedDate=date;renderDateFilter();renderAdmSlots();}
-function formatDate(d){const[,m,dd]=d.split('-');return `${m}/${dd}(${'일월화수목금토'[new Date(d).getDay()]})`;}
-
-/* ═══ 슬롯 뷰 (관리자) ═══ */
-function renderAdmSlots(){
-  const grid=document.getElementById('adm-slots-grid');
-  const date=admSelectedDate;
-  if(!date){grid.innerHTML='<div style="color:#aaa;padding:20px">날짜를 선택하세요</div>';return;}
-  const filtered=Object.entries(statusAllSlots)
-    .filter(([,s])=>s.date===date)
-    .sort(([,a],[,b])=>a.time.localeCompare(b.time));
-  if(!filtered.length){grid.innerHTML='<div style="color:#aaa;padding:20px">슬롯이 없습니다</div>';return;}
-  grid.innerHTML=filtered.map(([key,s])=>{
-    if(s.locked) return `<div class="adm-slot locked">🔒 ${s.time}<br><small>잠금됨</small></div>`;
-    if(!s.booked) return `<div class="adm-slot avail">🟢 ${s.time}<br><small>신청 가능</small></div>`;
-    const at=(s.bookedAt||'').slice(0,16).replace('T',' ');
-    return `<div class="adm-slot filled">
-      <div class="slot-time">🕐 ${s.time}</div>
-      <div class="slot-info">
-        <div><span>이름</span><b>${s.bookedBy||'-'}</b></div>
-        <div><span>연락처</span>${s.bookedContact||'-'}</div>
-        <div><span>추가정보</span>${s.bookedExtra||'-'}</div>
-        <div><span>확인번호</span>${s.confirmCode||'-'}</div>
-        <div><span>신청시각</span>${at}</div>
-      </div>
-      <button class="slot-cancel" onclick="adminCancel('${selectedStatusRound}','${key}')">✕ 신청 취소</button>
-    </div>`;
-  }).join('');
+function loadFormFields(p, fields){
+  document.getElementById(`${p}-fields-list`).innerHTML='';
+  fieldCounters[p]=0;
+  (fields||[]).forEach(f=>{
+    addField(p);
+    const idx=fieldCounters[p]-1;
+    const row=document.getElementById(`${p}-field-${idx}`);
+    row.querySelector('.cf-label').value=f.label||'';
+    row.querySelector('.cf-ph').value=f.placeholder||'';
+    row.querySelector('.fl-req').checked=!!f.required;
+  });
 }
 
-/* ═══ 목록 뷰 ═══ */
-function renderStatusTable(){
-  const all=Object.values(statusAllSlots);
-  const booked=all.filter(s=>s.booked);
-  document.getElementById('stat-total').textContent=all.length;
-  document.getElementById('stat-booked').textContent=booked.length;
-  document.getElementById('stat-remain').textContent=all.length-booked.length;
-  document.getElementById('stat-rate').textContent=all.length?Math.round(booked.length/all.length*100)+'%':'-';
-  const filtered=(statusFilterDate==='all'?booked:booked.filter(s=>s.date===statusFilterDate))
-    .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-  const tbody=document.getElementById('status-tbody');
-  if(!filtered.length){tbody.innerHTML='<tr><td colspan="8" class="empty">신청자가 없습니다.</td></tr>';return;}
-  tbody.innerHTML=filtered.map(s=>{
-    const sKey=Object.entries(statusAllSlots).find(([,v])=>v.date===s.date&&v.time===s.time)?.[0]||'';
-    return `<tr>
-      <td>${s.date}</td><td>${s.time}</td><td>${s.bookedBy||'-'}</td>
-      <td>${s.bookedExtra||'-'}</td><td>${s.bookedContact||'-'}</td>
-      <td><b style="letter-spacing:1px">${s.confirmCode||'-'}</b></td>
-      <td style="white-space:nowrap">${(s.bookedAt||'').slice(0,16).replace('T',' ')}</td>
-      <td><button class="btn btn-danger btn-sm" onclick="adminCancel('${selectedStatusRound}','${sKey}')">취소</button></td>
-    </tr>`;
-  }).join('');
+/* ══ URL 복사 ══ */
+function copyRoundUrl(id, title){
+  const path=window.location.pathname.replace(/\/admin\.html(\?.*)?$/, '/index.html');
+  const url=window.location.origin + path + '?id=' + id;
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(()=>{
+      alert(`✅ URL이 복사되었습니다!\n\n"${title}" 신청 URL:\n${url}`);
+    }).catch(()=>{ prompt(`URL을 직접 복사하세요:`, url); });
+  } else { prompt(`URL을 직접 복사하세요:`, url); }
 }
 
-function adminCancel(roundId,slotKey){
-  if(!confirm('이 신청을 취소하시겠습니까?'))return;
-  db.ref(`rounds/${roundId}/slots/${slotKey}`)
-    .update({booked:false,bookedBy:null,bookedExtra:null,bookedContact:null,confirmCode:null,bookedAt:null});
-}
-function exportCSV(){
-  const rows=[...document.getElementById('status-tbody').querySelectorAll('tr')]
-    .map(tr=>[...tr.querySelectorAll('td')].slice(0,7).map(td=>`"${td.textContent.trim()}"`).join(','))
-    .filter(r=>!r.includes('신청자가'));
-  if(!rows.length){alert('데이터가 없습니다.');return;}
-  const csv='\uFEFF'+['"날짜","시간","이름","추가정보","연락처","확인번호","신청시각"',...rows].join('\n');
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`신청현황_${new Date().toISOString().slice(0,10)}.csv`;a.click();
-}
-
-/* ═══ 회차 카드 ═══ */
-function renderStatusGrid(){
-  db.ref('rounds').once('value',snap=>{
+/* ══ 회차 목록 ══ */
+function initAdmin(){
+  db.ref('rounds').on('value',snap=>{
     const data=snap.val()||{};
-    const grid=document.getElementById('status-round-grid');
+    const list=document.getElementById('rounds-list');
     const rounds=Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''));
-    if(!rounds.length){grid.innerHTML='<div style="color:#aaa">회차가 없습니다.</div>';return;}
-    grid.innerHTML=rounds.map(([id,r])=>{
-      const booked=Object.values(r.slots||{}).filter(s=>s.booked).length;
+    if(!rounds.length){list.innerHTML='<div class="empty">회차가 없습니다.</div>';return;}
+    list.innerHTML=rounds.map(([id,r])=>{
       const total=Object.keys(r.slots||{}).length;
-      return `<div class="round-card ${selectedStatusRound===id?'selected':''}" onclick="selectStatusRound('${id}','${r.title.replace(/'/g,"\\'")}')">
-        <div class="rc-title">${r.title}${r.active?' 🟢':''}</div>
-        <div class="rc-meta">신청 ${booked} / ${total}</div>
+      const booked=Object.values(r.slots||{}).filter(s=>s.booked).length;
+      const days=[...new Set(Object.values(r.slots||{}).map(s=>s.date))].length;
+      const applyInfo=r.applyStart||r.applyEnd
+        ?`신청기간: ${r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞'} ~ ${r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞'} | `:'';
+      const fieldCount=(r.formFields||[]).length;
+      return `<div class="round-item ${r.active?'active-round':''}">
+        <div class="round-header">
+          <div>
+            <div class="round-title">${r.title} <span class="badge ${r.active?'badge-active':'badge-inactive'}">${r.active?'🟢 활성':'⚫ 비활성'}</span></div>
+            <div class="round-meta">${applyInfo}${days}일 | 슬롯 ${total}개 | 신청 ${booked}명 | 신청서 항목 ${2+fieldCount}개</div>
+          </div>
+          <div class="round-actions">
+            ${r.active
+              ?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>
+                <button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
+              :`<button class="btn btn-success btn-sm" onclick="toggleActive('${id}',true)">활성화</button>`}
+            <button class="btn btn-purple btn-sm" onclick="copyRoundUrl('${id}','${r.title.replace(/'/g,"\\'")}')">📋 URL 복사</button>
+            <button class="btn btn-warning btn-sm" onclick="openEdit('${id}')">✏️ 수정</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteRound('${id}','${r.title.replace(/'/g,"\\'")}')">삭제</button>
+          </div>
+        </div>
       </div>`;
     }).join('');
-    if(!selectedStatusRound){const a=rounds.find(([,r])=>r.active);if(a)selectStatusRound(a[0],a[1].title);}
+  });
+}
+function toggleActive(id,val){
+  db.ref('rounds').once('value',snap=>{
+    const updates={};snap.forEach(c=>{updates[`rounds/${c.key}/active`]=false;});
+    if(val)updates[`rounds/${id}/active`]=true;
+    db.ref().update(updates);
+  });
+}
+function deleteRound(id,title){
+  if(!confirm(`"${title}" 회차를 삭제하시겠습니까?`))return;
+  db.ref(`rounds/${id}`).remove();
+}
+
+/* ══ 회차 수정 ══ */
+function openEdit(id){
+  editingId=id;
+  document.getElementById('e-table-wrap').style.display='none';
+  document.getElementById('e-preview').style.display='none';
+  document.getElementById('e-regen').checked=false;
+  document.getElementById('regen-details').removeAttribute('open');
+  db.ref(`rounds/${id}`).once('value',snap=>{
+    const r=snap.val();
+    document.getElementById('e-title').value=r.title||'';
+    document.getElementById('e-desc').value=r.description||'';
+    document.getElementById('e-apply-start').value=r.applyStart||'';
+    document.getElementById('e-apply-end').value=r.applyEnd||'';
+    loadFormFields('e', r.formFields||[]);
+    document.getElementById('edit-overlay').classList.add('show');
+  });
+}
+function closeEdit(){document.getElementById('edit-overlay').classList.remove('show');editingId=null;}
+function saveEdit(){
+  const title=document.getElementById('e-title').value.trim();
+  if(!title){alert('제목을 입력하세요.');return;}
+  const updates={
+    title, description:document.getElementById('e-desc').value.trim(),
+    applyStart:document.getElementById('e-apply-start').value||null,
+    applyEnd:document.getElementById('e-apply-end').value||null,
+    formFields:getFormFields('e')
+  };
+  if(document.getElementById('e-regen').checked){
+    if(document.getElementById('e-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
+    const slots=getTableSlots('e');
+    if(!slots||!Object.keys(slots).length){alert('시간 설정을 확인하세요.');return;}
+    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.'))return;
+    updates.slots=slots;
+  }
+  db.ref(`rounds/${editingId}`).update(updates).then(()=>{alert('✅ 수정되었습니다.');closeEdit();});
+}
+
+/* ══ 회차 생성 ══ */
+function createRound(){
+  const title=document.getElementById('c-title').value.trim();
+  if(!title){alert('제목을 입력하세요.');return;}
+  if(document.getElementById('c-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
+  const slots=getTableSlots('c');
+  if(!slots||!Object.keys(slots).length){alert('시간 설정을 확인하세요.');return;}
+  const applyStart=document.getElementById('c-apply-start').value||null;
+  const applyEnd=document.getElementById('c-apply-end').value||null;
+  const formFields=getFormFields('c');
+  db.ref('rounds').push({
+    title, description:document.getElementById('c-desc').value.trim(),
+    active:false, applyStart, applyEnd, formFields,
+    createdAt:new Date().toISOString(), slots
+  }).then(()=>{
+    alert(`✅ 회차 생성 완료!\n슬롯 ${Object.keys(slots).length}개 | 신청서 항목 ${2+formFields.length}개`);
+    ['c-title','c-desc','c-apply-start','c-apply-end','c-range-start','c-range-end'].forEach(id=>{document.getElementById(id).value='';});
+    document.getElementById('c-fields-list').innerHTML='';
+    document.getElementById('c-table-wrap').style.display='none';
+    switchTab('rounds');
   });
 }
 
-function selectStatusRound(id,title){
-  selectedStatusRound=id;statusFilterDate='all';admSelectedDate=null;
-  document.querySelectorAll('.round-card').forEach(c=>c.classList.remove('selected'));
-  event&&event.currentTarget&&event.currentTarget.classList.add('selected');
-  document.getElementById('status-content').style.display='block';
-  document.getElementById('status-title').textContent=title;
-  if(statusListener){db.ref(`rounds/${selectedStatusRound}/slots`).off('value');statusListener=null;}
-  statusListener=db.ref(`rounds/${id}/slots`).on('value',snap=>{
-    statusAllSlots=snap.val()||{};
-    // stat 업데이트
-    const all=Object.values(statusAllSlots),booked=all.filter(s=>s.booked);
-    document.getElementById('stat-total').textContent=all.length;
-    document.getElementById('stat-booked').textContent=booked.length;
-    document.getElementById('stat-remain').textContent=all.length-booked.length;
-    document.getElementById('stat-rate').textContent=all.length?Math.round(booked.length/all.length*100)+'%':'-';
-    if(!admSelectedDate){
-      const dates=[...new Set(Object.values(statusAllSlots).map(s=>s.date))].sort();
-      admSelectedDate=dates[0]||null;
-    }
-    renderDateFilter();
-    renderCurrentView();
-  });
-}
-
-/* ═══ 날짜 테이블 UI ═══ */
+/* ══ 날짜 테이블 ══ */
 function lunchSelect(id,val){
   return `<select id="${id}" onchange="updateRowCount(this)" style="font-size:.78rem">
     ${Object.entries(LUNCH_OPTS).map(([k,v])=>`<option value="${k}"${k===val?' selected':''}>${v}</option>`).join('')}
@@ -490,7 +521,7 @@ function generateTable(p){
   for(let d=new Date(s);d<=new Date(e);d.setDate(d.getDate()+1))dates.push(d.toISOString().slice(0,10));
   if(dates.length>60){alert('최대 60일까지 가능합니다.');return;}
   const tbody=document.getElementById(`${p}-tbody`);
-  const bulkRow=`<tr class="bulk-row" id="${p}-bulk">
+  const bulkRow=`<tr class="bulk-row">
     <td colspan="2" style="text-align:left;padding-left:12px">
       <b>📋 일괄 적용</b>
       <button class="btn btn-primary btn-sm" style="margin-left:10px;font-size:.75rem" onclick="applyBulk('${p}')">체크된 날짜에 적용 ▶</button>
@@ -506,7 +537,7 @@ function generateTable(p){
     const di=new Date(date).getDay();
     const checked=(di!==0&&di!==6)?'checked':'';
     return `<tr class="date-row ${checked?'':'excluded'}" id="${p}-row-${date}">
-      <td><input type="checkbox" ${checked} onchange="toggleRow('${p}','${date}',this.checked)" id="${p}-chk-${date}"></td>
+      <td><input type="checkbox" ${checked} onchange="toggleRow('${p}','${date}',this.checked)"></td>
       <td style="font-weight:600;color:#333">${date}</td>
       <td><span class="day-badge day-${di}">${DAYS[di]}</span></td>
       <td><input type="time" id="${p}-ts-${date}" value="09:00" onchange="calcRowCount('${p}','${date}')"></td>
@@ -517,9 +548,12 @@ function generateTable(p){
     </tr>`;
   }).join('');
   tbody.innerHTML=bulkRow+dateRows;
-  dates.forEach(date=>{if(document.getElementById(`${p}-chk-${date}`)?.checked)calcRowCount(p,date);});
+  dates.forEach(date=>{
+    const chk=document.querySelector(`#${p}-row-${date} input[type="checkbox"]`);
+    if(chk&&chk.checked)calcRowCount(p,date);
+  });
   document.getElementById(`${p}-table-wrap`).style.display='block';
-  if(document.getElementById(`${p}-preview`))document.getElementById(`${p}-preview`).style.display='none';
+  document.getElementById(`${p}-preview`).style.display='none';
 }
 function toggleRow(p,date,checked){
   const row=document.getElementById(`${p}-row-${date}`);
@@ -571,8 +605,7 @@ function calcPreview(p){
   const slots=getTableSlots(p);if(!slots){alert('시간 설정을 확인하세요.');return;}
   const cnt=Object.keys(slots).length,days=[...new Set(Object.values(slots).map(s=>s.date))].length;
   const el=document.getElementById(`${p}-preview`);
-  el.innerHTML=`✅ <b>${days}일</b> × 총 <b>${cnt}개</b> 슬롯이 생성됩니다.`;
-  el.style.display='block';
+  el.innerHTML=`✅ <b>${days}일</b> × 총 <b>${cnt}개</b> 슬롯`;el.style.display='block';
 }
 function getTableSlots(p){
   const rows=document.querySelectorAll(`#${p}-tbody .date-row:not(.excluded)`);
@@ -597,120 +630,152 @@ function getTableSlots(p){
   return ok?slots:null;
 }
 
-/* ═══ 회차 생성 ═══ */
-function createRound(){
-  const title=document.getElementById('c-title').value.trim();
-  if(!title){alert('제목을 입력하세요.');return;}
-  if(document.getElementById('c-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
-  const slots=getTableSlots('c');
-  if(!slots||!Object.keys(slots).length){alert('체크된 날짜가 없거나 시간 설정을 확인하세요.');return;}
-  const applyStart=document.getElementById('c-apply-start').value||null;
-  const applyEnd=document.getElementById('c-apply-end').value||null;
-  db.ref('rounds').push({
-    title,description:document.getElementById('c-desc').value.trim(),
-    active:false,applyStart,applyEnd,createdAt:new Date().toISOString(),slots
-  }).then(()=>{
-    alert(`✅ 회차 생성 완료!\n슬롯 ${Object.keys(slots).length}개`);
-    ['c-title','c-desc','c-apply-start','c-apply-end','c-range-start','c-range-end'].forEach(id=>{document.getElementById(id).value='';});
-    document.getElementById('c-table-wrap').style.display='none';
-    switchTab('rounds');
-  });
+/* ══ 신청 현황 ══ */
+function formatDate(d){const[,m,dd]=d.split('-');return `${m}/${dd}(${'일월화수목금토'[new Date(d).getDay()]})`;}
+
+function setView(v){
+  currentView=v;
+  document.getElementById('vbtn-slot').classList.toggle('active',v==='slot');
+  document.getElementById('vbtn-list').classList.toggle('active',v==='list');
+  document.getElementById('view-slot').style.display=v==='slot'?'block':'none';
+  document.getElementById('view-list').style.display=v==='list'?'block':'none';
+  renderDateFilter();
+  renderCurrentView();
+}
+function renderCurrentView(){
+  if(currentView==='slot') renderAdmSlots();
+  else renderStatusTable();
 }
 
-/* ═══ 회차 목록 ═══ */
-function initAdmin(){
-  db.ref('rounds').on('value',snap=>{
+function renderDateFilter(){
+  const dates=[...new Set(Object.values(statusAllSlots).map(s=>s.date))].sort();
+  if(!admSelectedDate&&dates.length) admSelectedDate=dates[0];
+  const tabs=document.getElementById('date-filter-tabs');
+  if(currentView==='slot'){
+    tabs.innerHTML=dates.map(d=>`<div class="adm-date-tab${d===admSelectedDate?' active':''}" onclick="selectAdmDate('${d}')">${formatDate(d)}</div>`).join('');
+  } else {
+    tabs.innerHTML=`<div class="dft ${statusFilterDate==='all'?'active':''}" onclick="filterByDate('all')">전체</div>`
+      +dates.map(d=>`<div class="dft ${statusFilterDate===d?'active':''}" onclick="filterByDate('${d}')">${d.slice(5)}</div>`).join('');
+  }
+}
+function selectAdmDate(d){admSelectedDate=d;renderDateFilter();renderAdmSlots();}
+function filterByDate(d){statusFilterDate=d;renderDateFilter();renderStatusTable();}
+
+function renderStatusGrid(){
+  db.ref('rounds').once('value',snap=>{
     const data=snap.val()||{};
-    const list=document.getElementById('rounds-list');
+    const grid=document.getElementById('status-round-grid');
     const rounds=Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''));
-    if(!rounds.length){list.innerHTML='<div class="empty">회차가 없습니다.</div>';return;}
-    list.innerHTML=rounds.map(([id,r])=>{
-      const total=Object.keys(r.slots||{}).length;
+    if(!rounds.length){grid.innerHTML='<div style="color:#aaa">회차가 없습니다.</div>';return;}
+    grid.innerHTML=rounds.map(([id,r])=>{
       const booked=Object.values(r.slots||{}).filter(s=>s.booked).length;
-      const days=[...new Set(Object.values(r.slots||{}).map(s=>s.date))].length;
-      const applyInfo=r.applyStart||r.applyEnd
-        ?`신청기간: ${r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞'} ~ ${r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞'} | `:'';
-      return `<div class="round-item ${r.active?'active-round':''}">
-        <div class="round-header">
-          <div>
-            <div class="round-title">${r.title} <span class="badge ${r.active?'badge-active':'badge-inactive'}">${r.active?'🟢 활성':'⚫ 비활성'}</span></div>
-            <div class="round-meta">${applyInfo}${days}일 | 슬롯 ${total}개 | 신청 ${booked}명</div>
-          </div>
-          <div class="round-actions">
-            ${r.active
-              ?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>
-                <button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
-              :`<button class="btn btn-success btn-sm" onclick="toggleActive('${id}',true)">활성화</button>`}
-            <button class="btn btn-warning btn-sm" onclick="openEdit('${id}')">✏️ 수정</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteRound('${id}','${r.title.replace(/'/g,"\\'")}')">삭제</button>
-          </div>
-        </div>
+      const total=Object.keys(r.slots||{}).length;
+      return `<div class="round-card ${selectedStatusRound===id?'selected':''}" onclick="selectStatusRound('${id}','${r.title.replace(/'/g,"\\'")}')">
+        <div class="rc-title">${r.title}${r.active?' 🟢':''}</div>
+        <div class="rc-meta">신청 ${booked} / ${total}</div>
       </div>`;
     }).join('');
-  });
-}
-function toggleActive(id,val){
-  db.ref('rounds').once('value',snap=>{
-    const updates={};snap.forEach(c=>{updates[`rounds/${c.key}/active`]=false;});
-    if(val)updates[`rounds/${id}/active`]=true;
-    db.ref().update(updates);
-  });
-}
-function deleteRound(id,title){
-  if(!confirm(`"${title}" 회차를 삭제하시겠습니까?`))return;
-  db.ref(`rounds/${id}`).remove();
-}
-
-function copyRoundUrl(id, title){
-  const base = location.href.replace('admin.html','index.html').split('?')[0];
-  const url = `${base}?id=${id}`;
-  navigator.clipboard.writeText(url).then(()=>{
-    alert(`✅ URL이 복사되었습니다!
-
-📋 "${title}" 신청 URL:
-${url}
-
-이 URL을 신청자에게 공유하세요.`);
-  }).catch(()=>{
-    // 클립보드 API 실패 시 직접 표시
-    prompt(`📋 "${title}" 신청 URL (직접 복사하세요):`, url);
+    if(!selectedStatusRound){const a=rounds.find(([,r])=>r.active);if(a)selectStatusRound(a[0],a[1].title);}
   });
 }
 
-/* ═══ 회차 수정 ═══ */
-function openEdit(id){
-  editingId=id;
-  document.getElementById('e-table-wrap').style.display='none';
-  if(document.getElementById('e-preview'))document.getElementById('e-preview').style.display='none';
-  document.getElementById('e-regen').checked=false;
-  document.getElementById('regen-details').removeAttribute('open');
-  db.ref(`rounds/${id}`).once('value',snap=>{
-    const r=snap.val();
-    document.getElementById('e-title').value=r.title||'';
-    document.getElementById('e-desc').value=r.description||'';
-    document.getElementById('e-apply-start').value=r.applyStart||'';
-    document.getElementById('e-apply-end').value=r.applyEnd||'';
-    document.getElementById('edit-overlay').classList.add('show');
+function selectStatusRound(id,title){
+  selectedStatusRound=id;statusFilterDate='all';admSelectedDate=null;
+  document.querySelectorAll('.round-card').forEach(c=>c.classList.remove('selected'));
+  event&&event.currentTarget&&event.currentTarget.classList.add('selected');
+  document.getElementById('status-content').style.display='block';
+  document.getElementById('status-title').textContent=title;
+  if(statusListener){db.ref(`rounds/${selectedStatusRound}/slots`).off('value');statusListener=null;}
+  // 회차 데이터(formFields 포함) 로드
+  db.ref(`rounds/${id}`).once('value',snap=>{statusRoundData=snap.val()||{};});
+  statusListener=db.ref(`rounds/${id}/slots`).on('value',snap=>{
+    statusAllSlots=snap.val()||{};
+    const all=Object.values(statusAllSlots),booked=all.filter(s=>s.booked);
+    document.getElementById('stat-total').textContent=all.length;
+    document.getElementById('stat-booked').textContent=booked.length;
+    document.getElementById('stat-remain').textContent=all.length-booked.length;
+    document.getElementById('stat-rate').textContent=all.length?Math.round(booked.length/all.length*100)+'%':'-';
+    if(!admSelectedDate){const dates=[...new Set(all.map(s=>s.date))].sort();admSelectedDate=dates[0]||null;}
+    renderDateFilter();
+    renderCurrentView();
   });
 }
-function closeEdit(){document.getElementById('edit-overlay').classList.remove('show');editingId=null;}
-function saveEdit(){
-  const title=document.getElementById('e-title').value.trim();
-  if(!title){alert('제목을 입력하세요.');return;}
-  const updates={title,description:document.getElementById('e-desc').value.trim(),
-    applyStart:document.getElementById('e-apply-start').value||null,
-    applyEnd:document.getElementById('e-apply-end').value||null};
-  if(document.getElementById('e-regen').checked){
-    if(document.getElementById('e-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
-    const slots=getTableSlots('e');
-    if(!slots||!Object.keys(slots).length){alert('체크된 날짜가 없거나 시간 설정을 확인하세요.');return;}
-    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.'))return;
-    updates.slots=slots;
-  }
-  db.ref(`rounds/${editingId}`).update(updates).then(()=>{alert('✅ 수정되었습니다.');closeEdit();});
+
+function renderAdmSlots(){
+  const grid=document.getElementById('adm-slots-grid');
+  const date=admSelectedDate;
+  if(!date){grid.innerHTML='<div style="color:#aaa;padding:20px">날짜를 선택하세요</div>';return;}
+  const filtered=Object.entries(statusAllSlots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time));
+  if(!filtered.length){grid.innerHTML='<div style="color:#aaa;padding:20px">슬롯이 없습니다</div>';return;}
+  grid.innerHTML=filtered.map(([key,s])=>{
+    if(s.locked) return `<div class="adm-slot locked">🔒 ${s.time}<br><small>잠금됨</small></div>`;
+    if(!s.booked) return `<div class="adm-slot avail">🟢 ${s.time}<br><small>신청 가능</small></div>`;
+    const at=(s.bookedAt||'').slice(0,16).replace('T',' ');
+    const fields=statusRoundData&&statusRoundData.formFields||[];
+    let extraRows='';
+    if(s.bookedFields){
+      Object.entries(s.bookedFields).forEach(([k,v])=>{
+        extraRows+=`<div class="si-row"><span class="si-key">${k}</span><span class="si-val">${v}</span></div>`;
+      });
+    }
+    return `<div class="adm-slot filled">
+      <div class="slot-time">🕐 ${s.time}</div>
+      <div class="slot-info">
+        <div class="si-row"><span class="si-key">이름</span><span class="si-val">${s.bookedBy||'-'}</span></div>
+        ${extraRows}
+        <div class="si-row"><span class="si-key">비밀번호</span><span class="si-val">${s.bookedPw||'-'}</span></div>
+        <div class="si-row"><span class="si-key">신청시각</span><span class="si-val">${at}</span></div>
+      </div>
+      <button class="slot-cancel" onclick="adminCancel('${selectedStatusRound}','${key}')">✕ 신청 취소</button>
+    </div>`;
+  }).join('');
 }
 
-/* ═══ 슬롯 관리 ═══ */
+function renderStatusTable(){
+  const all=Object.values(statusAllSlots);
+  const booked=all.filter(s=>s.booked);
+  const filtered=(statusFilterDate==='all'?booked:booked.filter(s=>s.date===statusFilterDate))
+    .sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+
+  const fields=statusRoundData&&statusRoundData.formFields||[];
+  // 헤더
+  const thead=document.getElementById('status-thead-row');
+  thead.innerHTML=`<th>날짜</th><th>시간</th><th>이름</th>`
+    +fields.map(f=>`<th>${f.label}</th>`).join('')
+    +`<th>비밀번호</th><th>신청시각</th><th>관리</th>`;
+
+  const tbody=document.getElementById('status-tbody');
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="${5+fields.length}" class="empty">신청자가 없습니다.</td></tr>`;return;}
+  tbody.innerHTML=filtered.map(s=>{
+    const sKey=Object.entries(statusAllSlots).find(([,v])=>v.date===s.date&&v.time===s.time)?.[0]||'';
+    const customCells=fields.map(f=>`<td>${(s.bookedFields&&s.bookedFields[f.label])||'-'}</td>`).join('');
+    return `<tr>
+      <td>${s.date}</td><td>${s.time}</td><td>${s.bookedBy||'-'}</td>
+      ${customCells}
+      <td>${s.bookedPw||'-'}</td>
+      <td style="white-space:nowrap">${(s.bookedAt||'').slice(0,16).replace('T',' ')}</td>
+      <td><button class="btn btn-danger btn-sm" onclick="adminCancel('${selectedStatusRound}','${sKey}')">취소</button></td>
+    </tr>`;
+  }).join('');
+}
+function adminCancel(roundId,slotKey){
+  if(!confirm('이 신청을 취소하시겠습니까?'))return;
+  db.ref(`rounds/${roundId}/slots/${slotKey}`)
+    .update({booked:false,bookedBy:null,bookedPw:null,bookedFields:null,bookedAt:null});
+}
+function exportCSV(){
+  const rows=[...document.getElementById('status-tbody').querySelectorAll('tr')]
+    .map(tr=>[...tr.querySelectorAll('td')].slice(0,-1).map(td=>`"${td.textContent.trim()}"`).join(','))
+    .filter(r=>!r.includes('신청자가'));
+  if(!rows.length){alert('데이터가 없습니다.');return;}
+  const fields=statusRoundData&&statusRoundData.formFields||[];
+  const header=['"날짜"','"시간"','"이름"',...fields.map(f=>`"${f.label}"`),'"비밀번호"','"신청시각"'].join(',');
+  const csv='\uFEFF'+[header,...rows].join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`신청현황_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+}
+
+/* ══ 슬롯 관리 ══ */
 function populateSlotRoundSelect(){
   db.ref('rounds').once('value',snap=>{
     const sel=document.getElementById('slot-round-select');
