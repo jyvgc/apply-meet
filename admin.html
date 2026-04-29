@@ -187,8 +187,16 @@ table.status-table tr:hover td{background:#e8f0fb}
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
       Google 계정으로 로그인
     </button>
-    <p class="login-notice">허가된 관리자 계정만 접근 가능합니다.</p>
+    <div id="login-error" style="display:none;margin-top:16px;background:#fce4ec;border-radius:8px;padding:12px 14px;font-size:.82rem;color:#c62828;line-height:1.7;text-align:left;white-space:pre-wrap;word-break:break-all"></div>
+    <p class="login-notice">허가된 관리자 계정만 접근 가능합니다.<br>문제 발생 시 Firebase 콘솔 설정을 확인하세요.</p>
   </div>
+</div>
+
+<!-- 로딩 화면 -->
+<div id="loading-wrap" style="display:none;min-height:100vh;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);justify-content:center;align-items:center;flex-direction:column;gap:16px">
+  <div style="width:48px;height:48px;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite"></div>
+  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600">로그인 처리 중...</p>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 </div>
 
 <!-- ② 권한 없음 화면 -->
@@ -363,25 +371,69 @@ let editingId=null, statusListener=null, selectedStatusRound=null;
 let statusAllSlots={}, statusFilterDate='all', currentView='slot', admSelectedDate=null;
 let statusRoundData=null;
 
-/* ════ 구글 로그인 ════ */
+/* ════ 구글 로그인 (리다이렉트 방식) ════ */
+function showLoading(msg){
+  document.getElementById('login-wrap').style.display='none';
+  document.getElementById('no-access-wrap').style.display='none';
+  document.getElementById('admin-wrap').style.display='none';
+  document.getElementById('loading-wrap').style.display='flex';
+  document.getElementById('loading-msg').textContent=msg||'로그인 처리 중...';
+}
+
 function signInWithGoogle(){
-  auth.signInWithPopup(googleProvider).catch(err=>{
-    if(err.code!=='auth/popup-closed-by-user') alert('로그인 오류: '+err.message);
+  showLoading('Google 로그인 페이지로 이동 중...');
+  auth.signInWithRedirect(googleProvider).catch(err=>{
+    document.getElementById('loading-wrap').style.display='none';
+    document.getElementById('login-wrap').style.display='flex';
+    showError('로그인 오류: '+getErrorMsg(err));
   });
 }
 
 function doLogout(){
-  auth.signOut();
+  auth.signOut().then(()=>{
+    document.getElementById('admin-wrap').style.display='none';
+    document.getElementById('login-wrap').style.display='flex';
+    document.getElementById('login-error').style.display='none';
+  });
 }
+
+function getErrorMsg(err){
+  const msgs={
+    'auth/popup-blocked':'팝업이 차단되었습니다. 팝업 허용 후 다시 시도하세요.',
+    'auth/popup-closed-by-user':'로그인 창이 닫혔습니다.',
+    'auth/network-request-failed':'네트워크 오류입니다. 인터넷 연결을 확인하세요.',
+    'auth/unauthorized-domain':'이 도메인은 Firebase에서 승인되지 않았습니다.
+Firebase 콘솔 → Authentication → 승인된 도메인에 추가해주세요.',
+    'auth/operation-not-allowed':'Google 로그인이 Firebase에서 활성화되지 않았습니다.
+Firebase 콘솔 → Authentication → Sign-in method → Google을 활성화해주세요.',
+  };
+  return msgs[err.code]||err.message||err.code;
+}
+
+function showError(msg){
+  const el=document.getElementById('login-error');
+  el.textContent=msg;el.style.display='block';
+}
+
+// 리다이렉트 결과 처리
+auth.getRedirectResult().then(result=>{
+  // 리다이렉트 후 결과 처리 완료 — onAuthStateChanged가 이어서 처리
+}).catch(err=>{
+  document.getElementById('loading-wrap').style.display='none';
+  document.getElementById('login-wrap').style.display='flex';
+  if(err.code!=='auth/credential-already-in-use'){
+    showError(getErrorMsg(err));
+  }
+});
 
 // 인증 상태 변경 감지
 auth.onAuthStateChanged(user=>{
   document.getElementById('login-wrap').style.display='none';
   document.getElementById('no-access-wrap').style.display='none';
   document.getElementById('admin-wrap').style.display='none';
+  document.getElementById('loading-wrap').style.display='none';
 
   if(!user){
-    // 로그아웃 상태 → 로그인 화면
     document.getElementById('login-wrap').style.display='flex';
     return;
   }
@@ -389,20 +441,18 @@ auth.onAuthStateChanged(user=>{
   // 이메일 허용 여부 확인
   if(!ADMIN_EMAILS.includes(user.email)){
     document.getElementById('no-access-msg').innerHTML=
-      `<b>${user.email}</b> 계정은<br>관리자로 등록되지 않았습니다.<br>담당자에게 문의하세요.`;
+      `<b>${user.email}</b> 계정은<br>관리자로 등록되지 않았습니다.<br>담당자에게 문의하세요.<br><br>
+       <small style="color:#aaa">허용된 이메일: ${ADMIN_EMAILS.join(', ')}</small>`;
     document.getElementById('no-access-wrap').style.display='flex';
     return;
   }
 
   // 관리자 패널 표시
   document.getElementById('admin-wrap').style.display='block';
-
-  // 상단 프로필
   const photoUrl=user.photoURL||'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg';
   document.getElementById('login-status').innerHTML=
     `<img src="${photoUrl}" alt="프로필">
      <span class="uname">${user.displayName||user.email}</span>`;
-
   initAdmin();
 });
 
