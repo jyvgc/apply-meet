@@ -183,20 +183,25 @@ table.status-table tr:hover td{background:#e8f0fb}
     <div class="login-logo">🔐</div>
     <h1>관리자 로그인</h1>
     <p>신청 시스템 관리자 페이지입니다.<br>Google 계정으로 로그인하세요.</p>
-    <button class="btn-google" onclick="signInWithGoogle()">
+
+    <button id="btn-popup" class="btn-google" onclick="doPopupLogin()">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;height:22px">
       Google 계정으로 로그인
     </button>
-    <!-- 팝업 차단 시 대안 버튼 -->
-    <button id="btn-redirect" onclick="signInWithRedirectFallback()"
-      style="display:none;width:100%;margin-top:10px;padding:12px;border-radius:10px;border:1.5px solid #2d6a9f;background:#e8f0fb;color:#2d6a9f;font-size:.92rem;font-weight:700;cursor:pointer">
-      🔄 리다이렉트로 로그인 (팝업 차단 시)
+
+    <button id="btn-redirect"
+      style="display:none;width:100%;margin-top:10px;padding:12px;border-radius:10px;
+             border:1.5px solid #2d6a9f;background:#e8f0fb;color:#2d6a9f;
+             font-size:.92rem;font-weight:700;cursor:pointer"
+      onclick="doRedirectLogin()">
+      🔄 다른 방법으로 로그인
     </button>
-    <div id="login-error"
-      style="display:none;margin-top:14px;background:#fce4ec;border-radius:8px;
-             padding:12px 14px;font-size:.82rem;color:#c62828;line-height:1.8;
-             text-align:left;word-break:break-all"></div>
-    <p class="login-notice">허가된 관리자 계정만 접근 가능합니다.</p>
+
+    <div id="login-status-msg"
+      style="margin-top:14px;padding:10px 14px;border-radius:8px;font-size:.84rem;
+             line-height:1.8;text-align:left;display:none"></div>
+
+    <p class="login-notice" style="margin-top:16px">허가된 관리자 계정만 접근 가능합니다.</p>
   </div>
 </div>
 
@@ -206,7 +211,7 @@ table.status-table tr:hover td{background:#e8f0fb}
          justify-content:center;align-items:center;flex-direction:column;gap:20px">
   <div style="width:52px;height:52px;border:5px solid rgba(255,255,255,.25);
               border-top-color:#fff;border-radius:50%;animation:spin 0.9s linear infinite"></div>
-  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600;letter-spacing:.5px">로그인 처리 중...</p>
+  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600">로그인 처리 중...</p>
   <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 </div>
 
@@ -384,126 +389,156 @@ let statusRoundData=null;
 
 /* ════ 구글 로그인 ════ */
 
-// 화면 전환 헬퍼
-function showScreen(name){
-  ['login-wrap','no-access-wrap','admin-wrap','loading-wrap'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.style.display='none';
-  });
-  const target=document.getElementById(name);
-  if(target) target.style.display=(name==='admin-wrap')?'block':'flex';
-}
-
-function showError(msg){
-  const el=document.getElementById('login-error');
+// 상태 메시지 표시
+function setMsg(text, type){
+  // type: 'info'(파랑) | 'error'(빨강) | 'ok'(초록)
+  var el = document.getElementById('login-status-msg');
   if(!el) return;
-  el.innerHTML=msg.replace(/\n/g,'<br>');
-  el.style.display='block';
+  var colors = {
+    info:  {bg:'#e3f2fd', color:'#1565c0'},
+    error: {bg:'#fce4ec', color:'#c62828'},
+    ok:    {bg:'#e8f5e9', color:'#2e7d32'}
+  };
+  var c = colors[type] || colors.info;
+  el.style.background = c.bg;
+  el.style.color = c.color;
+  el.innerHTML = text;
+  el.style.display = 'block';
+}
+function clearMsg(){
+  var el = document.getElementById('login-status-msg');
+  if(el){ el.style.display='none'; el.innerHTML=''; }
 }
 
-function hideError(){
-  const el=document.getElementById('login-error');
-  if(el) el.style.display='none';
-}
-
-function setLoginBtnState(loading){
-  const btn=document.querySelector('.btn-google');
+function setBtnLoading(loading){
+  var btn = document.getElementById('btn-popup');
   if(!btn) return;
   if(loading){
-    btn.disabled=true;
-    btn.innerHTML='<span style="display:inline-block;width:18px;height:18px;border:3px solid #ccc;border-top-color:#333;border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:8px"></span> 로그인 중...';
+    btn.disabled = true;
+    btn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:3px solid #bbb;border-top-color:#555;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:8px"></span>로그인 중...';
   } else {
-    btn.disabled=false;
-    btn.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;height:22px"> Google 계정으로 로그인';
+    btn.disabled = false;
+    btn.innerHTML = '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;height:22px"> Google 계정으로 로그인';
   }
 }
 
-function getErrorMsg(err){
-  if(!err) return '알 수 없는 오류';
-  const msgs={
-    'auth/popup-blocked':
-      '팝업이 차단되었습니다.\n브라우저 주소창 오른쪽 팝업 허용 버튼을 클릭하거나\n아래 "리다이렉트로 로그인" 버튼을 사용하세요.',
-    'auth/popup-closed-by-user':'로그인 창이 닫혔습니다. 다시 시도해주세요.',
-    'auth/network-request-failed':'네트워크 연결을 확인하세요.',
+function getErrMsg(code, message){
+  var map = {
+    'auth/popup-blocked':        '팝업이 차단되었습니다.\n아래 버튼으로 로그인하세요.',
+    'auth/popup-closed-by-user': '로그인 창이 닫혔습니다.',
+    'auth/cancelled-popup-request': '이전 요청이 취소되었습니다. 다시 시도하세요.',
+    'auth/network-request-failed':  '네트워크 오류입니다. 인터넷 연결을 확인하세요.',
     'auth/unauthorized-domain':
-      '이 도메인이 Firebase에 승인되지 않았습니다.\n\nFirebase 콘솔 → Authentication → 승인된 도메인\n→ 현재 사이트 주소를 추가하세요.\n\n현재 도메인: '+location.hostname,
+      '이 도메인이 Firebase에 등록되지 않았습니다.<br>' +
+      'Firebase 콘솔 → Authentication → 승인된 도메인 → <b>' + location.hostname + '</b> 추가 필요',
     'auth/operation-not-allowed':
-      'Firebase에서 Google 로그인이 활성화되지 않았습니다.\n\nFirebase 콘솔 → Authentication\n→ Sign-in method → Google → 사용 설정',
-    'auth/cancelled-popup-request':'이전 로그인 요청이 취소되었습니다. 다시 시도해주세요.',
-    'auth/internal-error':'내부 오류가 발생했습니다. 잠시 후 다시 시도해주세요.',
+      'Google 로그인이 비활성화되어 있습니다.<br>' +
+      'Firebase 콘솔 → Authentication → Sign-in method → Google 활성화 필요',
+    'auth/internal-error': '내부 오류입니다. 잠시 후 다시 시도하세요.'
   };
-  return msgs[err.code]||(err.message||String(err));
+  return map[code] || (message || code || '알 수 없는 오류');
 }
 
-// ① 팝업 로그인 (기본)
-function signInWithGoogle(){
-  hideError();
-  setLoginBtnState(true);
+// ── 팝업 로그인 ──
+function doPopupLogin(){
+  clearMsg();
+  setBtnLoading(true);
+  setMsg('⏳ Google 로그인 창을 여는 중...', 'info');
+
+  // Firebase 초기화 확인
+  if(typeof auth === 'undefined' || typeof googleProvider === 'undefined'){
+    setBtnLoading(false);
+    setMsg('❌ Firebase가 초기화되지 않았습니다.<br>firebase-config.js 파일이 올바른지 확인하세요.', 'error');
+    return;
+  }
+
   auth.signInWithPopup(googleProvider)
-    .then(()=>{
-      // onAuthStateChanged 에서 처리
+    .then(function(result){
+      // 성공 → onAuthStateChanged 에서 처리
+      clearMsg();
     })
-    .catch(err=>{
-      setLoginBtnState(false);
-      if(err.code==='auth/popup-blocked'){
-        // 팝업 차단 → 리다이렉트 대안 버튼 표시
-        showError('팝업이 차단되었습니다.\n아래 버튼으로 로그인하세요.');
-        document.getElementById('btn-redirect').style.display='block';
-      } else if(err.code!=='auth/popup-closed-by-user'&&err.code!=='auth/cancelled-popup-request'){
-        showError('로그인 오류\n\n'+getErrorMsg(err));
+    .catch(function(err){
+      setBtnLoading(false);
+      var code = err ? err.code : '';
+      var msg  = err ? err.message : '';
+
+      if(code === 'auth/popup-blocked'){
+        setMsg('🚫 팝업이 차단되었습니다.<br>아래 버튼으로 로그인하세요.', 'error');
+        document.getElementById('btn-redirect').style.display = 'block';
+      } else if(code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request'){
+        clearMsg();
+      } else {
+        setMsg('❌ 로그인 실패<br>' + getErrMsg(code, msg), 'error');
+        document.getElementById('btn-redirect').style.display = 'block';
       }
     });
 }
 
-// ② 리다이렉트 로그인 (팝업 차단 시 대안)
-function signInWithRedirectFallback(){
-  hideError();
-  showScreen('loading-wrap');
-  document.getElementById('loading-msg').textContent='Google 로그인 페이지로 이동 중...';
-  auth.signInWithRedirect(googleProvider).catch(err=>{
-    showScreen('login-wrap');
-    showError('로그인 오류\n\n'+getErrorMsg(err));
-  });
+// ── 리다이렉트 로그인 (대안) ──
+function doRedirectLogin(){
+  setMsg('⏳ Google 로그인 페이지로 이동합니다...', 'info');
+  document.getElementById('btn-redirect').disabled = true;
+
+  auth.signInWithRedirect(googleProvider)
+    .catch(function(err){
+      document.getElementById('btn-redirect').disabled = false;
+      setMsg('❌ ' + getErrMsg(err ? err.code : '', err ? err.message : ''), 'error');
+    });
 }
 
-// 리다이렉트 결과 처리 (페이지 복귀 시)
+// ── 리다이렉트 복귀 결과 처리 ──
 auth.getRedirectResult()
-  .then(result=>{ /* onAuthStateChanged에서 처리 */ })
-  .catch(err=>{
-    if(err&&err.code&&err.code!=='auth/credential-already-in-use'){
-      showScreen('login-wrap');
-      showError('리다이렉트 로그인 오류\n\n'+getErrorMsg(err));
+  .then(function(result){ /* onAuthStateChanged에서 처리 */ })
+  .catch(function(err){
+    if(err && err.code && err.code !== 'auth/credential-already-in-use'){
+      setMsg('❌ 리다이렉트 오류<br>' + getErrMsg(err.code, err.message), 'error');
     }
   });
 
+// ── 로그아웃 ──
 function doLogout(){
-  auth.signOut().catch(()=>{}).finally(()=>{
+  auth.signOut().catch(function(){}).finally(function(){
     showScreen('login-wrap');
-    hideError();
-    setLoginBtnState(false);
-    document.getElementById('btn-redirect').style.display='none';
+    clearMsg();
+    setBtnLoading(false);
+    document.getElementById('btn-redirect').style.display = 'none';
   });
 }
 
-// 인증 상태 변경
-auth.onAuthStateChanged(user=>{
+// ── 화면 전환 ──
+function showScreen(name){
+  var screens = ['login-wrap','no-access-wrap','admin-wrap','loading-wrap'];
+  screens.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  var target = document.getElementById(name);
+  if(target) target.style.display = (name === 'admin-wrap') ? 'block' : 'flex';
+}
+
+// ── 인증 상태 감지 ──
+auth.onAuthStateChanged(function(user){
   if(!user){
     showScreen('login-wrap');
-    setLoginBtnState(false);
+    setBtnLoading(false);
     return;
   }
-  if(!ADMIN_EMAILS.includes(user.email)){
-    document.getElementById('no-access-msg').innerHTML=
-      `<b>${user.email}</b> 계정은<br>관리자로 등록되지 않았습니다.<br>담당자에게 문의하세요.<br>
-       <small style="color:#aaa;font-size:.75rem">허용 이메일: ${ADMIN_EMAILS.join(', ')}</small>`;
+
+  // 이메일 권한 확인
+  if(ADMIN_EMAILS.indexOf(user.email) === -1){
+    document.getElementById('no-access-msg').innerHTML =
+      '<b>' + user.email + '</b> 계정은<br>관리자로 등록되지 않았습니다.<br>' +
+      '<small style="color:#aaa">허용 이메일: ' + ADMIN_EMAILS.join(', ') + '</small>';
     showScreen('no-access-wrap');
     return;
   }
+
+  // 관리자 패널
   showScreen('admin-wrap');
-  const photoUrl=user.photoURL||'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg';
-  document.getElementById('login-status').innerHTML=
-    `<img src="${photoUrl}" alt="프로필" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.4)">
-     <span class="uname">${user.displayName||user.email}</span>`;
+  var photoUrl = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg';
+  document.getElementById('login-status').innerHTML =
+    '<img src="' + photoUrl + '" alt="프로필" style="width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.4)">' +
+    '<span class="uname">' + (user.displayName || user.email) + '</span>';
   initAdmin();
 });
 
