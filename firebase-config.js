@@ -8,7 +8,6 @@ const firebaseConfig = {
   appId: "1:975374539952:web:e78290008b25970be1ef75"
 };
 
-// ★ 관리자로 허용할 구글 이메일 목록
 const ADMIN_EMAILS = [
   "jykim@gumi.ac.kr"
 ];
