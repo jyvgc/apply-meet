@@ -11,36 +11,27 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;min-height:100vh;font-size:14px}
-
-/* ── 로그인 화면 ── */
+/* 로그인 */
 .login-wrap{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1e3a5f,#2d6a9f)}
 .login-box{background:#fff;border-radius:20px;padding:48px 40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
-.login-logo{font-size:3rem;margin-bottom:8px}
 .login-box h1{font-size:1.5rem;color:#1e3a5f;margin-bottom:6px;font-weight:800}
-.login-box p{font-size:.88rem;color:#888;margin-bottom:32px;line-height:1.6}
-.btn-google{
-  display:flex;align-items:center;justify-content:center;gap:12px;
-  width:100%;padding:13px 20px;border-radius:10px;
-  border:1.5px solid #e0e0e0;background:#fff;cursor:pointer;
-  font-size:.95rem;font-weight:700;color:#333;
-  transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)
-}
-.btn-google:hover{background:#f8f9fa;border-color:#2d6a9f;box-shadow:0 4px 14px rgba(0,0,0,.1)}
-.btn-google img{width:22px;height:22px}
-.login-notice{margin-top:20px;font-size:.76rem;color:#bbb;line-height:1.6}
-
-/* 로그인 상태 표시 */
-.login-status{display:flex;align-items:center;gap:10px}
-.login-status img{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.4)}
-.login-status .uname{font-size:.85rem;color:#fff;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-/* 권한 없음 화면 */
+.login-box p{font-size:.88rem;color:#888;margin-bottom:28px;line-height:1.6}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px 20px;border-radius:10px;border:1.5px solid #e0e0e0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:700;color:#333;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.btn-google:hover{background:#f8f9fa;border-color:#2d6a9f}
+.btn-google:disabled{opacity:.6;cursor:not-allowed}
+.login-notice{margin-top:16px;font-size:.75rem;color:#bbb;line-height:1.7}
+#login-status-msg{display:none;margin-top:14px;padding:10px 14px;border-radius:8px;font-size:.82rem;line-height:1.8;text-align:left}
+#ver-info,#fb-status{font-size:.72rem;color:#bbb;margin-top:4px}
+/* 권한없음 */
 .no-access{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1e3a5f,#2d6a9f)}
 .no-access-box{background:#fff;border-radius:20px;padding:48px 40px;width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.no-access-box h2{color:#e53935;margin-bottom:12px;font-size:1.3rem}
+.no-access-box h2{color:#e53935;margin-bottom:12px}
 .no-access-box p{font-size:.88rem;color:#555;line-height:1.7;margin-bottom:20px}
-
-/* ── 관리자 레이아웃 ── */
+/* 로딩 */
+.loading-wrap{min-height:100vh;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);display:flex;justify-content:center;align-items:center;flex-direction:column;gap:20px}
+.spinner{width:52px;height:52px;border:5px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* 관리자 레이아웃 */
 .admin-wrap{display:none}
 .top-bar{background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .top-bar h1{font-size:1.1rem}
@@ -49,6 +40,9 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .top-bar a:hover{background:rgba(255,255,255,.35)}
 .top-bar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
 .top-bar button:hover{background:rgba(255,255,255,.3)}
+.login-status{display:flex;align-items:center;gap:8px}
+.login-status img{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.4)}
+.login-status .uname{font-size:.85rem;color:#fff;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;padding:0 20px;overflow-x:auto}
 .tab{padding:13px 18px;cursor:pointer;font-weight:600;color:#888;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;white-space:nowrap}
 .tab.active{color:#2d6a9f;border-bottom-color:#2d6a9f}
@@ -68,31 +62,26 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .btn-danger{background:#e53935;color:#fff}.btn-danger:hover{background:#b71c1c}
 .btn-success{background:#388e3c;color:#fff}.btn-success:hover{background:#1b5e20}
 .btn-link{background:#e8f0fb;color:#2d6a9f}.btn-link:hover{background:#2d6a9f;color:#fff}
+.btn-purple{background:#f3e5f5;color:#6a1b9a}.btn-purple:hover{background:#6a1b9a;color:#fff}
 .btn-sm{padding:5px 12px;font-size:.78rem}
 .btn-outline{background:#fff;color:#2d6a9f;border:1.5px solid #2d6a9f}.btn-outline:hover{background:#2d6a9f;color:#fff}
-.btn-purple{background:#f3e5f5;color:#6a1b9a}.btn-purple:hover{background:#6a1b9a;color:#fff}
-
-/* 신청서 항목 편집기 */
+/* 신청서 항목 */
 .fields-editor{background:#f8f9fa;border-radius:10px;padding:16px;border:1.5px solid #e0e0e0}
 .fields-editor .editor-title{font-size:.9rem;font-weight:700;color:#1e3a5f;margin-bottom:10px}
 .fixed-fields-row{background:#e8f0fb;border-radius:7px;padding:10px 14px;font-size:.83rem;color:#555;margin-bottom:10px;line-height:1.7}
-.fixed-fields-row b{color:#1e3a5f}
 .custom-field-row{display:flex;gap:8px;align-items:center;background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid #e0e0e0}
-.custom-field-row .cf-label{flex:2;min-width:0}
-.custom-field-row .cf-ph{flex:3;min-width:0}
-.custom-field-row .cf-req-wrap{display:flex;align-items:center;gap:4px;font-size:.78rem;color:#555;white-space:nowrap}
-.custom-field-row input[type="text"]{padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:.82rem;width:100%}
-.custom-field-row input[type="text"]:focus{outline:none;border-color:#2d6a9f}
-.custom-field-row input[type="checkbox"]{width:14px;height:14px;accent-color:#2d6a9f}
+.custom-field-row .cf-label,.custom-field-row .cf-ph{padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:.82rem;flex:1}
+.custom-field-row .cf-label:focus,.custom-field-row .cf-ph:focus{outline:none;border-color:#2d6a9f}
+.cf-req-wrap{display:flex;align-items:center;gap:4px;font-size:.78rem;color:#555;white-space:nowrap}
+.cf-req-wrap input{width:14px;height:14px;accent-color:#2d6a9f}
 .btn-remove-field{padding:4px 9px;border:none;background:#fce4ec;color:#c62828;border-radius:5px;font-size:.78rem;cursor:pointer;white-space:nowrap}
 .btn-remove-field:hover{background:#e53935;color:#fff}
 .btn-add-field{width:100%;padding:8px;border:2px dashed #2d6a9f;border-radius:7px;background:#e8f0fb;color:#2d6a9f;font-size:.85rem;font-weight:700;cursor:pointer;margin-top:6px}
 .btn-add-field:hover{background:#2d6a9f;color:#fff}
-
 /* 날짜 테이블 */
-.slot-table-wrap{margin-top:14px;overflow-x:auto;border-radius:10px;border:1.5px solid #e0e0e0}
+.slot-table-wrap{overflow-x:auto;border-radius:10px;border:1.5px solid #e0e0e0;margin-top:14px}
 .slot-table{width:100%;border-collapse:collapse;min-width:680px}
-.slot-table th{padding:9px 10px;text-align:center;font-size:.8rem;font-weight:700;white-space:nowrap;background:#1e3a5f;color:#fff}
+.slot-table th{padding:9px 10px;text-align:center;font-size:.8rem;font-weight:700;background:#1e3a5f;color:#fff;white-space:nowrap}
 .slot-table th:first-child{border-radius:9px 0 0 0}.slot-table th:last-child{border-radius:0 9px 0 0}
 .slot-table td{padding:7px 8px;border-bottom:1px solid #f0f0f0;text-align:center;vertical-align:middle}
 .bulk-row td{background:#e8f0fb;font-weight:700}
@@ -100,15 +89,13 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .date-row.excluded td{background:#fafafa;opacity:.5}
 .date-row.excluded td input,.date-row.excluded td select{pointer-events:none;background:#f0f0f0}
 .slot-table input[type="time"],.slot-table select{width:100%;padding:5px 6px;border:1.5px solid #ddd;border-radius:6px;font-size:.82rem;font-family:inherit}
-.slot-table input[type="time"]:focus,.slot-table select:focus{outline:none;border-color:#2d6a9f}
 .slot-table input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:#2d6a9f}
 .day-badge{display:inline-block;width:26px;height:26px;border-radius:50%;font-size:.78rem;font-weight:700;line-height:26px;text-align:center}
 .day-0,.day-6{background:#fce4ec;color:#c62828}
 .day-1,.day-2,.day-3,.day-4,.day-5{background:#e8f0fb;color:#1e3a5f}
 .preview-summary{background:#e8f5e9;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#2e7d32;display:none}
 .help-tip{font-size:.78rem;color:#888;margin-top:3px}
-
-/* 회차 목록 */
+/* 회차목록 */
 .round-item{border:1.5px solid #e0e0e0;border-radius:10px;padding:15px 18px;margin-bottom:10px}
 .round-item.active-round{border-color:#2d6a9f;background:#e8f0fb}
 .round-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
@@ -118,8 +105,7 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.76rem;font-weight:700}
 .badge-active{background:#e8f5e9;color:#2e7d32}
 .badge-inactive{background:#f5f5f5;color:#9e9e9e}
-
-/* 신청현황 */
+/* 현황 */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .stat-box{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .stat-num{font-size:1.8rem;font-weight:700;color:#2d6a9f}
@@ -143,89 +129,72 @@ table.status-table tr:hover td{background:#e8f0fb}
 .view-btn{padding:7px 18px;border:none;background:#fff;color:#2d6a9f;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s}
 .view-btn.active{background:#2d6a9f;color:#fff}
 .view-btn:not(:last-child){border-right:1.5px solid #2d6a9f}
-.adm-date-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.adm-date-tab{padding:8px 16px;border-radius:20px;border:2px solid #2d6a9f;cursor:pointer;font-size:.88rem;color:#2d6a9f;background:#fff;transition:all .2s}
-.adm-date-tab.active{background:#2d6a9f;color:#fff}
 .adm-slots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .adm-slot{border-radius:12px;border:2px solid;padding:14px 12px;font-size:.85rem;line-height:1.7}
 .adm-slot.avail{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;text-align:center;font-weight:700}
-.adm-slot.locked{background:#fce4ec;border-color:#ef9a9a;color:#c62828;text-align:center;font-size:.82rem}
+.adm-slot.locked{background:#fce4ec;border-color:#ef9a9a;color:#c62828;text-align:center}
 .adm-slot.filled{background:#fff;border-color:#2d6a9f;box-shadow:0 2px 8px rgba(45,106,159,.12)}
 .adm-slot.filled .slot-time{font-size:1rem;font-weight:900;color:#1e3a5f;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8f0fb}
-.adm-slot.filled .slot-info{font-size:.82rem;color:#333;line-height:1.9}
-.adm-slot.filled .slot-info .si-row{display:flex;gap:6px}
-.adm-slot.filled .slot-info .si-key{color:#888;font-size:.75rem;min-width:52px;padding-top:2px}
-.adm-slot.filled .slot-info .si-val{color:#1e3a5f;font-weight:600;word-break:break-all}
-.adm-slot.filled .slot-cancel{margin-top:10px;width:100%;padding:5px;border:none;border-radius:6px;background:#fce4ec;color:#c62828;font-size:.78rem;font-weight:700;cursor:pointer}
+.adm-slot.filled .si-row{display:flex;gap:6px;font-size:.82rem;line-height:1.9}
+.adm-slot.filled .si-key{color:#888;font-size:.75rem;min-width:52px;padding-top:2px}
+.adm-slot.filled .si-val{color:#1e3a5f;font-weight:600;word-break:break-all}
+.adm-slot.filled .slot-cancel{margin-top:8px;width:100%;padding:5px;border:none;border-radius:6px;background:#fce4ec;color:#c62828;font-size:.78rem;font-weight:700;cursor:pointer}
 .adm-slot.filled .slot-cancel:hover{background:#e53935;color:#fff}
+.contact-btns{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.cbtn{padding:5px 10px;border-radius:6px;border:none;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:all .2s}
+.cbtn-call{background:#e8f5e9;color:#2e7d32}.cbtn-call:hover{background:#2e7d32;color:#fff}
+.cbtn-sms{background:#e3f2fd;color:#1565c0}.cbtn-sms:hover{background:#1565c0;color:#fff}
+.cbtn-kakao{background:#FEE500;color:#3C1E1E}.cbtn-kakao:hover{background:#e6ce00}
+/* 모달 */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center;padding:16px}
 .overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal h2{font-size:1.1rem;color:#1e3a5f;margin-bottom:16px}
 @media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.custom-field-row{flex-wrap:wrap}}
-
-/* ── 연락 버튼 ── */
-.contact-btns{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.cbtn{padding:5px 10px;border-radius:6px;border:none;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:all .2s}
-.cbtn-call{background:#e8f5e9;color:#2e7d32}.cbtn-call:hover{background:#2e7d32;color:#fff}
-.cbtn-sms{background:#e3f2fd;color:#1565c0}.cbtn-sms:hover{background:#1565c0;color:#fff}
-.cbtn-kakao{background:#FEE500;color:#3C1E1E}.cbtn-kakao:hover{background:#e6ce00;color:#3C1E1E}
-/* 목록 뷰 연락 버튼 */
-.contact-cell{display:flex;flex-direction:column;gap:4px}
-.contact-num{font-size:.82rem;color:#333;font-weight:600}
 </style>
 </head>
 <body>
 
-<!-- ① 로그인 화면 -->
+<!-- 로그인 -->
 <div id="login-wrap" class="login-wrap">
   <div class="login-box">
-    <div class="login-logo">🔐</div>
+    <div style="font-size:3rem;margin-bottom:8px">🔐</div>
     <h1>관리자 로그인</h1>
     <p>신청 시스템 관리자 페이지입니다.<br>Google 계정으로 로그인하세요.</p>
-
     <button id="btn-popup" class="btn-google" onclick="doPopupLogin()">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width:22px;height:22px">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:22px;height:22px">
       Google 계정으로 로그인
     </button>
-
-    <button id="btn-redirect"
+    <button id="btn-redirect" onclick="doRedirectLogin()"
       style="display:none;width:100%;margin-top:10px;padding:12px;border-radius:10px;
              border:1.5px solid #2d6a9f;background:#e8f0fb;color:#2d6a9f;
-             font-size:.92rem;font-weight:700;cursor:pointer"
-      onclick="doRedirectLogin()">
+             font-size:.92rem;font-weight:700;cursor:pointer">
       🔄 다른 방법으로 로그인
     </button>
-
-    <div id="login-status-msg"
-      style="margin-top:14px;padding:10px 14px;border-radius:8px;font-size:.84rem;
-             line-height:1.8;text-align:left;display:none"></div>
-
-    <p class="login-notice" style="margin-top:16px">허가된 관리자 계정만 접근 가능합니다.</p><p id="ver-info" style="margin-top:8px;font-size:.72rem;color:#ccc;letter-spacing:.5px">v3.2025.0429</p><p id="fb-status" style="margin-top:4px;font-size:.72rem;color:#ccc"></p>
+    <div id="login-status-msg"></div>
+    <p class="login-notice">허가된 관리자 계정만 접근 가능합니다.</p>
+    <p id="ver-info" style="font-size:.72rem;color:#bbb;margin-top:4px">v3.2025.0429</p>
+    <p id="fb-status" style="font-size:.72rem;color:#bbb;margin-top:2px"></p>
   </div>
 </div>
 
-<!-- 로딩 화면 -->
-<div id="loading-wrap"
-  style="display:none;min-height:100vh;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);
-         justify-content:center;align-items:center;flex-direction:column;gap:20px">
-  <div style="width:52px;height:52px;border:5px solid rgba(255,255,255,.25);
-              border-top-color:#fff;border-radius:50%;animation:spin 0.9s linear infinite"></div>
-  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600">로그인 처리 중...</p>
-  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
-</div>
-
-<!-- ② 권한 없음 화면 -->
+<!-- 권한없음 -->
 <div id="no-access-wrap" class="no-access" style="display:none">
   <div class="no-access-box">
     <div style="font-size:3rem;margin-bottom:10px">🚫</div>
     <h2>접근 권한이 없습니다</h2>
-    <p id="no-access-msg">이 계정은 관리자로 등록되지 않았습니다.<br>담당자에게 문의하세요.</p>
-    <button class="btn btn-danger" onclick="doLogout()" style="width:100%">다른 계정으로 로그인</button>
+    <p id="no-access-msg">이 계정은 관리자로 등록되지 않았습니다.</p>
+    <button class="btn btn-danger" style="width:100%" onclick="doLogout()">다른 계정으로 로그인</button>
   </div>
 </div>
 
-<!-- ③ 관리자 패널 -->
+<!-- 로딩 -->
+<div id="loading-wrap" class="loading-wrap" style="display:none">
+  <div class="spinner"></div>
+  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600">로그인 처리 중...</p>
+</div>
+
+<!-- 관리자 패널 -->
 <div class="admin-wrap" id="admin-wrap">
   <div class="top-bar">
     <h1>⚙️ 신청 시스템 관리자</h1>
@@ -257,31 +226,29 @@ table.status-table tr:hover td{background:#e8f0fb}
       <div class="form-group"><label>프로그램 제목 *</label><input type="text" id="c-title" placeholder="예) 2025 면접 일정 신청"></div>
       <div class="form-group"><label>안내 본문</label><textarea id="c-desc" placeholder="신청자에게 보여줄 안내 내용"></textarea></div>
       <div class="form-row">
-        <div class="form-group"><label>📅 신청 시작 일시</label><input type="datetime-local" id="c-apply-start"></div>
-        <div class="form-group"><label>⏰ 신청 마감 일시</label><input type="datetime-local" id="c-apply-end"></div>
+        <div class="form-group"><label>신청 시작 일시</label><input type="datetime-local" id="c-apply-start"></div>
+        <div class="form-group"><label>신청 마감 일시</label><input type="datetime-local" id="c-apply-end"></div>
       </div>
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
       <div class="fields-editor">
         <div class="editor-title">📝 신청서 항목 설정</div>
-        <div class="fixed-fields-row">🔒 기본 포함 항목: <b>이름</b> (필수) &nbsp;|&nbsp; <b>비밀번호</b> (필수, 조회·취소용)</div>
+        <div class="fixed-fields-row">🔒 기본 포함: <b>이름</b> (필수) | <b>비밀번호</b> (필수, 조회·취소용)</div>
         <div id="c-fields-list"></div>
         <button class="btn-add-field" onclick="addField('c')">+ 항목 추가 (학번, 연락처, 수험번호 등)</button>
       </div>
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
       <p style="font-size:.95rem;font-weight:700;color:#1e3a5f;margin-bottom:4px">⏱ 날짜별 시간 슬롯 설정</p>
-      <p class="help-tip">① 날짜 범위 입력 후 '목록 생성' → ② 일괄 적용 → ③ 개별 날짜 수정</p>
+      <p class="help-tip">① 날짜 범위 입력 후 목록 생성 → ② 일괄 적용 → ③ 개별 날짜 수정</p>
       <div style="display:flex;gap:10px;align-items:flex-end;margin-top:10px;flex-wrap:wrap">
         <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>시작 날짜 *</label><input type="date" id="c-range-start"></div>
         <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>종료 날짜 *</label><input type="date" id="c-range-end"></div>
         <button class="btn btn-outline" style="height:38px" onclick="generateTable('c')">📋 목록 생성</button>
       </div>
       <div id="c-table-wrap" style="display:none">
-        <div class="slot-table-wrap">
-          <table class="slot-table">
-            <thead><tr><th style="width:40px">포함</th><th>날짜</th><th style="width:36px">요일</th><th>시작</th><th>종료</th><th>간격</th><th>점심제외</th><th style="width:60px">슬롯수</th></tr></thead>
-            <tbody id="c-tbody"></tbody>
-          </table>
-        </div>
+        <div class="slot-table-wrap"><table class="slot-table">
+          <thead><tr><th style="width:40px">포함</th><th>날짜</th><th style="width:36px">요일</th><th>시작</th><th>종료</th><th>간격</th><th>점심제외</th><th style="width:60px">슬롯수</th></tr></thead>
+          <tbody id="c-tbody"></tbody>
+        </table></div>
         <div class="preview-summary" id="c-preview"></div>
         <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
           <button class="btn btn-primary" onclick="calcPreview('c')">🔍 미리보기</button>
@@ -346,7 +313,7 @@ table.status-table tr:hover td{background:#e8f0fb}
     </div>
     <div class="fields-editor" style="margin-bottom:14px">
       <div class="editor-title">📝 신청서 항목 설정</div>
-      <div class="fixed-fields-row">🔒 기본 포함: <b>이름</b> (필수) &nbsp;|&nbsp; <b>비밀번호</b> (필수)</div>
+      <div class="fixed-fields-row">🔒 기본 포함: <b>이름</b> (필수) | <b>비밀번호</b> (필수)</div>
       <div id="e-fields-list"></div>
       <button class="btn-add-field" onclick="addField('e')">+ 항목 추가</button>
     </div>
@@ -359,12 +326,10 @@ table.status-table tr:hover td{background:#e8f0fb}
           <button class="btn btn-outline" style="height:38px" onclick="generateTable('e')">📋 목록 생성</button>
         </div>
         <div id="e-table-wrap" style="display:none;margin-top:12px">
-          <div class="slot-table-wrap">
-            <table class="slot-table">
-              <thead><tr><th style="width:40px">포함</th><th>날짜</th><th style="width:36px">요일</th><th>시작</th><th>종료</th><th>간격</th><th>점심제외</th><th style="width:60px">슬롯수</th></tr></thead>
-              <tbody id="e-tbody"></tbody>
-            </table>
-          </div>
+          <div class="slot-table-wrap"><table class="slot-table">
+            <thead><tr><th style="width:40px">포함</th><th>날짜</th><th style="width:36px">요일</th><th>시작</th><th>종료</th><th>간격</th><th>점심제외</th><th style="width:60px">슬롯수</th></tr></thead>
+            <tbody id="e-tbody"></tbody>
+          </table></div>
           <div class="preview-summary" id="e-preview"></div>
           <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#e65100;cursor:pointer;margin-top:10px">
             <input type="checkbox" id="e-regen"> 슬롯 재생성 확인 (기존 신청 초기화)
@@ -379,446 +344,520 @@ table.status-table tr:hover td{background:#e8f0fb}
   </div>
 </div>
 
+<!-- ====== 관리자 기능 JS ====== -->
 <script>
-const DAYS=['일','월','화','수','목','금','토'];
-const LUNCH_OPTS={'':'없음','12:00-13:00':'12:00~13:00','12:30-13:30':'12:30~13:30'};
-const IV_OPTS=[10,15,20,30,60];
-let editingId=null, statusListener=null, selectedStatusRound=null;
-let statusAllSlots={}, statusFilterDate='all', currentView='slot', admSelectedDate=null;
-let statusRoundData=null;
+var DAYS = ['일','월','화','수','목','금','토'];
+var LUNCH_OPTS = {'':'없음','12:00-13:00':'12:00~13:00','12:30-13:30':'12:30~13:30'};
+var IV_OPTS = [10,15,20,30,60];
+var editingId = null;
+var statusListener = null;
+var selectedStatusRound = null;
+var statusAllSlots = {};
+var statusFilterDate = 'all';
+var currentView = 'slot';
+var admSelectedDate = null;
+var statusRoundData = null;
+var fieldCounters = {c:0, e:0};
 
-
-function switchTab(name){
-  const names=['rounds','create','status','slots'];
-  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',names[i]===name));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById(`panel-${name}`).classList.add('active');
+function switchTab(name) {
+  var names = ['rounds','create','status','slots'];
+  document.querySelectorAll('.tab').forEach(function(t,i){ t.classList.toggle('active', names[i]===name); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel-' + name).classList.add('active');
   if(name==='status') renderStatusGrid();
   if(name==='slots') populateSlotRoundSelect();
 }
 
-/* ════ 신청서 항목 편집기 ════ */
-let fieldCounters={c:0,e:0};
-function addField(p){
-  const idx=fieldCounters[p]++;
-  const row=document.createElement('div');
-  row.className='custom-field-row';row.id=`${p}-field-${idx}`;
-  row.innerHTML=`
-    <input type="text" class="cf-label" placeholder="항목명 (예: 학번)" title="항목명">
-    <input type="text" class="cf-ph" placeholder="입력 안내문구" title="안내문구">
-    <label class="cf-req-wrap"><input type="checkbox" class="fl-req"> 필수</label>
-    <button class="btn-remove-field" onclick="document.getElementById('${p}-field-${idx}').remove()">✕</button>`;
-  document.getElementById(`${p}-fields-list`).appendChild(row);
+/* 신청서 항목 */
+function addField(p) {
+  var idx = fieldCounters[p]++;
+  var row = document.createElement('div');
+  row.className = 'custom-field-row';
+  row.id = p + '-field-' + idx;
+  row.innerHTML = '<input type="text" class="cf-label" placeholder="항목명 (예: 학번)">'
+    + '<input type="text" class="cf-ph" placeholder="입력 안내문구">'
+    + '<label class="cf-req-wrap"><input type="checkbox" class="fl-req"> 필수</label>'
+    + '<button class="btn-remove-field" onclick="document.getElementById('' + p + '-field-' + idx + '').remove()">✕</button>';
+  document.getElementById(p + '-fields-list').appendChild(row);
 }
-function getFormFields(p){
-  return Array.from(document.querySelectorAll(`#${p}-fields-list .custom-field-row`)).map(row=>({
-    label:row.querySelector('.cf-label').value.trim(),
-    placeholder:row.querySelector('.cf-ph').value.trim(),
-    required:row.querySelector('.fl-req').checked
-  })).filter(f=>f.label);
+function getFormFields(p) {
+  return Array.from(document.querySelectorAll('#' + p + '-fields-list .custom-field-row')).map(function(row) {
+    return {
+      label: row.querySelector('.cf-label').value.trim(),
+      placeholder: row.querySelector('.cf-ph').value.trim(),
+      required: row.querySelector('.fl-req').checked
+    };
+  }).filter(function(f){ return f.label; });
 }
-function loadFormFields(p,fields){
-  document.getElementById(`${p}-fields-list`).innerHTML='';fieldCounters[p]=0;
-  (fields||[]).forEach(f=>{
-    addField(p);const idx=fieldCounters[p]-1;
-    const row=document.getElementById(`${p}-field-${idx}`);
-    row.querySelector('.cf-label').value=f.label||'';
-    row.querySelector('.cf-ph').value=f.placeholder||'';
-    row.querySelector('.fl-req').checked=!!f.required;
+function loadFormFields(p, fields) {
+  document.getElementById(p + '-fields-list').innerHTML = '';
+  fieldCounters[p] = 0;
+  (fields||[]).forEach(function(f) {
+    addField(p);
+    var idx = fieldCounters[p] - 1;
+    var row = document.getElementById(p + '-field-' + idx);
+    row.querySelector('.cf-label').value = f.label || '';
+    row.querySelector('.cf-ph').value = f.placeholder || '';
+    row.querySelector('.fl-req').checked = !!f.required;
   });
 }
 
-/* ════ URL 복사 ════ */
-function copyRoundUrl(id,title){
-  const path=window.location.pathname.replace(/\/admin\.html(\?.*)?$/,'/index.html');
-  const url=window.location.origin+path+'?id='+id;
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(()=>{
-      alert(`✅ URL 복사 완료!\n\n"${title}"\n${url}`);
-    }).catch(()=>prompt('URL을 직접 복사하세요:',url));
-  } else prompt('URL을 직접 복사하세요:',url);
+/* URL 복사 */
+function copyRoundUrl(id, title) {
+  var path = window.location.pathname.replace(/\/admin\.html(\?.*)?$/, '/index.html');
+  var url = window.location.origin + path + '?id=' + id;
+  if(navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function(){ alert('URL 복사 완료!\n\n' + title + '\n' + url); }).catch(function(){ prompt('URL을 직접 복사하세요:', url); });
+  } else { prompt('URL을 직접 복사하세요:', url); }
 }
 
-/* ════ 회차 목록 ════ */
-function initAdmin(){
-  db.ref('rounds').on('value',snap=>{
-    const data=snap.val()||{};
-    const list=document.getElementById('rounds-list');
-    const rounds=Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''));
-    if(!rounds.length){list.innerHTML='<div class="empty">회차가 없습니다.</div>';return;}
-    list.innerHTML=rounds.map(([id,r])=>{
-      const total=Object.keys(r.slots||{}).length;
-      const booked=Object.values(r.slots||{}).filter(s=>s.booked).length;
-      const days=[...new Set(Object.values(r.slots||{}).map(s=>s.date))].length;
-      const applyInfo=r.applyStart||r.applyEnd
-        ?`신청기간: ${r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞'} ~ ${r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞'} | `:'';
-      return `<div class="round-item ${r.active?'active-round':''}">
-        <div class="round-header">
-          <div>
-            <div class="round-title">${r.title} <span class="badge ${r.active?'badge-active':'badge-inactive'}">${r.active?'🟢 활성':'⚫ 비활성'}</span></div>
-            <div class="round-meta">${applyInfo}${days}일 | 슬롯 ${total}개 | 신청 ${booked}명</div>
-          </div>
-          <div class="round-actions">
-            ${r.active
-              ?`<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>
-                <button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('${id}',false)">비활성화</button>`
-              :`<button class="btn btn-success btn-sm" onclick="toggleActive('${id}',true)">활성화</button>`}
-            <button class="btn btn-purple btn-sm" onclick="copyRoundUrl('${id}','${r.title.replace(/'/g,"\\'")}')">📋 URL 복사</button>
-            <button class="btn btn-warning btn-sm" onclick="openEdit('${id}')">✏️ 수정</button>
-            <button class="btn btn-danger btn-sm" onclick="deleteRound('${id}','${r.title.replace(/'/g,"\\'")}')">삭제</button>
-          </div>
-        </div>
-      </div>`;
+/* 회차 목록 */
+function initAdmin() {
+  db.ref('rounds').on('value', function(snap) {
+    var data = snap.val() || {};
+    var list = document.getElementById('rounds-list');
+    var rounds = Object.entries(data).sort(function(a,b){ return (b[1].createdAt||'').localeCompare(a[1].createdAt||''); });
+    if(!rounds.length) { list.innerHTML = '<div class="empty">회차가 없습니다.</div>'; return; }
+    list.innerHTML = rounds.map(function(entry) {
+      var id = entry[0], r = entry[1];
+      var total = Object.keys(r.slots||{}).length;
+      var booked = Object.values(r.slots||{}).filter(function(s){ return s.booked; }).length;
+      var days = Array.from(new Set(Object.values(r.slots||{}).map(function(s){ return s.date; }))).length;
+      var applyInfo = (r.applyStart||r.applyEnd)
+        ? '신청기간: ' + (r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞') + ' ~ ' + (r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞') + ' | ' : '';
+      var ti = r.title.replace(/'/g, "\'");
+      return '<div class="round-item ' + (r.active?'active-round':'') + '">'
+        + '<div class="round-header">'
+        + '<div><div class="round-title">' + r.title + ' <span class="badge ' + (r.active?'badge-active':'badge-inactive') + '">' + (r.active?'🟢 활성':'⚫ 비활성') + '</span></div>'
+        + '<div class="round-meta">' + applyInfo + days + '일 | 슬롯 ' + total + '개 | 신청 ' + booked + '명</div></div>'
+        + '<div class="round-actions">'
+        + (r.active
+          ? '<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>'
+            + '<button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('' + id + '',false)">비활성화</button>'
+          : '<button class="btn btn-success btn-sm" onclick="toggleActive('' + id + '',true)">활성화</button>')
+        + '<button class="btn btn-purple btn-sm" onclick="copyRoundUrl('' + id + '','' + ti + '')">📋 URL</button>'
+        + '<button class="btn btn-warning btn-sm" onclick="openEdit('' + id + '')">✏️ 수정</button>'
+        + '<button class="btn btn-danger btn-sm" onclick="deleteRound('' + id + '','' + ti + '')">삭제</button>'
+        + '</div></div></div>';
     }).join('');
   });
 }
-function toggleActive(id,val){
-  db.ref('rounds').once('value',snap=>{
-    const u={};snap.forEach(c=>{u[`rounds/${c.key}/active`]=false;});
-    if(val)u[`rounds/${id}/active`]=true;db.ref().update(u);
+function toggleActive(id, val) {
+  db.ref('rounds').once('value', function(snap) {
+    var u = {};
+    snap.forEach(function(c){ u['rounds/' + c.key + '/active'] = false; });
+    if(val) u['rounds/' + id + '/active'] = true;
+    db.ref().update(u);
   });
 }
-function deleteRound(id,title){
-  if(!confirm(`"${title}" 회차를 삭제하시겠습니까?`))return;
-  db.ref(`rounds/${id}`).remove();
+function deleteRound(id, title) {
+  if(!confirm('"' + title + '" 회차를 삭제하시겠습니까?')) return;
+  db.ref('rounds/' + id).remove();
 }
 
-/* ════ 회차 수정 ════ */
-function openEdit(id){
-  editingId=id;
-  document.getElementById('e-table-wrap').style.display='none';
-  document.getElementById('e-preview').style.display='none';
-  document.getElementById('e-regen').checked=false;
+/* 회차 수정 */
+function openEdit(id) {
+  editingId = id;
+  document.getElementById('e-table-wrap').style.display = 'none';
+  document.getElementById('e-preview').style.display = 'none';
+  document.getElementById('e-regen').checked = false;
   document.getElementById('regen-details').removeAttribute('open');
-  db.ref(`rounds/${id}`).once('value',snap=>{
-    const r=snap.val();
-    document.getElementById('e-title').value=r.title||'';
-    document.getElementById('e-desc').value=r.description||'';
-    document.getElementById('e-apply-start').value=r.applyStart||'';
-    document.getElementById('e-apply-end').value=r.applyEnd||'';
-    loadFormFields('e',r.formFields||[]);
+  db.ref('rounds/' + id).once('value', function(snap) {
+    var r = snap.val();
+    document.getElementById('e-title').value = r.title || '';
+    document.getElementById('e-desc').value = r.description || '';
+    document.getElementById('e-apply-start').value = r.applyStart || '';
+    document.getElementById('e-apply-end').value = r.applyEnd || '';
+    loadFormFields('e', r.formFields || []);
     document.getElementById('edit-overlay').classList.add('show');
   });
 }
-function closeEdit(){document.getElementById('edit-overlay').classList.remove('show');editingId=null;}
-function saveEdit(){
-  const title=document.getElementById('e-title').value.trim();
-  if(!title){alert('제목을 입력하세요.');return;}
-  const updates={title,description:document.getElementById('e-desc').value.trim(),
-    applyStart:document.getElementById('e-apply-start').value||null,
-    applyEnd:document.getElementById('e-apply-end').value||null,
-    formFields:getFormFields('e')};
-  if(document.getElementById('e-regen').checked){
-    if(document.getElementById('e-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
-    const slots=getTableSlots('e');
-    if(!slots||!Object.keys(slots).length){alert('시간 설정을 확인하세요.');return;}
-    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.'))return;
-    updates.slots=slots;
+function closeEdit() { document.getElementById('edit-overlay').classList.remove('show'); editingId = null; }
+function saveEdit() {
+  var title = document.getElementById('e-title').value.trim();
+  if(!title) { alert('제목을 입력하세요.'); return; }
+  var updates = {
+    title: title,
+    description: document.getElementById('e-desc').value.trim(),
+    applyStart: document.getElementById('e-apply-start').value || null,
+    applyEnd: document.getElementById('e-apply-end').value || null,
+    formFields: getFormFields('e')
+  };
+  if(document.getElementById('e-regen').checked) {
+    if(document.getElementById('e-table-wrap').style.display === 'none') { alert('날짜 목록을 먼저 생성하세요.'); return; }
+    var slots = getTableSlots('e');
+    if(!slots || !Object.keys(slots).length) { alert('시간 설정을 확인하세요.'); return; }
+    if(!confirm('기존 신청 데이터가 모두 초기화됩니다.')) return;
+    updates.slots = slots;
   }
-  db.ref(`rounds/${editingId}`).update(updates).then(()=>{alert('✅ 수정되었습니다.');closeEdit();});
+  db.ref('rounds/' + editingId).update(updates).then(function(){ alert('✅ 수정되었습니다.'); closeEdit(); });
 }
 
-/* ════ 회차 생성 ════ */
-function createRound(){
-  const title=document.getElementById('c-title').value.trim();
-  if(!title){alert('제목을 입력하세요.');return;}
-  if(document.getElementById('c-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
-  const slots=getTableSlots('c');
-  if(!slots||!Object.keys(slots).length){alert('시간 설정을 확인하세요.');return;}
-  const formFields=getFormFields('c');
+/* 회차 생성 */
+function createRound() {
+  var title = document.getElementById('c-title').value.trim();
+  if(!title) { alert('제목을 입력하세요.'); return; }
+  if(document.getElementById('c-table-wrap').style.display === 'none') { alert('날짜 목록을 먼저 생성하세요.'); return; }
+  var slots = getTableSlots('c');
+  if(!slots || !Object.keys(slots).length) { alert('시간 설정을 확인하세요.'); return; }
   db.ref('rounds').push({
-    title,description:document.getElementById('c-desc').value.trim(),
-    active:false,
-    applyStart:document.getElementById('c-apply-start').value||null,
-    applyEnd:document.getElementById('c-apply-end').value||null,
-    formFields,createdAt:new Date().toISOString(),slots
-  }).then(()=>{
-    alert(`✅ 회차 생성 완료! (슬롯 ${Object.keys(slots).length}개)`);
-    ['c-title','c-desc','c-apply-start','c-apply-end','c-range-start','c-range-end'].forEach(id=>{document.getElementById(id).value='';});
-    document.getElementById('c-fields-list').innerHTML='';
-    document.getElementById('c-table-wrap').style.display='none';
+    title: title,
+    description: document.getElementById('c-desc').value.trim(),
+    active: false,
+    applyStart: document.getElementById('c-apply-start').value || null,
+    applyEnd: document.getElementById('c-apply-end').value || null,
+    formFields: getFormFields('c'),
+    createdAt: new Date().toISOString(),
+    slots: slots
+  }).then(function() {
+    alert('✅ 회차 생성 완료! (슬롯 ' + Object.keys(slots).length + '개)');
+    ['c-title','c-desc','c-apply-start','c-apply-end','c-range-start','c-range-end'].forEach(function(id){ document.getElementById(id).value = ''; });
+    document.getElementById('c-fields-list').innerHTML = '';
+    document.getElementById('c-table-wrap').style.display = 'none';
     switchTab('rounds');
   });
 }
 
-/* ════ 날짜 테이블 ════ */
-function lunchSelect(id,val){
-  return `<select id="${id}" onchange="updateRowCount(this)" style="font-size:.78rem">
-    ${Object.entries(LUNCH_OPTS).map(([k,v])=>`<option value="${k}"${k===val?' selected':''}>${v}</option>`).join('')}</select>`;
+/* 날짜 테이블 */
+function lunchSel(id, val) {
+  return '<select id="' + id + '" onchange="updateRowCount(this)" style="font-size:.78rem">'
+    + Object.entries(LUNCH_OPTS).map(function(e){ return '<option value="' + e[0] + '"' + (e[0]===val?' selected':'') + '>' + e[1] + '</option>'; }).join('')
+    + '</select>';
 }
-function ivSelect(id,val){
-  return `<select id="${id}" onchange="updateRowCount(this)" style="font-size:.78rem">
-    ${IV_OPTS.map(v=>`<option value="${v}"${v==val?' selected':''}>${v}분</option>`).join('')}</select>`;
+function ivSel(id, val) {
+  return '<select id="' + id + '" onchange="updateRowCount(this)" style="font-size:.78rem">'
+    + IV_OPTS.map(function(v){ return '<option value="' + v + '"' + (v==val?' selected':'') + '>' + v + '분</option>'; }).join('')
+    + '</select>';
 }
-function generateTable(p){
-  const s=document.getElementById(`${p}-range-start`).value,e=document.getElementById(`${p}-range-end`).value;
-  if(!s||!e){alert('날짜를 입력하세요.');return;}if(s>e){alert('종료 날짜가 시작보다 앞입니다.');return;}
-  const dates=[];for(let d=new Date(s);d<=new Date(e);d.setDate(d.getDate()+1))dates.push(d.toISOString().slice(0,10));
-  if(dates.length>60){alert('최대 60일');return;}
-  const tbody=document.getElementById(`${p}-tbody`);
-  tbody.innerHTML=`<tr class="bulk-row">
-    <td colspan="2" style="text-align:left;padding-left:12px"><b>📋 일괄 적용</b>
-      <button class="btn btn-primary btn-sm" style="margin-left:10px;font-size:.75rem" onclick="applyBulk('${p}')">체크된 날짜에 적용 ▶</button></td>
-    <td></td>
-    <td><input type="time" id="${p}-bulk-ts" value="09:00" style="font-size:.8rem"></td>
-    <td><input type="time" id="${p}-bulk-te" value="17:00" style="font-size:.8rem"></td>
-    <td>${ivSelect(`${p}-bulk-iv`,30)}</td><td>${lunchSelect(`${p}-bulk-ln`,'')}</td><td></td>
-  </tr>`+dates.map(date=>{
-    const di=new Date(date).getDay(),checked=(di!==0&&di!==6)?'checked':'';
-    return `<tr class="date-row ${checked?'':'excluded'}" id="${p}-row-${date}">
-      <td><input type="checkbox" ${checked} onchange="toggleRow('${p}','${date}',this.checked)"></td>
-      <td style="font-weight:600">${date}</td>
-      <td><span class="day-badge day-${di}">${DAYS[di]}</span></td>
-      <td><input type="time" id="${p}-ts-${date}" value="09:00" onchange="calcRowCount('${p}','${date}')"></td>
-      <td><input type="time" id="${p}-te-${date}" value="17:00" onchange="calcRowCount('${p}','${date}')"></td>
-      <td>${ivSelect(`${p}-iv-${date}`,30)}</td><td>${lunchSelect(`${p}-ln-${date}`,'')}</td>
-      <td id="${p}-cnt-${date}" style="font-weight:700;color:#388e3c">-</td>
-    </tr>`;
+function generateTable(p) {
+  var s = document.getElementById(p + '-range-start').value;
+  var e = document.getElementById(p + '-range-end').value;
+  if(!s||!e) { alert('날짜를 입력하세요.'); return; }
+  if(s>e) { alert('종료 날짜가 시작보다 앞입니다.'); return; }
+  var dates = [];
+  for(var d = new Date(s); d <= new Date(e); d.setDate(d.getDate()+1)) dates.push(d.toISOString().slice(0,10));
+  if(dates.length > 60) { alert('최대 60일까지 가능합니다.'); return; }
+  var tbody = document.getElementById(p + '-tbody');
+  var bulk = '<tr class="bulk-row"><td colspan="2" style="text-align:left;padding-left:12px"><b>📋 일괄 적용</b>'
+    + '<button class="btn btn-primary btn-sm" style="margin-left:10px;font-size:.75rem" onclick="applyBulk('' + p + '')">체크된 날짜에 적용 ▶</button></td>'
+    + '<td></td>'
+    + '<td><input type="time" id="' + p + '-bulk-ts" value="09:00" style="font-size:.8rem"></td>'
+    + '<td><input type="time" id="' + p + '-bulk-te" value="17:00" style="font-size:.8rem"></td>'
+    + '<td>' + ivSel(p+'-bulk-iv', 30) + '</td>'
+    + '<td>' + lunchSel(p+'-bulk-ln', '') + '</td><td></td></tr>';
+  var rows = dates.map(function(date) {
+    var di = new Date(date).getDay();
+    var chk = (di!==0&&di!==6) ? 'checked' : '';
+    return '<tr class="date-row ' + (chk?'':'excluded') + '" id="' + p + '-row-' + date + '">'
+      + '<td><input type="checkbox" ' + chk + ' onchange="toggleRow('' + p + '','' + date + '',this.checked)"></td>'
+      + '<td style="font-weight:600">' + date + '</td>'
+      + '<td><span class="day-badge day-' + di + '">' + DAYS[di] + '</span></td>'
+      + '<td><input type="time" id="' + p + '-ts-' + date + '" value="09:00" onchange="calcRowCount('' + p + '','' + date + '')"></td>'
+      + '<td><input type="time" id="' + p + '-te-' + date + '" value="17:00" onchange="calcRowCount('' + p + '','' + date + '')"></td>'
+      + '<td>' + ivSel(p+'-iv-'+date, 30) + '</td>'
+      + '<td>' + lunchSel(p+'-ln-'+date, '') + '</td>'
+      + '<td id="' + p + '-cnt-' + date + '" style="font-weight:700;color:#388e3c">-</td></tr>';
   }).join('');
-  dates.forEach(date=>{const chk=document.querySelector(`#${p}-row-${date} input[type="checkbox"]`);if(chk&&chk.checked)calcRowCount(p,date);});
-  document.getElementById(`${p}-table-wrap`).style.display='block';
-  document.getElementById(`${p}-preview`).style.display='none';
+  tbody.innerHTML = bulk + rows;
+  dates.forEach(function(date) {
+    var chk = document.querySelector('#' + p + '-row-' + date + ' input[type="checkbox"]');
+    if(chk && chk.checked) calcRowCount(p, date);
+  });
+  document.getElementById(p + '-table-wrap').style.display = 'block';
+  document.getElementById(p + '-preview').style.display = 'none';
 }
-function toggleRow(p,date,c){const row=document.getElementById(`${p}-row-${date}`);if(c){row.classList.remove('excluded');calcRowCount(p,date);}else{row.classList.add('excluded');document.getElementById(`${p}-cnt-${date}`).textContent='-';}}
-function applyBulk(p){
-  const ts=document.getElementById(`${p}-bulk-ts`).value,te=document.getElementById(`${p}-bulk-te`).value,
-        iv=document.getElementById(`${p}-bulk-iv`).value,ln=document.getElementById(`${p}-bulk-ln`).value;
-  document.querySelectorAll(`#${p}-tbody .date-row:not(.excluded)`).forEach(row=>{
-    const date=row.id.replace(`${p}-row-`,'');
-    document.getElementById(`${p}-ts-${date}`).value=ts;document.getElementById(`${p}-te-${date}`).value=te;
-    document.getElementById(`${p}-iv-${date}`).value=iv;document.getElementById(`${p}-ln-${date}`).value=ln;
-    calcRowCount(p,date);
+function toggleRow(p, date, checked) {
+  var row = document.getElementById(p + '-row-' + date);
+  if(checked) { row.classList.remove('excluded'); calcRowCount(p, date); }
+  else { row.classList.add('excluded'); document.getElementById(p + '-cnt-' + date).textContent = '-'; }
+}
+function applyBulk(p) {
+  var ts = document.getElementById(p + '-bulk-ts').value;
+  var te = document.getElementById(p + '-bulk-te').value;
+  var iv = document.getElementById(p + '-bulk-iv').value;
+  var ln = document.getElementById(p + '-bulk-ln').value;
+  document.querySelectorAll('#' + p + '-tbody .date-row:not(.excluded)').forEach(function(row) {
+    var date = row.id.replace(p + '-row-', '');
+    document.getElementById(p + '-ts-' + date).value = ts;
+    document.getElementById(p + '-te-' + date).value = te;
+    document.getElementById(p + '-iv-' + date).value = iv;
+    document.getElementById(p + '-ln-' + date).value = ln;
+    calcRowCount(p, date);
   });
 }
-function updateRowCount(el){const row=el.closest('.date-row');if(!row)return;const parts=row.id.split('-row-');if(parts.length<2)return;calcRowCount(parts[0],parts[1]);}
-function calcRowCount(p,date){
-  const ts=document.getElementById(`${p}-ts-${date}`)?.value,te=document.getElementById(`${p}-te-${date}`)?.value;
-  const iv=parseInt(document.getElementById(`${p}-iv-${date}`)?.value||30),ln=document.getElementById(`${p}-ln-${date}`)?.value||'';
-  if(!ts||!te)return;
-  const el=document.getElementById(`${p}-cnt-${date}`);if(el)el.textContent=countSlots(ts,te,iv,ln)+'개';
+function updateRowCount(el) {
+  var row = el.closest('.date-row'); if(!row) return;
+  var parts = row.id.split('-row-'); if(parts.length < 2) return;
+  calcRowCount(parts[0], parts[1]);
 }
-function countSlots(ts,te,iv,ln){
-  let[sh,sm]=ts.split(':').map(Number);const[eh,em]=te.split(':').map(Number);
-  let lS=null,lE=null;if(ln){[lS,lE]=ln.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
-  let cnt=0;while(sh*60+sm<eh*60+em){if(!lS||sh*60+sm<lS||sh*60+sm>=lE)cnt++;sm+=iv;if(sm>=60){sh+=Math.floor(sm/60);sm%=60;}}return cnt;
+function calcRowCount(p, date) {
+  var ts = document.getElementById(p + '-ts-' + date); if(!ts) return;
+  var te = document.getElementById(p + '-te-' + date); if(!te) return;
+  var iv = parseInt(document.getElementById(p + '-iv-' + date).value || 30);
+  var ln = document.getElementById(p + '-ln-' + date).value || '';
+  var cnt = countSlots(ts.value, te.value, iv, ln);
+  var el = document.getElementById(p + '-cnt-' + date);
+  if(el) el.textContent = cnt > 0 ? cnt + '개' : '⚠️0';
 }
-function calcPreview(p){
-  const slots=getTableSlots(p);if(!slots){alert('시간 설정을 확인하세요.');return;}
-  const cnt=Object.keys(slots).length,days=[...new Set(Object.values(slots).map(s=>s.date))].length;
-  const el=document.getElementById(`${p}-preview`);el.innerHTML=`✅ <b>${days}일</b> × 총 <b>${cnt}개</b> 슬롯`;el.style.display='block';
+function countSlots(ts, te, iv, ln) {
+  var sh = parseInt(ts.split(':')[0]), sm = parseInt(ts.split(':')[1]);
+  var eh = parseInt(te.split(':')[0]), em = parseInt(te.split(':')[1]);
+  var lS = null, lE = null;
+  if(ln) {
+    var lp = ln.split('-');
+    lS = parseInt(lp[0].split(':')[0])*60 + parseInt(lp[0].split(':')[1]);
+    lE = parseInt(lp[1].split(':')[0])*60 + parseInt(lp[1].split(':')[1]);
+  }
+  var cnt = 0;
+  while(sh*60+sm < eh*60+em) {
+    if(!lS || sh*60+sm < lS || sh*60+sm >= lE) cnt++;
+    sm += iv; if(sm >= 60) { sh += Math.floor(sm/60); sm %= 60; }
+  }
+  return cnt;
 }
-function getTableSlots(p){
-  const rows=document.querySelectorAll(`#${p}-tbody .date-row:not(.excluded)`);if(!rows.length)return null;
-  const slots={};let ok=true;
-  rows.forEach(row=>{
-    const date=row.id.replace(`${p}-row-`,'');
-    const ts=document.getElementById(`${p}-ts-${date}`)?.value,te=document.getElementById(`${p}-te-${date}`)?.value;
-    const iv=document.getElementById(`${p}-iv-${date}`)?.value||'30',ln=document.getElementById(`${p}-ln-${date}`)?.value||'';
-    if(!ts||!te){ok=false;return;}
-    let[sh,sm]=ts.split(':').map(Number);const[eh,em]=te.split(':').map(Number);
-    let lS=null,lE=null;if(ln){[lS,lE]=ln.split('-').map(t=>{const[h,m]=t.split(':').map(Number);return h*60+m;});}
-    while(sh*60+sm<eh*60+em){
-      const tot=sh*60+sm,t=`${String(sh).padStart(2,'0')}:${String(sm).padStart(2,'0')}`;
-      if(!lS||tot<lS||tot>=lE)slots[`${date}_${t.replace(':','')}`]={date,time:t,booked:false,locked:false};
-      sm+=parseInt(iv);if(sm>=60){sh+=Math.floor(sm/60);sm%=60;}
+function calcPreview(p) {
+  var slots = getTableSlots(p);
+  if(!slots) { alert('시간 설정을 확인하세요.'); return; }
+  var cnt = Object.keys(slots).length;
+  var days = Array.from(new Set(Object.values(slots).map(function(s){ return s.date; }))).length;
+  var el = document.getElementById(p + '-preview');
+  el.innerHTML = '✅ <b>' + days + '일</b> × 총 <b>' + cnt + '개</b> 슬롯'; el.style.display = 'block';
+}
+function getTableSlots(p) {
+  var rows = document.querySelectorAll('#' + p + '-tbody .date-row:not(.excluded)');
+  if(!rows.length) return null;
+  var slots = {}, ok = true;
+  rows.forEach(function(row) {
+    var date = row.id.replace(p + '-row-', '');
+    var tsEl = document.getElementById(p + '-ts-' + date);
+    var teEl = document.getElementById(p + '-te-' + date);
+    if(!tsEl||!teEl) { ok = false; return; }
+    var ts = tsEl.value, te = teEl.value;
+    var iv = parseInt(document.getElementById(p + '-iv-' + date).value || 30);
+    var ln = document.getElementById(p + '-ln-' + date).value || '';
+    if(!ts||!te) { ok = false; return; }
+    var sh = parseInt(ts.split(':')[0]), sm = parseInt(ts.split(':')[1]);
+    var eh = parseInt(te.split(':')[0]), em = parseInt(te.split(':')[1]);
+    var lS = null, lE = null;
+    if(ln) {
+      var lp = ln.split('-');
+      lS = parseInt(lp[0].split(':')[0])*60 + parseInt(lp[0].split(':')[1]);
+      lE = parseInt(lp[1].split(':')[0])*60 + parseInt(lp[1].split(':')[1]);
+    }
+    while(sh*60+sm < eh*60+em) {
+      var tot = sh*60+sm;
+      var t = ('0'+sh).slice(-2) + ':' + ('0'+sm).slice(-2);
+      if(!lS || tot < lS || tot >= lE) slots[date + '_' + t.replace(':','')] = {date:date, time:t, booked:false, locked:false};
+      sm += iv; if(sm >= 60) { sh += Math.floor(sm/60); sm %= 60; }
     }
   });
-  return ok?slots:null;
+  return ok ? slots : null;
 }
 
-/* ════ 신청 현황 ════ */
-function formatDate(d){const[,m,dd]=d.split('-');return `${m}/${dd}(${'일월화수목금토'[new Date(d).getDay()]})`;}
-function setView(v){
-  currentView=v;
-  document.getElementById('vbtn-slot').classList.toggle('active',v==='slot');
-  document.getElementById('vbtn-list').classList.toggle('active',v==='list');
-  document.getElementById('view-slot').style.display=v==='slot'?'block':'none';
-  document.getElementById('view-list').style.display=v==='list'?'block':'none';
-  renderDateFilter();renderCurrentView();
-}
-function renderCurrentView(){if(currentView==='slot')renderAdmSlots();else renderStatusTable();}
-function renderDateFilter(){
-  const dates=[...new Set(Object.values(statusAllSlots).map(s=>s.date))].sort();
-  if(!admSelectedDate&&dates.length)admSelectedDate=dates[0];
-  const tabs=document.getElementById('date-filter-tabs');
-  if(currentView==='slot'){
-    tabs.innerHTML=dates.map(d=>`<div class="adm-date-tab${d===admSelectedDate?' active':''}" onclick="selectAdmDate('${d}')">${formatDate(d)}</div>`).join('');
-  } else {
-    tabs.innerHTML=`<div class="dft ${statusFilterDate==='all'?'active':''}" onclick="filterByDate('all')">전체</div>`
-      +dates.map(d=>`<div class="dft ${statusFilterDate===d?'active':''}" onclick="filterByDate('${d}')">${d.slice(5)}</div>`).join('');
-  }
-}
-function selectAdmDate(d){admSelectedDate=d;renderDateFilter();renderAdmSlots();}
-function filterByDate(d){statusFilterDate=d;renderDateFilter();renderStatusTable();}
-function renderStatusGrid(){
-  db.ref('rounds').once('value',snap=>{
-    const data=snap.val()||{};const grid=document.getElementById('status-round-grid');
-    const rounds=Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||''));
-    if(!rounds.length){grid.innerHTML='<div style="color:#aaa">회차가 없습니다.</div>';return;}
-    grid.innerHTML=rounds.map(([id,r])=>{
-      const booked=Object.values(r.slots||{}).filter(s=>s.booked).length,total=Object.keys(r.slots||{}).length;
-      return `<div class="round-card ${selectedStatusRound===id?'selected':''}" onclick="selectStatusRound('${id}','${r.title.replace(/'/g,"\\'")}')">
-        <div class="rc-title">${r.title}${r.active?' 🟢':''}</div><div class="rc-meta">신청 ${booked} / ${total}</div></div>`;
-    }).join('');
-    if(!selectedStatusRound){const a=rounds.find(([,r])=>r.active);if(a)selectStatusRound(a[0],a[1].title);}
-  });
-}
-function selectStatusRound(id,title){
-  selectedStatusRound=id;statusFilterDate='all';admSelectedDate=null;
-  document.querySelectorAll('.round-card').forEach(c=>c.classList.remove('selected'));
-  event&&event.currentTarget&&event.currentTarget.classList.add('selected');
-  document.getElementById('status-content').style.display='block';
-  document.getElementById('status-title').textContent=title;
-  if(statusListener){db.ref(`rounds/${selectedStatusRound}/slots`).off('value');statusListener=null;}
-  db.ref(`rounds/${id}`).once('value',snap=>{statusRoundData=snap.val()||{};});
-  statusListener=db.ref(`rounds/${id}/slots`).on('value',snap=>{
-    statusAllSlots=snap.val()||{};
-    const all=Object.values(statusAllSlots),booked=all.filter(s=>s.booked);
-    document.getElementById('stat-total').textContent=all.length;
-    document.getElementById('stat-booked').textContent=booked.length;
-    document.getElementById('stat-remain').textContent=all.length-booked.length;
-    document.getElementById('stat-rate').textContent=all.length?Math.round(booked.length/all.length*100)+'%':'-';
-    if(!admSelectedDate){const dates=[...new Set(all.map(s=>s.date))].sort();admSelectedDate=dates[0]||null;}
-    renderDateFilter();renderCurrentView();
-  });
-}
-function renderAdmSlots(){
-  const grid=document.getElementById('adm-slots-grid'),date=admSelectedDate;
-  if(!date){grid.innerHTML='<div style="color:#aaa;padding:20px">날짜를 선택하세요</div>';return;}
-  const filtered=Object.entries(statusAllSlots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time));
-  if(!filtered.length){grid.innerHTML='<div style="color:#aaa;padding:20px">슬롯이 없습니다</div>';return;}
-  grid.innerHTML=filtered.map(([key,s])=>{
-    if(s.locked)return `<div class="adm-slot locked">🔒 ${s.time}<br><small>잠금됨</small></div>`;
-    if(!s.booked)return `<div class="adm-slot avail">🟢 ${s.time}<br><small>신청 가능</small></div>`;
-    const at=(s.bookedAt||'').slice(0,16).replace('T',' ');
-    let extraRows='';
-    if(s.bookedFields)Object.entries(s.bookedFields).forEach(([k,v])=>{extraRows+=`<div class="si-row"><span class="si-key">${k}</span><span class="si-val">${v}</span></div>`;});
-    return `<div class="adm-slot filled">
-      <div class="slot-time">🕐 ${s.time}</div>
-      <div class="slot-info">
-        <div class="si-row"><span class="si-key">이름</span><span class="si-val">${s.bookedBy||'-'}</span></div>
-        ${extraRows}
-        <div class="si-row"><span class="si-key">비밀번호</span><span class="si-val">${s.bookedPw||'-'}</span></div>
-        <div class="si-row"><span class="si-key">신청시각</span><span class="si-val">${at}</span></div>
-      </div>
-      <button class="slot-cancel" onclick="adminCancel('${selectedStatusRound}','${key}')">✕ 신청 취소</button>
-      ${buildContactBtns(s.bookedFields, s)}
-    </div>`;
-  }).join('');
-}
-function renderStatusTable(){
-  const all=Object.values(statusAllSlots),booked=all.filter(s=>s.booked);
-  const fields=statusRoundData&&statusRoundData.formFields||[];
-  const filtered=(statusFilterDate==='all'?booked:booked.filter(s=>s.date===statusFilterDate)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
-  document.getElementById('status-thead-row').innerHTML=`<th>날짜</th><th>시간</th><th>이름</th>`+fields.map(f=>`<th>${f.label}</th>`).join('')+`<th>비밀번호</th><th>신청시각</th><th>연락/관리</th>`;
-  const tbody=document.getElementById('status-tbody');
-  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="${5+fields.length}" class="empty">신청자가 없습니다.</td></tr>`;return;}
-  tbody.innerHTML=filtered.map(s=>{
-    const sKey=Object.entries(statusAllSlots).find(([,v])=>v.date===s.date&&v.time===s.time)?.[0]||'';
-    return `<tr><td>${s.date}</td><td>${s.time}</td><td>${s.bookedBy||'-'}</td>`
-      +fields.map(f=>`<td>${(s.bookedFields&&s.bookedFields[f.label])||'-'}</td>`).join('')
-      +`<td>${s.bookedPw||'-'}</td><td style="white-space:nowrap">${(s.bookedAt||'').slice(0,16).replace('T',' ')}</td>
-       <td>
-         <div style="display:flex;flex-direction:column;gap:4px">
-           ${buildContactBtns(s.bookedFields, s)}
-           <button class="btn btn-danger btn-sm" onclick="adminCancel('${selectedStatusRound}','${sKey}')">취소</button>
-         </div>
-       </td></tr>`;
-  }).join('');
-}
-/* ════ 연락 버튼 생성 ════ */
-function extractPhone(bookedFields, slot){
-  // bookedFields 에서 전화번호 항목 찾기 (연락처, 전화, 핸드폰, phone, tel 포함)
+/* 연락 버튼 */
+function extractPhone(bookedFields) {
   if(!bookedFields) return null;
-  const phoneKeys=['연락처','전화번호','핸드폰','휴대폰','전화','phone','tel','mobile'];
-  for(const[k,v] of Object.entries(bookedFields)){
-    if(phoneKeys.some(pk=>k.toLowerCase().includes(pk.toLowerCase()))){
-      return v.replace(/[^0-9]/g,''); // 숫자만 추출
-    }
+  var keys = ['연락처','전화번호','핸드폰','휴대폰','전화'];
+  var entries = Object.entries(bookedFields);
+  for(var i=0; i<entries.length; i++) {
+    var k = entries[i][0], v = entries[i][1];
+    if(keys.some(function(pk){ return k.indexOf(pk) >= 0; })) return v.replace(/[^0-9]/g,'');
   }
   return null;
 }
-
-function buildContactBtns(bookedFields, slot){
-  const rawNum = extractPhone(bookedFields, slot);
-  if(!rawNum) return '';
-  // 표시용 번호 포맷 (010-1234-5678)
-  const fmt = rawNum.length===11
-    ? rawNum.replace(/(\d{3})(\d{4})(\d{4})/,'$1-$2-$3')
-    : rawNum.length===10
-    ? rawNum.replace(/(\d{3})(\d{3})(\d{4})/,'$1-$2-$3')
-    : rawNum;
-  return \`<div class="contact-btns">
-    <a class="cbtn cbtn-call" href="tel:${rawNum}">📞 전화</a>
-    <a class="cbtn cbtn-sms" href="sms:${rawNum}">✉️ SMS</a>
-    <a class="cbtn cbtn-kakao" href="kakaotalk://launch?url=kakaolink%3A%2F%2F&webUrl=https%3A%2F%2Fopen.kakao.com&appKey=none" onclick="openKakao('${rawNum}');return false;">💬 카카오톡</a>
-  </div>\`;
+function buildContactBtns(bookedFields) {
+  var num = extractPhone(bookedFields);
+  if(!num) return '';
+  return '<div class="contact-btns">'
+    + '<a class="cbtn cbtn-call" href="tel:' + num + '">📞 전화</a>'
+    + '<a class="cbtn cbtn-sms" href="sms:' + num + '">✉️ SMS</a>'
+    + '<button class="cbtn cbtn-kakao" onclick="openKakao('' + num + '')">💬 카카오</button>'
+    + '</div>';
 }
-
-function openKakao(phoneNum){
-  // PC: 카카오톡 앱 프로토콜 시도
-  const isPC = !/Android|iPhone|iPad/i.test(navigator.userAgent);
-  if(isPC){
-    // PC 카카오톡: 전화번호로 친구 검색 후 채팅 불가(정책상) → 안내 표시
-    if(confirm(\`카카오톡으로 연락하시겠습니까?\n\n전화번호: \${phoneNum}\n\n[확인] → 카카오톡 앱 열기\n(PC 카카오톡에서 직접 검색하세요)\`)){
-      window.open('kakaotalk://', '_blank');
-    }
-  } else {
-    // 모바일: 카카오톡 앱으로 직접 연결
-    window.location.href = \`kakaotalk://profile?phone=\${phoneNum}\`;
+function openKakao(num) {
+  if(confirm('카카오톡으로 연락하시겠습니까?\n\n전화번호: ' + num + '\n\n[확인] → 카카오톡 앱 열기')) {
+    window.open('kakaotalk://', '_blank');
   }
 }
 
-function adminCancel(roundId,slotKey){
-  if(!confirm('이 신청을 취소하시겠습니까?'))return;
-  db.ref(`rounds/${roundId}/slots/${slotKey}`).update({booked:false,bookedBy:null,bookedPw:null,bookedFields:null,bookedAt:null});
+/* 신청 현황 */
+function formatDate(d) {
+  var p = d.split('-'); return p[1] + '/' + p[2] + '(' + '일월화수목금토'[new Date(d).getDay()] + ')';
 }
-function exportCSV(){
-  const rows=[...document.getElementById('status-tbody').querySelectorAll('tr')]
-    .map(tr=>[...tr.querySelectorAll('td')].slice(0,-1).map(td=>`"${td.textContent.trim()}"`).join(','))
-    .filter(r=>!r.includes('신청자가'));
-  if(!rows.length){alert('데이터가 없습니다.');return;}
-  const fields=statusRoundData&&statusRoundData.formFields||[];
-  const header=['"날짜"','"시간"','"이름"',...fields.map(f=>`"${f.label}"`),'"비밀번호"','"신청시각"'].join(',');
-  const csv='\uFEFF'+[header,...rows].join('\n');
-  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`신청현황_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+function setView(v) {
+  currentView = v;
+  document.getElementById('vbtn-slot').classList.toggle('active', v==='slot');
+  document.getElementById('vbtn-list').classList.toggle('active', v==='list');
+  document.getElementById('view-slot').style.display = v==='slot' ? 'block' : 'none';
+  document.getElementById('view-list').style.display = v==='list' ? 'block' : 'none';
+  renderDateFilter(); renderCurrentView();
 }
-function populateSlotRoundSelect(){
-  db.ref('rounds').once('value',snap=>{
-    const sel=document.getElementById('slot-round-select'),data=snap.val()||{};
-    sel.innerHTML='<option value="">회차 선택</option>'+Object.entries(data).sort((a,b)=>(b[1].createdAt||'').localeCompare(a[1].createdAt||'')).map(([id,r])=>`<option value="${id}">${r.title}${r.active?' 🟢':''}</option>`).join('');
+function renderCurrentView() { if(currentView==='slot') renderAdmSlots(); else renderStatusTable(); }
+function renderDateFilter() {
+  var dates = Array.from(new Set(Object.values(statusAllSlots).map(function(s){ return s.date; }))).sort();
+  if(!admSelectedDate && dates.length) admSelectedDate = dates[0];
+  var tabs = document.getElementById('date-filter-tabs');
+  if(currentView === 'slot') {
+    tabs.innerHTML = dates.map(function(d) {
+      return '<div class="adm-date-tab' + (d===admSelectedDate?' active':'') + '" onclick="selectAdmDate('' + d + '')">' + formatDate(d) + '</div>';
+    }).join('');
+  } else {
+    tabs.innerHTML = '<div class="dft ' + (statusFilterDate==='all'?'active':'') + '" onclick="filterByDate('all')">전체</div>'
+      + dates.map(function(d){ return '<div class="dft ' + (statusFilterDate===d?'active':'') + '" onclick="filterByDate('' + d + '')">' + d.slice(5) + '</div>'; }).join('');
+  }
+}
+function selectAdmDate(d) { admSelectedDate = d; renderDateFilter(); renderAdmSlots(); }
+function filterByDate(d) { statusFilterDate = d; renderDateFilter(); renderStatusTable(); }
+function renderStatusGrid() {
+  db.ref('rounds').once('value', function(snap) {
+    var data = snap.val() || {};
+    var grid = document.getElementById('status-round-grid');
+    var rounds = Object.entries(data).sort(function(a,b){ return (b[1].createdAt||'').localeCompare(a[1].createdAt||''); });
+    if(!rounds.length) { grid.innerHTML = '<div style="color:#aaa">회차가 없습니다.</div>'; return; }
+    grid.innerHTML = rounds.map(function(entry) {
+      var id = entry[0], r = entry[1];
+      var booked = Object.values(r.slots||{}).filter(function(s){ return s.booked; }).length;
+      var total = Object.keys(r.slots||{}).length;
+      return '<div class="round-card ' + (selectedStatusRound===id?'selected':'') + '" onclick="selectStatusRound('' + id + '','' + r.title.replace(/'/g,"\'") + '')">'
+        + '<div class="rc-title">' + r.title + (r.active?' 🟢':'') + '</div>'
+        + '<div class="rc-meta">신청 ' + booked + ' / ' + total + '</div></div>';
+    }).join('');
+    if(!selectedStatusRound) {
+      var active = rounds.find(function(e){ return e[1].active; });
+      if(active) selectStatusRound(active[0], active[1].title);
+    }
   });
 }
-function loadSlotMgmt(){
-  const id=document.getElementById('slot-round-select').value,content=document.getElementById('slot-mgmt-content');
-  if(!id){content.innerHTML='<div class="empty">회차를 선택하세요</div>';return;}
-  db.ref(`rounds/${id}/slots`).once('value',snap=>{
-    const slots=snap.val()||{},dates=[...new Set(Object.values(slots).map(s=>s.date))].sort();
-    if(!dates.length){content.innerHTML='<div class="empty">슬롯이 없습니다.</div>';return;}
-    let html='<div style="overflow-x:auto"><table class="status-table"><thead><tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr></thead><tbody>';
-    dates.forEach(date=>{Object.entries(slots).filter(([,s])=>s.date===date).sort(([,a],[,b])=>a.time.localeCompare(b.time)).forEach(([key,s])=>{
-      html+=`<tr><td>${s.date}</td><td>${s.time}</td><td>${s.locked?'🔒 잠금':(s.booked?`✅ 신청됨 (${s.bookedBy})`:'⭕ 가능')}</td>
-        <td>${s.booked?'-':s.locked?`<button class="btn btn-success btn-sm" onclick="toggleLock('${id}','${key}',false)">해제</button>`:`<button class="btn btn-warning btn-sm" onclick="toggleLock('${id}','${key}',true)">잠금</button>`}</td></tr>`;
-    });});
-    content.innerHTML=html+'</tbody></table></div>';
+function selectStatusRound(id, title) {
+  selectedStatusRound = id; statusFilterDate = 'all'; admSelectedDate = null;
+  document.querySelectorAll('.round-card').forEach(function(c){ c.classList.remove('selected'); });
+  if(event && event.currentTarget) event.currentTarget.classList.add('selected');
+  document.getElementById('status-content').style.display = 'block';
+  document.getElementById('status-title').textContent = title;
+  if(statusListener) { db.ref('rounds/' + selectedStatusRound + '/slots').off('value'); statusListener = null; }
+  db.ref('rounds/' + id).once('value', function(snap){ statusRoundData = snap.val() || {}; });
+  statusListener = db.ref('rounds/' + id + '/slots').on('value', function(snap) {
+    statusAllSlots = snap.val() || {};
+    var all = Object.values(statusAllSlots), booked = all.filter(function(s){ return s.booked; });
+    document.getElementById('stat-total').textContent = all.length;
+    document.getElementById('stat-booked').textContent = booked.length;
+    document.getElementById('stat-remain').textContent = all.length - booked.length;
+    document.getElementById('stat-rate').textContent = all.length ? Math.round(booked.length/all.length*100) + '%' : '-';
+    if(!admSelectedDate) { var dates = Array.from(new Set(all.map(function(s){ return s.date; }))).sort(); admSelectedDate = dates[0] || null; }
+    renderDateFilter(); renderCurrentView();
   });
 }
-function toggleLock(roundId,slotKey,lock){db.ref(`rounds/${roundId}/slots/${slotKey}`).update({locked:lock}).then(()=>loadSlotMgmt());}
+function renderAdmSlots() {
+  var grid = document.getElementById('adm-slots-grid');
+  var date = admSelectedDate;
+  if(!date) { grid.innerHTML = '<div style="color:#aaa;padding:20px">날짜를 선택하세요</div>'; return; }
+  var filtered = Object.entries(statusAllSlots).filter(function(e){ return e[1].date===date; }).sort(function(a,b){ return a[1].time.localeCompare(b[1].time); });
+  if(!filtered.length) { grid.innerHTML = '<div style="color:#aaa;padding:20px">슬롯이 없습니다</div>'; return; }
+  grid.innerHTML = filtered.map(function(entry) {
+    var key = entry[0], s = entry[1];
+    if(s.locked) return '<div class="adm-slot locked">🔒 ' + s.time + '<br><small>잠금됨</small></div>';
+    if(!s.booked) return '<div class="adm-slot avail">🟢 ' + s.time + '<br><small>신청 가능</small></div>';
+    var at = (s.bookedAt||'').slice(0,16).replace('T',' ');
+    var extra = '';
+    if(s.bookedFields) Object.entries(s.bookedFields).forEach(function(fe){ extra += '<div class="si-row"><span class="si-key">' + fe[0] + '</span><span class="si-val">' + fe[1] + '</span></div>'; });
+    return '<div class="adm-slot filled">'
+      + '<div class="slot-time">🕐 ' + s.time + '</div>'
+      + '<div>'
+      + '<div class="si-row"><span class="si-key">이름</span><span class="si-val">' + (s.bookedBy||'-') + '</span></div>'
+      + extra
+      + '<div class="si-row"><span class="si-key">비밀번호</span><span class="si-val">' + (s.bookedPw||'-') + '</span></div>'
+      + '<div class="si-row"><span class="si-key">신청시각</span><span class="si-val">' + at + '</span></div>'
+      + '</div>'
+      + buildContactBtns(s.bookedFields)
+      + '<button class="slot-cancel" onclick="adminCancel('' + selectedStatusRound + '','' + key + '')">✕ 신청 취소</button>'
+      + '</div>';
+  }).join('');
+}
+function renderStatusTable() {
+  var all = Object.values(statusAllSlots);
+  var booked = all.filter(function(s){ return s.booked; });
+  var fields = (statusRoundData && statusRoundData.formFields) || [];
+  var filtered = (statusFilterDate==='all' ? booked : booked.filter(function(s){ return s.date===statusFilterDate; }))
+    .sort(function(a,b){ return (a.date+a.time).localeCompare(b.date+b.time); });
+  document.getElementById('status-thead-row').innerHTML =
+    '<th>날짜</th><th>시간</th><th>이름</th>'
+    + fields.map(function(f){ return '<th>' + f.label + '</th>'; }).join('')
+    + '<th>비밀번호</th><th>신청시각</th><th>연락/관리</th>';
+  var tbody = document.getElementById('status-tbody');
+  if(!filtered.length) { tbody.innerHTML = '<tr><td colspan="' + (5+fields.length) + '" class="empty">신청자가 없습니다.</td></tr>'; return; }
+  tbody.innerHTML = filtered.map(function(s) {
+    var sKey = '';
+    Object.entries(statusAllSlots).forEach(function(e){ if(e[1].date===s.date && e[1].time===s.time) sKey = e[0]; });
+    return '<tr><td>' + s.date + '</td><td>' + s.time + '</td><td>' + (s.bookedBy||'-') + '</td>'
+      + fields.map(function(f){ return '<td>' + ((s.bookedFields&&s.bookedFields[f.label])||'-') + '</td>'; }).join('')
+      + '<td>' + (s.bookedPw||'-') + '</td>'
+      + '<td style="white-space:nowrap">' + (s.bookedAt||'').slice(0,16).replace('T',' ') + '</td>'
+      + '<td><div style="display:flex;flex-direction:column;gap:4px">'
+      + buildContactBtns(s.bookedFields)
+      + '<button class="btn btn-danger btn-sm" onclick="adminCancel('' + selectedStatusRound + '','' + sKey + '')">취소</button>'
+      + '</div></td></tr>';
+  }).join('');
+}
+function adminCancel(roundId, slotKey) {
+  if(!confirm('이 신청을 취소하시겠습니까?')) return;
+  db.ref('rounds/' + roundId + '/slots/' + slotKey).update({booked:false,bookedBy:null,bookedPw:null,bookedFields:null,bookedAt:null});
+}
+function exportCSV() {
+  var rows = Array.from(document.getElementById('status-tbody').querySelectorAll('tr')).map(function(tr) {
+    return Array.from(tr.querySelectorAll('td')).slice(0,-1).map(function(td){ return '"' + td.textContent.trim() + '"'; }).join(',');
+  }).filter(function(r){ return r.indexOf('신청자가') < 0; });
+  if(!rows.length) { alert('데이터가 없습니다.'); return; }
+  var fields = (statusRoundData && statusRoundData.formFields) || [];
+  var header = ['"날짜"','"시간"','"이름"'].concat(fields.map(function(f){ return '"'+f.label+'"'; })).concat(['"비밀번호"','"신청시각"']).join(',');
+  var csv = '\uFEFF' + [header].concat(rows).join('\n');
+  var a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = '신청현황_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+function populateSlotRoundSelect() {
+  db.ref('rounds').once('value', function(snap) {
+    var sel = document.getElementById('slot-round-select');
+    var data = snap.val() || {};
+    sel.innerHTML = '<option value="">회차 선택</option>'
+      + Object.entries(data).sort(function(a,b){ return (b[1].createdAt||'').localeCompare(a[1].createdAt||''); })
+        .map(function(e){ return '<option value="' + e[0] + '">' + e[1].title + (e[1].active?' 🟢':'') + '</option>'; }).join('');
+  });
+}
+function loadSlotMgmt() {
+  var id = document.getElementById('slot-round-select').value;
+  var content = document.getElementById('slot-mgmt-content');
+  if(!id) { content.innerHTML = '<div class="empty">회차를 선택하세요</div>'; return; }
+  db.ref('rounds/' + id + '/slots').once('value', function(snap) {
+    var slots = snap.val() || {};
+    var dates = Array.from(new Set(Object.values(slots).map(function(s){ return s.date; }))).sort();
+    if(!dates.length) { content.innerHTML = '<div class="empty">슬롯이 없습니다.</div>'; return; }
+    var html = '<div style="overflow-x:auto"><table class="status-table"><thead><tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr></thead><tbody>';
+    dates.forEach(function(date) {
+      Object.entries(slots).filter(function(e){ return e[1].date===date; }).sort(function(a,b){ return a[1].time.localeCompare(b[1].time); }).forEach(function(entry) {
+        var key = entry[0], s = entry[1];
+        var status = s.locked ? '🔒 잠금' : (s.booked ? '✅ 신청됨 (' + s.bookedBy + ')' : '⭕ 가능');
+        var btn = s.booked ? '-' : s.locked
+          ? '<button class="btn btn-success btn-sm" onclick="toggleLock('' + id + '','' + key + '',false)">해제</button>'
+          : '<button class="btn btn-warning btn-sm" onclick="toggleLock('' + id + '','' + key + '',true)">잠금</button>';
+        html += '<tr><td>' + s.date + '</td><td>' + s.time + '</td><td>' + status + '</td><td>' + btn + '</td></tr>';
+      });
+    });
+    content.innerHTML = html + '</tbody></table></div>';
+  });
+}
+function toggleLock(roundId, slotKey, lock) {
+  db.ref('rounds/' + roundId + '/slots/' + slotKey).update({locked: lock}).then(function(){ loadSlotMgmt(); });
+}
 </script>
 
-<!-- ★ 로그인 전용 스크립트 (별도 블록) ★ -->
+<!-- ====== 로그인 전용 JS (완전 독립 블록) ====== -->
 <script>
-(function(){
-  'use strict';
+(function() {
+  function el(id) { return document.getElementById(id); }
 
-  var VERSION = 'v3.2025.0429';
-
-  /* DOM 헬퍼 */
-  function el(id){ return document.getElementById(id); }
-
-  function showOnly(name){
-    ['login-wrap','no-access-wrap','admin-wrap','loading-wrap'].forEach(function(id){
+  function showOnly(name) {
+    ['login-wrap','no-access-wrap','admin-wrap','loading-wrap'].forEach(function(id) {
       var e = el(id); if(e) e.style.display = 'none';
     });
     var t = el(name);
@@ -826,159 +865,94 @@ function toggleLock(roundId,slotKey,lock){db.ref(`rounds/${roundId}/slots/${slot
     t.style.display = (name === 'admin-wrap') ? 'block' : 'flex';
   }
 
-  function setMsg(html, type){
+  function setMsg(html, type) {
     var e = el('login-status-msg'); if(!e) return;
-    if(type === 'error'){ e.style.background='#fce4ec'; e.style.color='#c62828'; }
-    else if(type === 'ok'){ e.style.background='#e8f5e9'; e.style.color='#2e7d32'; }
-    else { e.style.background='#e3f2fd'; e.style.color='#1565c0'; }
+    if(type==='error')      { e.style.background='#fce4ec'; e.style.color='#c62828'; }
+    else if(type==='ok')    { e.style.background='#e8f5e9'; e.style.color='#2e7d32'; }
+    else                    { e.style.background='#e3f2fd'; e.style.color='#1565c0'; }
     e.innerHTML = html;
     e.style.display = 'block';
   }
+  function clearMsg() { var e = el('login-status-msg'); if(e){ e.style.display='none'; e.innerHTML=''; } }
 
-  function clearMsg(){
-    var e = el('login-status-msg');
-    if(e){ e.style.display='none'; e.innerHTML=''; }
-  }
-
-  function setBtnState(loading){
+  function setBtnState(loading) {
     var b = el('btn-popup'); if(!b) return;
     b.disabled = loading;
-    if(loading){
-      b.innerHTML = '&#9203; Google 로그인 창을 여는 중...';
-    } else {
-      b.innerHTML =
-        '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"'
+    b.innerHTML = loading
+      ? '&#9203; Google 로그인 창을 여는 중...'
+      : '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"'
         + ' style="width:20px;height:20px;vertical-align:middle;margin-right:8px">'
         + 'Google 계정으로 로그인';
-    }
   }
 
-  function errMsg(code, raw){
-    if(code === 'auth/popup-blocked')
-      return '팝업이 차단되었습니다.<br>아래 "다른 방법으로 로그인" 버튼을 누르세요.';
-    if(code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request')
-      return '';
-    if(code === 'auth/network-request-failed')
-      return '네트워크 오류입니다. 인터넷 연결을 확인하세요.';
-    if(code === 'auth/unauthorized-domain')
-      return 'Firebase 승인 도메인 오류<br>'
-        + 'Firebase 콘솔 &rarr; Authentication &rarr; 승인된 도메인에<br>'
-        + '<b>' + location.hostname + '</b> 추가 필요';
-    if(code === 'auth/operation-not-allowed')
-      return 'Google 로그인 비활성화 상태<br>'
-        + 'Firebase 콘솔 &rarr; Authentication &rarr; Sign-in method &rarr; Google 활성화 필요';
+  function errMsg(code, raw) {
+    if(code==='auth/popup-blocked') return '팝업이 차단되었습니다.<br>아래 "다른 방법으로 로그인" 버튼을 누르세요.';
+    if(code==='auth/popup-closed-by-user') return '';
+    if(code==='auth/cancelled-popup-request') return '';
+    if(code==='auth/network-request-failed') return '네트워크 오류입니다.';
+    if(code==='auth/unauthorized-domain') return 'Firebase 승인 도메인 오류<br><b>' + location.hostname + '</b> 를 Firebase 콘솔에 추가 필요';
+    if(code==='auth/operation-not-allowed') return 'Firebase에서 Google 로그인 활성화 필요';
     return raw || code || '알 수 없는 오류';
   }
 
-  /* ── 팝업 로그인 ── */
-  window.doPopupLogin = function(){
-    clearMsg();
-    setBtnState(true);
+  window.doPopupLogin = function() {
+    clearMsg(); setBtnState(true);
     setMsg('&#9203; Google 로그인 창을 여는 중...', 'info');
-
-    try {
-      auth.signInWithPopup(googleProvider)
-        .then(function(){ clearMsg(); })
-        .catch(function(err){
-          setBtnState(false);
-          var code = err ? err.code : '';
-          var msg  = err ? err.message : '';
-          var m = errMsg(code, msg);
-          if(m) setMsg('&#10060; ' + m, 'error');
-          else clearMsg();
-          if(code === 'auth/popup-blocked'){
-            var rb = el('btn-redirect'); if(rb) rb.style.display='block';
-          }
-        });
-    } catch(e) {
-      setBtnState(false);
-      setMsg('&#10060; 오류: ' + e.message, 'error');
-    }
-  };
-
-  /* ── 리다이렉트 로그인 ── */
-  window.doRedirectLogin = function(){
-    setMsg('&#9203; Google 페이지로 이동합니다...', 'info');
-    var rb = el('btn-redirect'); if(rb) rb.disabled = true;
-    try {
-      auth.signInWithRedirect(googleProvider).catch(function(err){
-        if(rb) rb.disabled = false;
-        setMsg('&#10060; ' + errMsg(err?err.code:'', err?err.message:''), 'error');
+    auth.signInWithPopup(googleProvider)
+      .then(function() { clearMsg(); })
+      .catch(function(err) {
+        setBtnState(false);
+        var code = err ? err.code : '', msg = err ? err.message : '';
+        var m = errMsg(code, msg);
+        if(m) setMsg('&#10060; ' + m, 'error'); else clearMsg();
+        if(code==='auth/popup-blocked') { var rb = el('btn-redirect'); if(rb) rb.style.display='block'; }
       });
-    } catch(e) {
+  };
+
+  window.doRedirectLogin = function() {
+    setMsg('&#9203; Google 로그인 페이지로 이동합니다...', 'info');
+    var rb = el('btn-redirect'); if(rb) rb.disabled = true;
+    auth.signInWithRedirect(googleProvider).catch(function(err) {
       if(rb) rb.disabled = false;
-      setMsg('&#10060; 오류: ' + e.message, 'error');
-    }
-  };
-
-  /* ── 로그아웃 ── */
-  window.doLogout = function(){
-    auth.signOut().catch(function(){}).finally(function(){
-      showOnly('login-wrap');
-      clearMsg();
-      setBtnState(false);
-      var rb = el('btn-redirect');
-      if(rb){ rb.style.display='none'; rb.disabled=false; }
+      setMsg('&#10060; ' + errMsg(err?err.code:'', err?err.message:''), 'error');
     });
   };
 
-  /* ── 리다이렉트 결과 처리 ── */
-  try {
-    auth.getRedirectResult().then(function(){}).catch(function(err){
-      if(err && err.code && err.code !== 'auth/credential-already-in-use'){
-        setMsg('&#10060; ' + errMsg(err.code, err.message), 'error');
-      }
+  window.doLogout = function() {
+    auth.signOut().catch(function(){}).finally(function() {
+      showOnly('login-wrap'); clearMsg(); setBtnState(false);
+      var rb = el('btn-redirect'); if(rb){ rb.style.display='none'; rb.disabled=false; }
     });
-  } catch(e){}
+  };
 
-  /* ── 인증 상태 감지 ── */
+  auth.getRedirectResult().then(function(){}).catch(function(err) {
+    if(err && err.code && err.code !== 'auth/credential-already-in-use')
+      setMsg('&#10060; ' + errMsg(err.code, err.message), 'error');
+  });
+
   var adminInited = false;
-  auth.onAuthStateChanged(function(user){
-    if(!user){
-      showOnly('login-wrap');
-      setBtnState(false);
-      return;
-    }
-    if(ADMIN_EMAILS.indexOf(user.email) === -1){
+  auth.onAuthStateChanged(function(user) {
+    if(!user) { showOnly('login-wrap'); setBtnState(false); return; }
+    if(ADMIN_EMAILS.indexOf(user.email) === -1) {
       var nm = el('no-access-msg');
-      if(nm) nm.innerHTML =
-        '<b>' + user.email + '</b> 계정은 관리자로 등록되지 않았습니다.<br>'
-        + '<small style="color:#aaa">허용 이메일: ' + ADMIN_EMAILS.join(', ') + '</small>';
-      showOnly('no-access-wrap');
-      return;
+      if(nm) nm.innerHTML = '<b>' + user.email + '</b> 계정은 관리자로 등록되지 않았습니다.<br>'
+        + '<small style="color:#aaa">허용: ' + ADMIN_EMAILS.join(', ') + '</small>';
+      showOnly('no-access-wrap'); return;
     }
     showOnly('admin-wrap');
-    var photo = user.photoURL || '';
     var ls = el('login-status');
-    if(ls){
-      var imgTag = photo
-        ? '<img src="' + photo + '" style="width:30px;height:30px;border-radius:50%;'
-          + 'border:2px solid rgba(255,255,255,.4);vertical-align:middle;margin-right:8px">'
-        : '';
-      ls.innerHTML = imgTag + '<span class="uname">' + (user.displayName || user.email) + '</span>';
-    }
-    if(!adminInited){ adminInited = true; initAdmin(); }
+    if(ls) ls.innerHTML = (user.photoURL ? '<img src="' + user.photoURL + '">' : '')
+      + '<span class="uname">' + (user.displayName || user.email) + '</span>';
+    if(!adminInited) { adminInited = true; initAdmin(); }
   });
 
-  /* ── 페이지 로드 시 상태 표시 ── */
-  window.addEventListener('load', function(){
-    var vs = el('ver-info'); if(vs) vs.textContent = VERSION;
-    var fs = el('fb-status');
-    if(!fs) return;
+  window.addEventListener('load', function() {
+    var fs = el('fb-status'); if(!fs) return;
     try {
-      if(typeof firebase !== 'undefined' && typeof auth !== 'undefined'){
-        fs.textContent = 'Firebase OK';
-        fs.style.color = '#8bc34a';
-      } else {
-        fs.textContent = 'Firebase 로드 실패 — firebase-config.js 확인 필요';
-        fs.style.color = '#ef9a9a';
-      }
-    } catch(ex){
-      fs.textContent = 'Firebase 오류: ' + ex.message;
-      fs.style.color = '#ef9a9a';
-    }
+      fs.textContent = (typeof firebase !== 'undefined' && typeof auth !== 'undefined') ? 'Firebase OK ✅' : 'Firebase 로드 실패 ❌';
+      fs.style.color = (typeof firebase !== 'undefined' && typeof auth !== 'undefined') ? '#8bc34a' : '#ef9a9a';
+    } catch(ex) { fs.textContent = 'Firebase 오류: ' + ex.message; fs.style.color='#ef9a9a'; }
   });
-
 })();
 </script>
 

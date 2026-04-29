@@ -7,9 +7,7 @@ const firebaseConfig = {
   messagingSenderId: "975374539952",
   appId: "1:975374539952:web:e78290008b25970be1ef75"
 };
-
 const ADMIN_EMAILS = ["jykim@gumi.ac.kr"];
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
