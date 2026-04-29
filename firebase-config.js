@@ -7,6 +7,13 @@ const firebaseConfig = {
   messagingSenderId: "975374539952",
   appId: "1:975374539952:web:e78290008b25970be1ef75"
 };
-const ADMIN_PASSWORD = "admin1234";
+
+// ★ 관리자로 허용할 구글 이메일 목록
+const ADMIN_EMAILS = [
+  "jykim@gumi.ac.kr"
+];
+
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db   = firebase.database();
+const auth = firebase.auth();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
