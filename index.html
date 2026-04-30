@@ -144,6 +144,12 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 </div>
 
 <script>
+// ?id= 파라미터 없으면 관리자 페이지로 이동
+if(!new URLSearchParams(location.search).get('id')){
+  location.replace('admin.html');
+}
+</script>
+<script>
 let activeRound=null, allSlots={}, selectedDate=null, datesBuilt=false;
 let mySlotKey=null, myName=null, myPw=null;
 
@@ -170,18 +176,36 @@ function initRound(key, data){
   activeRound={id:key,...data};
   document.getElementById('prog-title').textContent=activeRound.title||'신청 프로그램';
   document.getElementById('prog-desc').textContent=activeRound.description||'';
+
+  // 비활성화 상태 체크
+  if(!activeRound.active){
+    document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>🔒 준비 중</h2><p>아직 신청이 시작되지 않았습니다.<br>관리자에게 문의하세요.</p></div>';
+    return;
+  }
+
   const now=Date.now(),applyStart=toTs(activeRound.applyStart),applyEnd=toTs(activeRound.applyEnd);
   if(applyStart&&now<applyStart){
-    document.getElementById('main-content').innerHTML=`<div class="closed-overlay"><h2>🕐 신청 대기 중</h2><p>신청 시작: <b>${activeRound.applyStart.replace('T',' ').slice(0,16)}</b></p></div>`;
+    document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>🕐 신청 대기 중</h2><p>신청 시작: <b>'+activeRound.applyStart.replace('T',' ').slice(0,16)+'</b></p></div>';
     return;
   }
   if(applyEnd&&now>applyEnd){
-    document.getElementById('main-content').innerHTML=`<div class="closed-overlay"><h2>⏰ 신청이 마감되었습니다</h2><p>신청 마감: <b>${activeRound.applyEnd.replace('T',' ').slice(0,16)}</b></p></div>`;
+    document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>⏰ 신청이 마감되었습니다</h2><p>신청 마감: <b>'+activeRound.applyEnd.replace('T',' ').slice(0,16)+'</b></p></div>';
     return;
   }
   if(applyEnd) startCountdown(activeRound.applyEnd);
   document.getElementById('lookup-box').style.display='block';
-  db.ref(`rounds/${activeRound.id}/slots`).on('value',snap=>{
+
+  // 실시간 활성화 상태 감지 — 관리자가 비활성화하면 즉시 반영
+  db.ref('rounds/'+activeRound.id+'/active').on('value', function(snap){
+    if(!snap.val()){
+      document.getElementById('main-content').innerHTML='<div class="closed-overlay"><h2>🔒 신청이 종료되었습니다</h2><p>관리자에 의해 신청이 마감되었습니다.</p></div>';
+      document.getElementById('lookup-box').style.display='none';
+      document.getElementById('my-banner').style.display='none';
+      document.getElementById('deadline-bar').style.display='none';
+    }
+  });
+
+  db.ref('rounds/'+activeRound.id+'/slots').on('value',function(snap){
     allSlots=snap.val()||{};
     if(mySlotKey&&(!allSlots[mySlotKey]||!allSlots[mySlotKey].booked)){
       mySlotKey=null;myName=null;myPw=null;
