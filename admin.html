@@ -11,7 +11,6 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;min-height:100vh;font-size:14px}
-/* 로그인 */
 .login-wrap{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1e3a5f,#2d6a9f)}
 .login-box{background:#fff;border-radius:20px;padding:48px 40px;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center}
 .login-box h1{font-size:1.5rem;color:#1e3a5f;margin-bottom:6px;font-weight:800}
@@ -19,19 +18,15 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px 20px;border-radius:10px;border:1.5px solid #e0e0e0;background:#fff;cursor:pointer;font-size:.95rem;font-weight:700;color:#333;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .btn-google:hover{background:#f8f9fa;border-color:#2d6a9f}
 .btn-google:disabled{opacity:.6;cursor:not-allowed}
-.login-notice{margin-top:16px;font-size:.75rem;color:#bbb;line-height:1.7}
+.login-notice{margin-top:16px;font-size:.75rem;color:#bbb}
 #login-status-msg{display:none;margin-top:14px;padding:10px 14px;border-radius:8px;font-size:.82rem;line-height:1.8;text-align:left}
-#ver-info,#fb-status{font-size:.72rem;color:#bbb;margin-top:4px}
-/* 권한없음 */
 .no-access{min-height:100vh;display:flex;justify-content:center;align-items:center;background:linear-gradient(135deg,#1e3a5f,#2d6a9f)}
 .no-access-box{background:#fff;border-radius:20px;padding:48px 40px;width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .no-access-box h2{color:#e53935;margin-bottom:12px}
 .no-access-box p{font-size:.88rem;color:#555;line-height:1.7;margin-bottom:20px}
-/* 로딩 */
-.loading-wrap{min-height:100vh;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);display:flex;justify-content:center;align-items:center;flex-direction:column;gap:20px}
+.loading-wrap{min-height:100vh;background:linear-gradient(135deg,#1e3a5f,#2d6a9f);display:none;justify-content:center;align-items:center;flex-direction:column;gap:20px}
 .spinner{width:52px;height:52px;border:5px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:spin .9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* 관리자 레이아웃 */
 .admin-wrap{display:none}
 .top-bar{background:linear-gradient(135deg,#1e3a5f,#2d6a9f);color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .top-bar h1{font-size:1.1rem}
@@ -39,7 +34,6 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .top-bar a{background:rgba(255,255,255,.2);color:#fff;padding:7px 14px;border-radius:6px;text-decoration:none;font-size:.85rem}
 .top-bar a:hover{background:rgba(255,255,255,.35)}
 .top-bar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;font-size:.85rem}
-.top-bar button:hover{background:rgba(255,255,255,.3)}
 .login-status{display:flex;align-items:center;gap:8px}
 .login-status img{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.4)}
 .login-status .uname{font-size:.85rem;color:#fff;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -65,20 +59,18 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .btn-purple{background:#f3e5f5;color:#6a1b9a}.btn-purple:hover{background:#6a1b9a;color:#fff}
 .btn-sm{padding:5px 12px;font-size:.78rem}
 .btn-outline{background:#fff;color:#2d6a9f;border:1.5px solid #2d6a9f}.btn-outline:hover{background:#2d6a9f;color:#fff}
-/* 신청서 항목 */
 .fields-editor{background:#f8f9fa;border-radius:10px;padding:16px;border:1.5px solid #e0e0e0}
 .fields-editor .editor-title{font-size:.9rem;font-weight:700;color:#1e3a5f;margin-bottom:10px}
 .fixed-fields-row{background:#e8f0fb;border-radius:7px;padding:10px 14px;font-size:.83rem;color:#555;margin-bottom:10px;line-height:1.7}
-.custom-field-row{display:flex;gap:8px;align-items:center;background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid #e0e0e0}
-.custom-field-row .cf-label,.custom-field-row .cf-ph{padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:.82rem;flex:1}
-.custom-field-row .cf-label:focus,.custom-field-row .cf-ph:focus{outline:none;border-color:#2d6a9f}
+.custom-field-row{display:flex;gap:8px;align-items:center;background:#fff;border-radius:7px;padding:8px 10px;margin-bottom:6px;border:1px solid #e0e0e0;flex-wrap:wrap}
+.custom-field-row input[type="text"]{padding:6px 10px;border:1.5px solid #ddd;border-radius:6px;font-size:.82rem;flex:1;min-width:80px}
+.custom-field-row input[type="text"]:focus{outline:none;border-color:#2d6a9f}
 .cf-req-wrap{display:flex;align-items:center;gap:4px;font-size:.78rem;color:#555;white-space:nowrap}
 .cf-req-wrap input{width:14px;height:14px;accent-color:#2d6a9f}
-.btn-remove-field{padding:4px 9px;border:none;background:#fce4ec;color:#c62828;border-radius:5px;font-size:.78rem;cursor:pointer;white-space:nowrap}
+.btn-remove-field{padding:4px 9px;border:none;background:#fce4ec;color:#c62828;border-radius:5px;font-size:.78rem;cursor:pointer}
 .btn-remove-field:hover{background:#e53935;color:#fff}
 .btn-add-field{width:100%;padding:8px;border:2px dashed #2d6a9f;border-radius:7px;background:#e8f0fb;color:#2d6a9f;font-size:.85rem;font-weight:700;cursor:pointer;margin-top:6px}
 .btn-add-field:hover{background:#2d6a9f;color:#fff}
-/* 날짜 테이블 */
 .slot-table-wrap{overflow-x:auto;border-radius:10px;border:1.5px solid #e0e0e0;margin-top:14px}
 .slot-table{width:100%;border-collapse:collapse;min-width:680px}
 .slot-table th{padding:9px 10px;text-align:center;font-size:.8rem;font-weight:700;background:#1e3a5f;color:#fff;white-space:nowrap}
@@ -95,7 +87,6 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .day-1,.day-2,.day-3,.day-4,.day-5{background:#e8f0fb;color:#1e3a5f}
 .preview-summary{background:#e8f5e9;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:.88rem;color:#2e7d32;display:none}
 .help-tip{font-size:.78rem;color:#888;margin-top:3px}
-/* 회차목록 */
 .round-item{border:1.5px solid #e0e0e0;border-radius:10px;padding:15px 18px;margin-bottom:10px}
 .round-item.active-round{border-color:#2d6a9f;background:#e8f0fb}
 .round-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
@@ -105,7 +96,6 @@ body{font-family:'Malgun Gothic','맑은 고딕',sans-serif;background:#f0f4f8;m
 .badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.76rem;font-weight:700}
 .badge-active{background:#e8f5e9;color:#2e7d32}
 .badge-inactive{background:#f5f5f5;color:#9e9e9e}
-/* 현황 */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
 .stat-box{background:#fff;border-radius:10px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .stat-num{font-size:1.8rem;font-weight:700;color:#2d6a9f}
@@ -132,33 +122,31 @@ table.status-table tr:hover td{background:#e8f0fb}
 .adm-slots-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .adm-slot{border-radius:12px;border:2px solid;padding:14px 12px;font-size:.85rem;line-height:1.7}
 .adm-slot.avail{background:#e8f5e9;border-color:#66bb6a;color:#2e7d32;text-align:center;font-weight:700}
-.adm-slot.locked{background:#fce4ec;border-color:#ef9a9a;color:#c62828;text-align:center}
+.adm-slot.locked-slot{background:#fce4ec;border-color:#ef9a9a;color:#c62828;text-align:center}
 .adm-slot.filled{background:#fff;border-color:#2d6a9f;box-shadow:0 2px 8px rgba(45,106,159,.12)}
 .adm-slot.filled .slot-time{font-size:1rem;font-weight:900;color:#1e3a5f;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e8f0fb}
-.adm-slot.filled .si-row{display:flex;gap:6px;font-size:.82rem;line-height:1.9}
-.adm-slot.filled .si-key{color:#888;font-size:.75rem;min-width:52px;padding-top:2px}
-.adm-slot.filled .si-val{color:#1e3a5f;font-weight:600;word-break:break-all}
-.adm-slot.filled .slot-cancel{margin-top:8px;width:100%;padding:5px;border:none;border-radius:6px;background:#fce4ec;color:#c62828;font-size:.78rem;font-weight:700;cursor:pointer}
-.adm-slot.filled .slot-cancel:hover{background:#e53935;color:#fff}
+.si-row{display:flex;gap:6px;font-size:.82rem;line-height:1.9}
+.si-key{color:#888;font-size:.75rem;min-width:52px;padding-top:2px}
+.si-val{color:#1e3a5f;font-weight:600;word-break:break-all}
+.slot-cancel{margin-top:8px;width:100%;padding:5px;border:none;border-radius:6px;background:#fce4ec;color:#c62828;font-size:.78rem;font-weight:700;cursor:pointer}
+.slot-cancel:hover{background:#e53935;color:#fff}
 .contact-btns{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-.cbtn{padding:5px 10px;border-radius:6px;border:none;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:all .2s}
+.cbtn{padding:5px 10px;border-radius:6px;border:none;font-size:.75rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
 .cbtn-call{background:#e8f5e9;color:#2e7d32}.cbtn-call:hover{background:#2e7d32;color:#fff}
 .cbtn-sms{background:#e3f2fd;color:#1565c0}.cbtn-sms:hover{background:#1565c0;color:#fff}
 .cbtn-kakao{background:#FEE500;color:#3C1E1E}.cbtn-kakao:hover{background:#e6ce00}
-/* 모달 */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center;padding:16px}
 .overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;padding:28px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
 .modal h2{font-size:1.1rem;color:#1e3a5f;margin-bottom:16px}
-@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}.custom-field-row{flex-wrap:wrap}}
+@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,1fr)}.form-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- 로그인 -->
 <div id="login-wrap" class="login-wrap">
   <div class="login-box">
-    <div style="font-size:3rem;margin-bottom:8px">🔐</div>
+    <div style="font-size:3rem;margin-bottom:8px">&#128274;</div>
     <h1>관리자 로그인</h1>
     <p>신청 시스템 관리자 페이지입니다.<br>Google 계정으로 로그인하세요.</p>
     <button id="btn-popup" class="btn-google" onclick="doPopupLogin()">
@@ -167,9 +155,8 @@ table.status-table tr:hover td{background:#e8f0fb}
     </button>
     <button id="btn-redirect" onclick="doRedirectLogin()"
       style="display:none;width:100%;margin-top:10px;padding:12px;border-radius:10px;
-             border:1.5px solid #2d6a9f;background:#e8f0fb;color:#2d6a9f;
-             font-size:.92rem;font-weight:700;cursor:pointer">
-      🔄 다른 방법으로 로그인
+             border:1.5px solid #2d6a9f;background:#e8f0fb;color:#2d6a9f;font-size:.92rem;font-weight:700;cursor:pointer">
+      &#128260; 다른 방법으로 로그인
     </button>
     <div id="login-status-msg"></div>
     <p class="login-notice">허가된 관리자 계정만 접근 가능합니다.</p>
@@ -178,48 +165,40 @@ table.status-table tr:hover td{background:#e8f0fb}
   </div>
 </div>
 
-<!-- 권한없음 -->
 <div id="no-access-wrap" class="no-access" style="display:none">
   <div class="no-access-box">
-    <div style="font-size:3rem;margin-bottom:10px">🚫</div>
+    <div style="font-size:3rem;margin-bottom:10px">&#128683;</div>
     <h2>접근 권한이 없습니다</h2>
     <p id="no-access-msg">이 계정은 관리자로 등록되지 않았습니다.</p>
     <button class="btn btn-danger" style="width:100%" onclick="doLogout()">다른 계정으로 로그인</button>
   </div>
 </div>
 
-<!-- 로딩 -->
-<div id="loading-wrap" class="loading-wrap" style="display:none">
+<div id="loading-wrap" class="loading-wrap">
   <div class="spinner"></div>
-  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600">로그인 처리 중...</p>
+  <p id="loading-msg" style="color:#fff;font-size:1rem;font-weight:600">처리 중...</p>
 </div>
 
-<!-- 관리자 패널 -->
 <div class="admin-wrap" id="admin-wrap">
   <div class="top-bar">
-    <h1>⚙️ 신청 시스템 관리자</h1>
+    <h1>&#9881;&#65039; 신청 시스템 관리자</h1>
     <div class="top-bar-right">
-      <a href="index.html" target="_blank">🔗 신청 홈</a>
+      <a href="index.html" target="_blank">&#128279; 신청 홈</a>
       <div class="login-status" id="login-status"></div>
       <button onclick="doLogout()">로그아웃</button>
     </div>
   </div>
   <div class="tabs">
-    <div class="tab active" onclick="switchTab('rounds')">📋 회차 관리</div>
-    <div class="tab" onclick="switchTab('create')">➕ 회차 만들기</div>
-    <div class="tab" onclick="switchTab('status')">📊 신청 현황</div>
-    <div class="tab" onclick="switchTab('slots')">🔒 슬롯 관리</div>
+    <div class="tab active" onclick="switchTab('rounds')">&#128203; 회차 관리</div>
+    <div class="tab" onclick="switchTab('create')">&#10133; 회차 만들기</div>
+    <div class="tab" onclick="switchTab('status')">&#128202; 신청 현황</div>
+    <div class="tab" onclick="switchTab('slots')">&#128274; 슬롯 관리</div>
   </div>
 
-  <!-- 회차 관리 -->
   <div class="panel active" id="panel-rounds">
-    <div class="card">
-      <h2>회차 목록</h2>
-      <div id="rounds-list"><div class="empty">로딩 중...</div></div>
-    </div>
+    <div class="card"><h2>회차 목록</h2><div id="rounds-list"><div class="empty">로딩 중...</div></div></div>
   </div>
 
-  <!-- 회차 만들기 -->
   <div class="panel" id="panel-create">
     <div class="card">
       <h2>새 신청 회차 만들기</h2>
@@ -231,18 +210,18 @@ table.status-table tr:hover td{background:#e8f0fb}
       </div>
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
       <div class="fields-editor">
-        <div class="editor-title">📝 신청서 항목 설정</div>
-        <div class="fixed-fields-row">🔒 기본 포함: <b>이름</b> (필수) | <b>비밀번호</b> (필수, 조회·취소용)</div>
+        <div class="editor-title">&#128221; 신청서 항목 설정</div>
+        <div class="fixed-fields-row">&#128274; 기본 포함: <b>이름</b> (필수) | <b>비밀번호</b> (필수, 조회·취소용)</div>
         <div id="c-fields-list"></div>
         <button class="btn-add-field" onclick="addField('c')">+ 항목 추가 (학번, 연락처, 수험번호 등)</button>
       </div>
       <hr style="border:none;border-top:1.5px solid #e0e0e0;margin:16px 0">
-      <p style="font-size:.95rem;font-weight:700;color:#1e3a5f;margin-bottom:4px">⏱ 날짜별 시간 슬롯 설정</p>
+      <p style="font-size:.95rem;font-weight:700;color:#1e3a5f;margin-bottom:4px">&#9201; 날짜별 시간 슬롯 설정</p>
       <p class="help-tip">① 날짜 범위 입력 후 목록 생성 → ② 일괄 적용 → ③ 개별 날짜 수정</p>
       <div style="display:flex;gap:10px;align-items:flex-end;margin-top:10px;flex-wrap:wrap">
         <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>시작 날짜 *</label><input type="date" id="c-range-start"></div>
         <div class="form-group" style="margin:0;flex:1;min-width:130px"><label>종료 날짜 *</label><input type="date" id="c-range-end"></div>
-        <button class="btn btn-outline" style="height:38px" onclick="generateTable('c')">📋 목록 생성</button>
+        <button class="btn btn-outline" style="height:38px" onclick="generateTable('c')">목록 생성</button>
       </div>
       <div id="c-table-wrap" style="display:none">
         <div class="slot-table-wrap"><table class="slot-table">
@@ -251,14 +230,13 @@ table.status-table tr:hover td{background:#e8f0fb}
         </table></div>
         <div class="preview-summary" id="c-preview"></div>
         <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="calcPreview('c')">🔍 미리보기</button>
-          <button class="btn btn-success" onclick="createRound()">✅ 회차 생성</button>
+          <button class="btn btn-primary" onclick="calcPreview('c')">&#128269; 미리보기</button>
+          <button class="btn btn-success" onclick="createRound()">&#9989; 회차 생성</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 신청 현황 -->
   <div class="panel" id="panel-status">
     <div class="round-card-grid" id="status-round-grid"></div>
     <div id="status-content" style="display:none">
@@ -272,10 +250,10 @@ table.status-table tr:hover td{background:#e8f0fb}
         <h3 id="status-title" style="font-size:1rem;font-weight:700;color:#1e3a5f"></h3>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <div class="view-toggle">
-            <button class="view-btn active" id="vbtn-slot" onclick="setView('slot')">🗓 슬롯 보기</button>
-            <button class="view-btn" id="vbtn-list" onclick="setView('list')">📋 목록 보기</button>
+            <button class="view-btn active" id="vbtn-slot" onclick="setView('slot')">&#128197; 슬롯 보기</button>
+            <button class="view-btn" id="vbtn-list" onclick="setView('list')">&#128203; 목록 보기</button>
           </div>
-          <button class="btn btn-success btn-sm" onclick="exportCSV()">📥 CSV 내보내기</button>
+          <button class="btn btn-success btn-sm" onclick="exportCSV()">&#128229; CSV 내보내기</button>
         </div>
       </div>
       <div class="date-filter-tabs" id="date-filter-tabs"></div>
@@ -288,23 +266,21 @@ table.status-table tr:hover td{background:#e8f0fb}
     </div>
   </div>
 
-  <!-- 슬롯 관리 -->
   <div class="panel" id="panel-slots">
     <div class="card">
       <h2>슬롯 잠금 / 해제 관리</h2>
       <p style="font-size:.83rem;color:#888;margin-bottom:14px">특정 슬롯을 잠금하면 신청 페이지에서 선택 불가로 표시됩니다.</p>
-      <div style="margin-bottom:14px">
-        <select id="slot-round-select" onchange="loadSlotMgmt()" style="padding:8px;border:1.5px solid #ddd;border-radius:6px;font-family:inherit"><option value="">회차 선택</option></select>
-      </div>
+      <select id="slot-round-select" onchange="loadSlotMgmt()" style="padding:8px;border:1.5px solid #ddd;border-radius:6px;font-family:inherit;margin-bottom:14px">
+        <option value="">회차 선택</option>
+      </select>
       <div id="slot-mgmt-content"><div class="empty">회차를 선택하세요</div></div>
     </div>
   </div>
 </div>
 
-<!-- 회차 수정 모달 -->
 <div class="overlay" id="edit-overlay">
   <div class="modal">
-    <h2>✏️ 회차 수정</h2>
+    <h2>&#9999;&#65039; 회차 수정</h2>
     <div class="form-group"><label>프로그램 제목 *</label><input type="text" id="e-title"></div>
     <div class="form-group"><label>안내 본문</label><textarea id="e-desc"></textarea></div>
     <div class="form-row">
@@ -312,18 +288,18 @@ table.status-table tr:hover td{background:#e8f0fb}
       <div class="form-group"><label>신청 마감 일시</label><input type="datetime-local" id="e-apply-end"></div>
     </div>
     <div class="fields-editor" style="margin-bottom:14px">
-      <div class="editor-title">📝 신청서 항목 설정</div>
-      <div class="fixed-fields-row">🔒 기본 포함: <b>이름</b> (필수) | <b>비밀번호</b> (필수)</div>
+      <div class="editor-title">&#128221; 신청서 항목 설정</div>
+      <div class="fixed-fields-row">&#128274; 기본 포함: <b>이름</b> (필수) | <b>비밀번호</b> (필수)</div>
       <div id="e-fields-list"></div>
       <button class="btn-add-field" onclick="addField('e')">+ 항목 추가</button>
     </div>
     <details id="regen-details" style="margin-bottom:14px">
-      <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">🔄 시간 슬롯 재생성 (기존 신청 초기화됨)</summary>
+      <summary style="cursor:pointer;font-size:.88rem;font-weight:700;color:#e65100;padding:8px 0">&#128260; 시간 슬롯 재생성 (기존 신청 초기화됨)</summary>
       <div style="padding-top:12px">
         <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
           <div class="form-group" style="margin:0;flex:1;min-width:120px"><label>시작 날짜</label><input type="date" id="e-range-start"></div>
           <div class="form-group" style="margin:0;flex:1;min-width:120px"><label>종료 날짜</label><input type="date" id="e-range-end"></div>
-          <button class="btn btn-outline" style="height:38px" onclick="generateTable('e')">📋 목록 생성</button>
+          <button class="btn btn-outline" style="height:38px" onclick="generateTable('e')">목록 생성</button>
         </div>
         <div id="e-table-wrap" style="display:none;margin-top:12px">
           <div class="slot-table-wrap"><table class="slot-table">
@@ -344,66 +320,77 @@ table.status-table tr:hover td{background:#e8f0fb}
   </div>
 </div>
 
-<!-- ====== 관리자 기능 JS ====== -->
+<!-- ===== 관리자 기능 JS ===== -->
 <script>
+/* jshint esversion:5 */
 var DAYS = ['일','월','화','수','목','금','토'];
-var LUNCH_OPTS = {'':'없음','12:00-13:00':'12:00~13:00','12:30-13:30':'12:30~13:30'};
-var IV_OPTS = [10,15,20,30,60];
+var LUNCH = {'':'없음','12:00-13:00':'12:00~13:00','12:30-13:30':'12:30~13:30'};
+var IVS = [10,15,20,30,60];
 var editingId = null;
 var statusListener = null;
-var selectedStatusRound = null;
+var selStatusRound = null;
 var statusAllSlots = {};
 var statusFilterDate = 'all';
-var currentView = 'slot';
-var admSelectedDate = null;
+var curView = 'slot';
+var admDate = null;
 var statusRoundData = null;
-var fieldCounters = {c:0, e:0};
+var fldCnt = {c:0, e:0};
+
+function ge(id) { return document.getElementById(id); }
 
 function switchTab(name) {
-  var names = ['rounds','create','status','slots'];
-  document.querySelectorAll('.tab').forEach(function(t,i){ t.classList.toggle('active', names[i]===name); });
-  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
-  document.getElementById('panel-' + name).classList.add('active');
+  ['rounds','create','status','slots'].forEach(function(n,i){
+    document.querySelectorAll('.tab')[i].classList.toggle('active', n===name);
+    ge('panel-'+n).classList.toggle('active', n===name);
+  });
   if(name==='status') renderStatusGrid();
-  if(name==='slots') populateSlotRoundSelect();
+  if(name==='slots') populateSlotSel();
 }
 
 /* 신청서 항목 */
 function addField(p) {
-  var idx = fieldCounters[p]++;
+  var idx = fldCnt[p]++;
+  var fid = p+'-field-'+idx;
   var row = document.createElement('div');
   row.className = 'custom-field-row';
-  row.id = p + '-field-' + idx;
-  row.innerHTML = '<input type="text" class="cf-label" placeholder="항목명 (예: 학번)">'
-    + '<input type="text" class="cf-ph" placeholder="입력 안내문구">'
-    + '<label class="cf-req-wrap"><input type="checkbox" class="fl-req"> 필수</label>'
-    + '<button class="btn-remove-field" onclick="document.getElementById('' + p + '-field-' + idx + '').remove()">✕</button>';
-  document.getElementById(p + '-fields-list').appendChild(row);
+  row.id = fid;
+  var lbl = document.createElement('input');
+  lbl.type='text'; lbl.className='cf-label'; lbl.placeholder='항목명 (예: 학번)';
+  var ph = document.createElement('input');
+  ph.type='text'; ph.className='cf-ph'; ph.placeholder='입력 안내문구';
+  var reqWrap = document.createElement('label');
+  reqWrap.className='cf-req-wrap';
+  var chk = document.createElement('input');
+  chk.type='checkbox'; chk.className='fl-req';
+  reqWrap.appendChild(chk);
+  reqWrap.appendChild(document.createTextNode(' 필수'));
+  var del = document.createElement('button');
+  del.className='btn-remove-field'; del.textContent='✕';
+  del.setAttribute('data-fid', fid);
+  del.onclick = function() { var el=ge(this.getAttribute('data-fid')); if(el) el.remove(); };
+  row.appendChild(lbl); row.appendChild(ph); row.appendChild(reqWrap); row.appendChild(del);
+  ge(p+'-fields-list').appendChild(row);
 }
 function getFormFields(p) {
-  return Array.from(document.querySelectorAll('#' + p + '-fields-list .custom-field-row')).map(function(row) {
-    return {
-      label: row.querySelector('.cf-label').value.trim(),
-      placeholder: row.querySelector('.cf-ph').value.trim(),
-      required: row.querySelector('.fl-req').checked
-    };
+  return Array.from(ge(p+'-fields-list').querySelectorAll('.custom-field-row')).map(function(r) {
+    return { label:r.querySelector('.cf-label').value.trim(), placeholder:r.querySelector('.cf-ph').value.trim(), required:r.querySelector('.fl-req').checked };
   }).filter(function(f){ return f.label; });
 }
 function loadFormFields(p, fields) {
-  document.getElementById(p + '-fields-list').innerHTML = '';
-  fieldCounters[p] = 0;
+  ge(p+'-fields-list').innerHTML=''; fldCnt[p]=0;
   (fields||[]).forEach(function(f) {
     addField(p);
-    var idx = fieldCounters[p] - 1;
-    var row = document.getElementById(p + '-field-' + idx);
-    row.querySelector('.cf-label').value = f.label || '';
-    row.querySelector('.cf-ph').value = f.placeholder || '';
+    var row = ge(p+'-field-'+(fldCnt[p]-1));
+    row.querySelector('.cf-label').value = f.label||'';
+    row.querySelector('.cf-ph').value = f.placeholder||'';
     row.querySelector('.fl-req').checked = !!f.required;
   });
 }
 
 /* URL 복사 */
-function copyRoundUrl(id, title) {
+function copyRoundUrl(btn) {
+  var id = btn.getAttribute('data-id');
+  var title = btn.getAttribute('data-title');
   var path = window.location.pathname.replace(/\/admin\.html(\?.*)?$/, '/index.html');
   var url = window.location.origin + path + '?id=' + id;
   if(navigator.clipboard && navigator.clipboard.writeText) {
@@ -414,547 +401,529 @@ function copyRoundUrl(id, title) {
 /* 회차 목록 */
 function initAdmin() {
   db.ref('rounds').on('value', function(snap) {
-    var data = snap.val() || {};
-    var list = document.getElementById('rounds-list');
+    var data = snap.val()||{};
+    var list = ge('rounds-list');
     var rounds = Object.entries(data).sort(function(a,b){ return (b[1].createdAt||'').localeCompare(a[1].createdAt||''); });
-    if(!rounds.length) { list.innerHTML = '<div class="empty">회차가 없습니다.</div>'; return; }
-    list.innerHTML = rounds.map(function(entry) {
-      var id = entry[0], r = entry[1];
-      var total = Object.keys(r.slots||{}).length;
-      var booked = Object.values(r.slots||{}).filter(function(s){ return s.booked; }).length;
-      var days = Array.from(new Set(Object.values(r.slots||{}).map(function(s){ return s.date; }))).length;
-      var applyInfo = (r.applyStart||r.applyEnd)
-        ? '신청기간: ' + (r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞') + ' ~ ' + (r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞') + ' | ' : '';
-      var ti = r.title.replace(/'/g, "\'");
-      return '<div class="round-item ' + (r.active?'active-round':'') + '">'
-        + '<div class="round-header">'
-        + '<div><div class="round-title">' + r.title + ' <span class="badge ' + (r.active?'badge-active':'badge-inactive') + '">' + (r.active?'🟢 활성':'⚫ 비활성') + '</span></div>'
-        + '<div class="round-meta">' + applyInfo + days + '일 | 슬롯 ' + total + '개 | 신청 ' + booked + '명</div></div>'
-        + '<div class="round-actions">'
-        + (r.active
-          ? '<a href="index.html" target="_blank" class="btn btn-link btn-sm">🔗 신청페이지</a>'
-            + '<button class="btn btn-sm" style="background:#fff3cd;color:#856404" onclick="toggleActive('' + id + '',false)">비활성화</button>'
-          : '<button class="btn btn-success btn-sm" onclick="toggleActive('' + id + '',true)">활성화</button>')
-        + '<button class="btn btn-purple btn-sm" onclick="copyRoundUrl('' + id + '','' + ti + '')">📋 URL</button>'
-        + '<button class="btn btn-warning btn-sm" onclick="openEdit('' + id + '')">✏️ 수정</button>'
-        + '<button class="btn btn-danger btn-sm" onclick="deleteRound('' + id + '','' + ti + '')">삭제</button>'
-        + '</div></div></div>';
-    }).join('');
+    if(!rounds.length) { list.innerHTML='<div class="empty">회차가 없습니다.</div>'; return; }
+    list.innerHTML='';
+    rounds.forEach(function(entry) {
+      var id=entry[0], r=entry[1];
+      var total=Object.keys(r.slots||{}).length;
+      var booked=Object.values(r.slots||{}).filter(function(s){return s.booked;}).length;
+      var days=Array.from(new Set(Object.values(r.slots||{}).map(function(s){return s.date;}))).length;
+      var applyInfo=(r.applyStart||r.applyEnd)
+        ?'신청기간: '+(r.applyStart?r.applyStart.replace('T',' ').slice(0,16):'∞')+' ~ '+(r.applyEnd?r.applyEnd.replace('T',' ').slice(0,16):'∞')+' | ':'';
+
+      var div=document.createElement('div');
+      div.className='round-item'+(r.active?' active-round':'');
+
+      var headerDiv=document.createElement('div'); headerDiv.className='round-header';
+      var infoDiv=document.createElement('div');
+      infoDiv.innerHTML='<div class="round-title">'+r.title+' <span class="badge '+(r.active?'badge-active':'badge-inactive')+'">'+(r.active?'🟢 활성':'⚫ 비활성')+'</span></div>'
+        +'<div class="round-meta">'+applyInfo+days+'일 | 슬롯 '+total+'개 | 신청 '+booked+'명</div>';
+
+      var actDiv=document.createElement('div'); actDiv.className='round-actions';
+
+      if(r.active) {
+        var aLink=document.createElement('a'); aLink.href='index.html'; aLink.target='_blank'; aLink.className='btn btn-link btn-sm'; aLink.textContent='🔗 신청페이지';
+        var deactBtn=document.createElement('button'); deactBtn.className='btn btn-sm'; deactBtn.style.background='#fff3cd'; deactBtn.style.color='#856404'; deactBtn.textContent='비활성화';
+        deactBtn.setAttribute('data-id',id); deactBtn.onclick=function(){ toggleActive(this.getAttribute('data-id'),false); };
+        actDiv.appendChild(aLink); actDiv.appendChild(deactBtn);
+      } else {
+        var actBtn=document.createElement('button'); actBtn.className='btn btn-success btn-sm'; actBtn.textContent='활성화';
+        actBtn.setAttribute('data-id',id); actBtn.onclick=function(){ toggleActive(this.getAttribute('data-id'),true); };
+        actDiv.appendChild(actBtn);
+      }
+
+      var urlBtn=document.createElement('button'); urlBtn.className='btn btn-purple btn-sm'; urlBtn.textContent='📋 URL';
+      urlBtn.setAttribute('data-id',id); urlBtn.setAttribute('data-title',r.title); urlBtn.onclick=function(){ copyRoundUrl(this); };
+      var editBtn=document.createElement('button'); editBtn.className='btn btn-warning btn-sm'; editBtn.textContent='✏️ 수정';
+      editBtn.setAttribute('data-id',id); editBtn.onclick=function(){ openEdit(this.getAttribute('data-id')); };
+      var delBtn=document.createElement('button'); delBtn.className='btn btn-danger btn-sm'; delBtn.textContent='삭제';
+      delBtn.setAttribute('data-id',id); delBtn.setAttribute('data-title',r.title); delBtn.onclick=function(){ deleteRound(this.getAttribute('data-id'),this.getAttribute('data-title')); };
+
+      actDiv.appendChild(urlBtn); actDiv.appendChild(editBtn); actDiv.appendChild(delBtn);
+      headerDiv.appendChild(infoDiv); headerDiv.appendChild(actDiv);
+      div.appendChild(headerDiv); list.appendChild(div);
+    });
   });
 }
 function toggleActive(id, val) {
   db.ref('rounds').once('value', function(snap) {
-    var u = {};
-    snap.forEach(function(c){ u['rounds/' + c.key + '/active'] = false; });
-    if(val) u['rounds/' + id + '/active'] = true;
+    var u={}; snap.forEach(function(c){ u['rounds/'+c.key+'/active']=false; });
+    if(val) u['rounds/'+id+'/active']=true;
     db.ref().update(u);
   });
 }
 function deleteRound(id, title) {
-  if(!confirm('"' + title + '" 회차를 삭제하시겠습니까?')) return;
-  db.ref('rounds/' + id).remove();
+  if(!confirm('"'+title+'" 회차를 삭제하시겠습니까?')) return;
+  db.ref('rounds/'+id).remove();
 }
 
 /* 회차 수정 */
 function openEdit(id) {
-  editingId = id;
-  document.getElementById('e-table-wrap').style.display = 'none';
-  document.getElementById('e-preview').style.display = 'none';
-  document.getElementById('e-regen').checked = false;
-  document.getElementById('regen-details').removeAttribute('open');
-  db.ref('rounds/' + id).once('value', function(snap) {
-    var r = snap.val();
-    document.getElementById('e-title').value = r.title || '';
-    document.getElementById('e-desc').value = r.description || '';
-    document.getElementById('e-apply-start').value = r.applyStart || '';
-    document.getElementById('e-apply-end').value = r.applyEnd || '';
-    loadFormFields('e', r.formFields || []);
-    document.getElementById('edit-overlay').classList.add('show');
+  editingId=id;
+  ge('e-table-wrap').style.display='none'; ge('e-preview').style.display='none';
+  ge('e-regen').checked=false; ge('regen-details').removeAttribute('open');
+  db.ref('rounds/'+id).once('value', function(snap) {
+    var r=snap.val();
+    ge('e-title').value=r.title||''; ge('e-desc').value=r.description||'';
+    ge('e-apply-start').value=r.applyStart||''; ge('e-apply-end').value=r.applyEnd||'';
+    loadFormFields('e',r.formFields||[]);
+    ge('edit-overlay').classList.add('show');
   });
 }
-function closeEdit() { document.getElementById('edit-overlay').classList.remove('show'); editingId = null; }
+function closeEdit() { ge('edit-overlay').classList.remove('show'); editingId=null; }
 function saveEdit() {
-  var title = document.getElementById('e-title').value.trim();
-  if(!title) { alert('제목을 입력하세요.'); return; }
-  var updates = {
-    title: title,
-    description: document.getElementById('e-desc').value.trim(),
-    applyStart: document.getElementById('e-apply-start').value || null,
-    applyEnd: document.getElementById('e-apply-end').value || null,
-    formFields: getFormFields('e')
-  };
-  if(document.getElementById('e-regen').checked) {
-    if(document.getElementById('e-table-wrap').style.display === 'none') { alert('날짜 목록을 먼저 생성하세요.'); return; }
-    var slots = getTableSlots('e');
-    if(!slots || !Object.keys(slots).length) { alert('시간 설정을 확인하세요.'); return; }
+  var title=ge('e-title').value.trim(); if(!title){alert('제목을 입력하세요.');return;}
+  var updates={title:title, description:ge('e-desc').value.trim(),
+    applyStart:ge('e-apply-start').value||null, applyEnd:ge('e-apply-end').value||null,
+    formFields:getFormFields('e')};
+  if(ge('e-regen').checked) {
+    if(ge('e-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
+    var slots=getTableSlots('e'); if(!slots||!Object.keys(slots).length){alert('시간 설정을 확인하세요.');return;}
     if(!confirm('기존 신청 데이터가 모두 초기화됩니다.')) return;
-    updates.slots = slots;
+    updates.slots=slots;
   }
-  db.ref('rounds/' + editingId).update(updates).then(function(){ alert('✅ 수정되었습니다.'); closeEdit(); });
+  db.ref('rounds/'+editingId).update(updates).then(function(){alert('수정되었습니다.');closeEdit();});
 }
 
 /* 회차 생성 */
 function createRound() {
-  var title = document.getElementById('c-title').value.trim();
-  if(!title) { alert('제목을 입력하세요.'); return; }
-  if(document.getElementById('c-table-wrap').style.display === 'none') { alert('날짜 목록을 먼저 생성하세요.'); return; }
-  var slots = getTableSlots('c');
-  if(!slots || !Object.keys(slots).length) { alert('시간 설정을 확인하세요.'); return; }
+  var title=ge('c-title').value.trim(); if(!title){alert('제목을 입력하세요.');return;}
+  if(ge('c-table-wrap').style.display==='none'){alert('날짜 목록을 먼저 생성하세요.');return;}
+  var slots=getTableSlots('c'); if(!slots||!Object.keys(slots).length){alert('시간 설정을 확인하세요.');return;}
   db.ref('rounds').push({
-    title: title,
-    description: document.getElementById('c-desc').value.trim(),
-    active: false,
-    applyStart: document.getElementById('c-apply-start').value || null,
-    applyEnd: document.getElementById('c-apply-end').value || null,
-    formFields: getFormFields('c'),
-    createdAt: new Date().toISOString(),
-    slots: slots
-  }).then(function() {
-    alert('✅ 회차 생성 완료! (슬롯 ' + Object.keys(slots).length + '개)');
-    ['c-title','c-desc','c-apply-start','c-apply-end','c-range-start','c-range-end'].forEach(function(id){ document.getElementById(id).value = ''; });
-    document.getElementById('c-fields-list').innerHTML = '';
-    document.getElementById('c-table-wrap').style.display = 'none';
+    title:title, description:ge('c-desc').value.trim(), active:false,
+    applyStart:ge('c-apply-start').value||null, applyEnd:ge('c-apply-end').value||null,
+    formFields:getFormFields('c'), createdAt:new Date().toISOString(), slots:slots
+  }).then(function(){
+    alert('회차 생성 완료! (슬롯 '+Object.keys(slots).length+'개)');
+    ['c-title','c-desc','c-apply-start','c-apply-end','c-range-start','c-range-end'].forEach(function(id){ge(id).value='';});
+    ge('c-fields-list').innerHTML=''; ge('c-table-wrap').style.display='none';
     switchTab('rounds');
   });
 }
 
 /* 날짜 테이블 */
-function lunchSel(id, val) {
-  return '<select id="' + id + '" onchange="updateRowCount(this)" style="font-size:.78rem">'
-    + Object.entries(LUNCH_OPTS).map(function(e){ return '<option value="' + e[0] + '"' + (e[0]===val?' selected':'') + '>' + e[1] + '</option>'; }).join('')
-    + '</select>';
+function mkLunch(id, val) {
+  var sel=document.createElement('select'); sel.id=id; sel.onchange=function(){updateRowCount(this);};
+  sel.style.fontSize='.78rem';
+  Object.entries(LUNCH).forEach(function(e){ var o=document.createElement('option'); o.value=e[0]; o.text=e[1]; if(e[0]===val) o.selected=true; sel.appendChild(o); });
+  return sel;
 }
-function ivSel(id, val) {
-  return '<select id="' + id + '" onchange="updateRowCount(this)" style="font-size:.78rem">'
-    + IV_OPTS.map(function(v){ return '<option value="' + v + '"' + (v==val?' selected':'') + '>' + v + '분</option>'; }).join('')
-    + '</select>';
+function mkIv(id, val) {
+  var sel=document.createElement('select'); sel.id=id; sel.onchange=function(){updateRowCount(this);};
+  sel.style.fontSize='.78rem';
+  IVS.forEach(function(v){ var o=document.createElement('option'); o.value=v; o.text=v+'분'; if(v==val) o.selected=true; sel.appendChild(o); });
+  return sel;
 }
 function generateTable(p) {
-  var s = document.getElementById(p + '-range-start').value;
-  var e = document.getElementById(p + '-range-end').value;
-  if(!s||!e) { alert('날짜를 입력하세요.'); return; }
-  if(s>e) { alert('종료 날짜가 시작보다 앞입니다.'); return; }
-  var dates = [];
-  for(var d = new Date(s); d <= new Date(e); d.setDate(d.getDate()+1)) dates.push(d.toISOString().slice(0,10));
-  if(dates.length > 60) { alert('최대 60일까지 가능합니다.'); return; }
-  var tbody = document.getElementById(p + '-tbody');
-  var bulk = '<tr class="bulk-row"><td colspan="2" style="text-align:left;padding-left:12px"><b>📋 일괄 적용</b>'
-    + '<button class="btn btn-primary btn-sm" style="margin-left:10px;font-size:.75rem" onclick="applyBulk('' + p + '')">체크된 날짜에 적용 ▶</button></td>'
-    + '<td></td>'
-    + '<td><input type="time" id="' + p + '-bulk-ts" value="09:00" style="font-size:.8rem"></td>'
-    + '<td><input type="time" id="' + p + '-bulk-te" value="17:00" style="font-size:.8rem"></td>'
-    + '<td>' + ivSel(p+'-bulk-iv', 30) + '</td>'
-    + '<td>' + lunchSel(p+'-bulk-ln', '') + '</td><td></td></tr>';
-  var rows = dates.map(function(date) {
-    var di = new Date(date).getDay();
-    var chk = (di!==0&&di!==6) ? 'checked' : '';
-    return '<tr class="date-row ' + (chk?'':'excluded') + '" id="' + p + '-row-' + date + '">'
-      + '<td><input type="checkbox" ' + chk + ' onchange="toggleRow('' + p + '','' + date + '',this.checked)"></td>'
-      + '<td style="font-weight:600">' + date + '</td>'
-      + '<td><span class="day-badge day-' + di + '">' + DAYS[di] + '</span></td>'
-      + '<td><input type="time" id="' + p + '-ts-' + date + '" value="09:00" onchange="calcRowCount('' + p + '','' + date + '')"></td>'
-      + '<td><input type="time" id="' + p + '-te-' + date + '" value="17:00" onchange="calcRowCount('' + p + '','' + date + '')"></td>'
-      + '<td>' + ivSel(p+'-iv-'+date, 30) + '</td>'
-      + '<td>' + lunchSel(p+'-ln-'+date, '') + '</td>'
-      + '<td id="' + p + '-cnt-' + date + '" style="font-weight:700;color:#388e3c">-</td></tr>';
-  }).join('');
-  tbody.innerHTML = bulk + rows;
+  var s=ge(p+'-range-start').value, e=ge(p+'-range-end').value;
+  if(!s||!e){alert('날짜를 입력하세요.');return;} if(s>e){alert('종료 날짜가 시작보다 앞입니다.');return;}
+  var dates=[]; for(var d=new Date(s);d<=new Date(e);d.setDate(d.getDate()+1)) dates.push(d.toISOString().slice(0,10));
+  if(dates.length>60){alert('최대 60일까지 가능합니다.');return;}
+  var tbody=ge(p+'-tbody'); tbody.innerHTML='';
+
+  // 일괄 행
+  var btr=document.createElement('tr'); btr.className='bulk-row';
+  var btd=document.createElement('td'); btd.colSpan=2; btd.style.textAlign='left'; btd.style.paddingLeft='12px';
+  btd.innerHTML='<b>일괄 적용</b> ';
+  var abtn=document.createElement('button'); abtn.className='btn btn-primary btn-sm'; abtn.style.fontSize='.75rem';
+  abtn.textContent='체크된 날짜에 적용'; abtn.setAttribute('data-p',p);
+  abtn.onclick=function(){ applyBulk(this.getAttribute('data-p')); };
+  btd.appendChild(abtn);
+  var td0=document.createElement('td');
+  var td1=document.createElement('td'); var ts0=document.createElement('input'); ts0.type='time'; ts0.id=p+'-bulk-ts'; ts0.value='09:00'; ts0.style.fontSize='.8rem'; td1.appendChild(ts0);
+  var td2=document.createElement('td'); var te0=document.createElement('input'); te0.type='time'; te0.id=p+'-bulk-te'; te0.value='17:00'; te0.style.fontSize='.8rem'; td2.appendChild(te0);
+  var td3=document.createElement('td'); td3.appendChild(mkIv(p+'-bulk-iv',30));
+  var td4=document.createElement('td'); td4.appendChild(mkLunch(p+'-bulk-ln',''));
+  var td5=document.createElement('td');
+  [btd,td0,td1,td2,td3,td4,td5].forEach(function(t){btr.appendChild(t);});
+  tbody.appendChild(btr);
+
   dates.forEach(function(date) {
-    var chk = document.querySelector('#' + p + '-row-' + date + ' input[type="checkbox"]');
-    if(chk && chk.checked) calcRowCount(p, date);
+    var di=new Date(date).getDay(), chk=(di!==0&&di!==6);
+    var tr=document.createElement('tr'); tr.className='date-row'+(chk?'':' excluded'); tr.id=p+'-row-'+date;
+    var c1=document.createElement('td'); var cb=document.createElement('input'); cb.type='checkbox'; if(chk) cb.checked=true;
+    cb.setAttribute('data-p',p); cb.setAttribute('data-date',date);
+    cb.onchange=function(){ toggleRow(this.getAttribute('data-p'),this.getAttribute('data-date'),this.checked); };
+    c1.appendChild(cb);
+    var c2=document.createElement('td'); c2.style.fontWeight='600'; c2.textContent=date;
+    var c3=document.createElement('td'); var db2=document.createElement('span'); db2.className='day-badge day-'+di; db2.textContent=DAYS[di]; c3.appendChild(db2);
+    var c4=document.createElement('td'); var tsi=document.createElement('input'); tsi.type='time'; tsi.id=p+'-ts-'+date; tsi.value='09:00';
+    tsi.setAttribute('data-p',p); tsi.setAttribute('data-date',date); tsi.onchange=function(){ calcRowCount(this.getAttribute('data-p'),this.getAttribute('data-date')); }; c4.appendChild(tsi);
+    var c5=document.createElement('td'); var tei=document.createElement('input'); tei.type='time'; tei.id=p+'-te-'+date; tei.value='17:00';
+    tei.setAttribute('data-p',p); tei.setAttribute('data-date',date); tei.onchange=function(){ calcRowCount(this.getAttribute('data-p'),this.getAttribute('data-date')); }; c5.appendChild(tei);
+    var c6=document.createElement('td'); c6.appendChild(mkIv(p+'-iv-'+date,30));
+    var c7=document.createElement('td'); c7.appendChild(mkLunch(p+'-ln-'+date,''));
+    var c8=document.createElement('td'); c8.id=p+'-cnt-'+date; c8.style.fontWeight='700'; c8.style.color='#388e3c'; c8.textContent='-';
+    [c1,c2,c3,c4,c5,c6,c7,c8].forEach(function(c){tr.appendChild(c);});
+    tbody.appendChild(tr);
+    if(chk) calcRowCount(p,date);
   });
-  document.getElementById(p + '-table-wrap').style.display = 'block';
-  document.getElementById(p + '-preview').style.display = 'none';
+  ge(p+'-table-wrap').style.display='block'; ge(p+'-preview').style.display='none';
 }
 function toggleRow(p, date, checked) {
-  var row = document.getElementById(p + '-row-' + date);
-  if(checked) { row.classList.remove('excluded'); calcRowCount(p, date); }
-  else { row.classList.add('excluded'); document.getElementById(p + '-cnt-' + date).textContent = '-'; }
+  var row=ge(p+'-row-'+date);
+  if(checked){row.classList.remove('excluded');calcRowCount(p,date);}
+  else{row.classList.add('excluded');ge(p+'-cnt-'+date).textContent='-';}
 }
 function applyBulk(p) {
-  var ts = document.getElementById(p + '-bulk-ts').value;
-  var te = document.getElementById(p + '-bulk-te').value;
-  var iv = document.getElementById(p + '-bulk-iv').value;
-  var ln = document.getElementById(p + '-bulk-ln').value;
-  document.querySelectorAll('#' + p + '-tbody .date-row:not(.excluded)').forEach(function(row) {
-    var date = row.id.replace(p + '-row-', '');
-    document.getElementById(p + '-ts-' + date).value = ts;
-    document.getElementById(p + '-te-' + date).value = te;
-    document.getElementById(p + '-iv-' + date).value = iv;
-    document.getElementById(p + '-ln-' + date).value = ln;
-    calcRowCount(p, date);
+  var ts=ge(p+'-bulk-ts').value, te=ge(p+'-bulk-te').value, iv=ge(p+'-bulk-iv').value, ln=ge(p+'-bulk-ln').value;
+  document.querySelectorAll('#'+p+'-tbody .date-row:not(.excluded)').forEach(function(row){
+    var date=row.id.replace(p+'-row-','');
+    ge(p+'-ts-'+date).value=ts; ge(p+'-te-'+date).value=te;
+    ge(p+'-iv-'+date).value=iv; ge(p+'-ln-'+date).value=ln;
+    calcRowCount(p,date);
   });
 }
 function updateRowCount(el) {
-  var row = el.closest('.date-row'); if(!row) return;
-  var parts = row.id.split('-row-'); if(parts.length < 2) return;
-  calcRowCount(parts[0], parts[1]);
+  var row=el.closest('.date-row'); if(!row) return;
+  var parts=row.id.split('-row-'); if(parts.length<2) return;
+  calcRowCount(parts[0],parts[1]);
 }
 function calcRowCount(p, date) {
-  var ts = document.getElementById(p + '-ts-' + date); if(!ts) return;
-  var te = document.getElementById(p + '-te-' + date); if(!te) return;
-  var iv = parseInt(document.getElementById(p + '-iv-' + date).value || 30);
-  var ln = document.getElementById(p + '-ln-' + date).value || '';
-  var cnt = countSlots(ts.value, te.value, iv, ln);
-  var el = document.getElementById(p + '-cnt-' + date);
-  if(el) el.textContent = cnt > 0 ? cnt + '개' : '⚠️0';
+  var ts=ge(p+'-ts-'+date); var te=ge(p+'-te-'+date); if(!ts||!te) return;
+  var iv=parseInt(ge(p+'-iv-'+date).value||30), ln=ge(p+'-ln-'+date).value||'';
+  var el=ge(p+'-cnt-'+date); if(el) el.textContent=countSlots(ts.value,te.value,iv,ln)+'개';
 }
 function countSlots(ts, te, iv, ln) {
-  var sh = parseInt(ts.split(':')[0]), sm = parseInt(ts.split(':')[1]);
-  var eh = parseInt(te.split(':')[0]), em = parseInt(te.split(':')[1]);
-  var lS = null, lE = null;
-  if(ln) {
-    var lp = ln.split('-');
-    lS = parseInt(lp[0].split(':')[0])*60 + parseInt(lp[0].split(':')[1]);
-    lE = parseInt(lp[1].split(':')[0])*60 + parseInt(lp[1].split(':')[1]);
-  }
-  var cnt = 0;
-  while(sh*60+sm < eh*60+em) {
-    if(!lS || sh*60+sm < lS || sh*60+sm >= lE) cnt++;
-    sm += iv; if(sm >= 60) { sh += Math.floor(sm/60); sm %= 60; }
-  }
+  var sh=parseInt(ts.split(':')[0]), sm=parseInt(ts.split(':')[1]);
+  var eh=parseInt(te.split(':')[0]), em=parseInt(te.split(':')[1]);
+  var lS=null, lE=null;
+  if(ln){ var lp=ln.split('-'); lS=parseInt(lp[0].split(':')[0])*60+parseInt(lp[0].split(':')[1]); lE=parseInt(lp[1].split(':')[0])*60+parseInt(lp[1].split(':')[1]); }
+  var cnt=0;
+  while(sh*60+sm<eh*60+em){if(!lS||sh*60+sm<lS||sh*60+sm>=lE)cnt++;sm+=iv;if(sm>=60){sh+=Math.floor(sm/60);sm%=60;}}
   return cnt;
 }
 function calcPreview(p) {
-  var slots = getTableSlots(p);
-  if(!slots) { alert('시간 설정을 확인하세요.'); return; }
-  var cnt = Object.keys(slots).length;
-  var days = Array.from(new Set(Object.values(slots).map(function(s){ return s.date; }))).length;
-  var el = document.getElementById(p + '-preview');
-  el.innerHTML = '✅ <b>' + days + '일</b> × 총 <b>' + cnt + '개</b> 슬롯'; el.style.display = 'block';
+  var slots=getTableSlots(p); if(!slots){alert('시간 설정을 확인하세요.');return;}
+  var cnt=Object.keys(slots).length, days=Array.from(new Set(Object.values(slots).map(function(s){return s.date;}))).length;
+  var el=ge(p+'-preview'); el.innerHTML='<b>'+days+'일</b> × 총 <b>'+cnt+'개</b> 슬롯'; el.style.display='block';
 }
 function getTableSlots(p) {
-  var rows = document.querySelectorAll('#' + p + '-tbody .date-row:not(.excluded)');
-  if(!rows.length) return null;
-  var slots = {}, ok = true;
-  rows.forEach(function(row) {
-    var date = row.id.replace(p + '-row-', '');
-    var tsEl = document.getElementById(p + '-ts-' + date);
-    var teEl = document.getElementById(p + '-te-' + date);
-    if(!tsEl||!teEl) { ok = false; return; }
-    var ts = tsEl.value, te = teEl.value;
-    var iv = parseInt(document.getElementById(p + '-iv-' + date).value || 30);
-    var ln = document.getElementById(p + '-ln-' + date).value || '';
-    if(!ts||!te) { ok = false; return; }
-    var sh = parseInt(ts.split(':')[0]), sm = parseInt(ts.split(':')[1]);
-    var eh = parseInt(te.split(':')[0]), em = parseInt(te.split(':')[1]);
-    var lS = null, lE = null;
-    if(ln) {
-      var lp = ln.split('-');
-      lS = parseInt(lp[0].split(':')[0])*60 + parseInt(lp[0].split(':')[1]);
-      lE = parseInt(lp[1].split(':')[0])*60 + parseInt(lp[1].split(':')[1]);
-    }
-    while(sh*60+sm < eh*60+em) {
-      var tot = sh*60+sm;
-      var t = ('0'+sh).slice(-2) + ':' + ('0'+sm).slice(-2);
-      if(!lS || tot < lS || tot >= lE) slots[date + '_' + t.replace(':','')] = {date:date, time:t, booked:false, locked:false};
-      sm += iv; if(sm >= 60) { sh += Math.floor(sm/60); sm %= 60; }
+  var rows=document.querySelectorAll('#'+p+'-tbody .date-row:not(.excluded)'); if(!rows.length) return null;
+  var slots={}, ok=true;
+  rows.forEach(function(row){
+    var date=row.id.replace(p+'-row-','');
+    var ts=ge(p+'-ts-'+date), te=ge(p+'-te-'+date); if(!ts||!te){ok=false;return;}
+    var iv=parseInt(ge(p+'-iv-'+date).value||30), ln=ge(p+'-ln-'+date).value||'';
+    var sh=parseInt(ts.value.split(':')[0]), sm=parseInt(ts.value.split(':')[1]);
+    var eh=parseInt(te.value.split(':')[0]), em=parseInt(te.value.split(':')[1]);
+    var lS=null, lE=null;
+    if(ln){var lp=ln.split('-');lS=parseInt(lp[0].split(':')[0])*60+parseInt(lp[0].split(':')[1]);lE=parseInt(lp[1].split(':')[0])*60+parseInt(lp[1].split(':')[1]);}
+    while(sh*60+sm<eh*60+em){
+      var tot=sh*60+sm, t=('0'+sh).slice(-2)+':'+('0'+sm).slice(-2);
+      if(!lS||tot<lS||tot>=lE) slots[date+'_'+t.replace(':','')]={date:date,time:t,booked:false,locked:false};
+      sm+=iv; if(sm>=60){sh+=Math.floor(sm/60);sm%=60;}
     }
   });
-  return ok ? slots : null;
+  return ok?slots:null;
 }
 
 /* 연락 버튼 */
-function extractPhone(bookedFields) {
-  if(!bookedFields) return null;
-  var keys = ['연락처','전화번호','핸드폰','휴대폰','전화'];
-  var entries = Object.entries(bookedFields);
-  for(var i=0; i<entries.length; i++) {
-    var k = entries[i][0], v = entries[i][1];
-    if(keys.some(function(pk){ return k.indexOf(pk) >= 0; })) return v.replace(/[^0-9]/g,'');
-  }
-  return null;
+function extractPhone(bf) {
+  if(!bf) return null;
+  var keys=['연락처','전화번호','핸드폰','휴대폰','전화'];
+  var found=null;
+  Object.entries(bf).forEach(function(e){ if(!found&&keys.some(function(k){return e[0].indexOf(k)>=0;})) found=e[1].replace(/[^0-9]/g,''); });
+  return found;
 }
-function buildContactBtns(bookedFields) {
-  var num = extractPhone(bookedFields);
-  if(!num) return '';
-  return '<div class="contact-btns">'
-    + '<a class="cbtn cbtn-call" href="tel:' + num + '">📞 전화</a>'
-    + '<a class="cbtn cbtn-sms" href="sms:' + num + '">✉️ SMS</a>'
-    + '<button class="cbtn cbtn-kakao" onclick="openKakao('' + num + '')">💬 카카오</button>'
-    + '</div>';
+function buildContactBtns(bf) {
+  var num=extractPhone(bf); if(!num) return document.createDocumentFragment();
+  var wrap=document.createElement('div'); wrap.className='contact-btns';
+  var ca=document.createElement('a'); ca.className='cbtn cbtn-call'; ca.href='tel:'+num; ca.textContent='📞 전화';
+  var sa=document.createElement('a'); sa.className='cbtn cbtn-sms'; sa.href='sms:'+num; sa.textContent='✉️ SMS';
+  var kb=document.createElement('button'); kb.className='cbtn cbtn-kakao'; kb.textContent='💬 카카오';
+  kb.setAttribute('data-num',num); kb.onclick=function(){ openKakao(this.getAttribute('data-num')); };
+  wrap.appendChild(ca); wrap.appendChild(sa); wrap.appendChild(kb);
+  return wrap;
 }
 function openKakao(num) {
-  if(confirm('카카오톡으로 연락하시겠습니까?\n\n전화번호: ' + num + '\n\n[확인] → 카카오톡 앱 열기')) {
-    window.open('kakaotalk://', '_blank');
+  if(confirm('카카오톡으로 연락하시겠습니까?\n\n전화번호: '+num+'\n\n[확인] → 카카오톡 앱 열기')) {
+    window.open('kakaotalk://','_blank');
   }
 }
 
 /* 신청 현황 */
-function formatDate(d) {
-  var p = d.split('-'); return p[1] + '/' + p[2] + '(' + '일월화수목금토'[new Date(d).getDay()] + ')';
-}
+function fmtDate(d){var p=d.split('-');return p[1]+'/'+p[2]+'('+'일월화수목금토'[new Date(d).getDay()]+')';}
 function setView(v) {
-  currentView = v;
-  document.getElementById('vbtn-slot').classList.toggle('active', v==='slot');
-  document.getElementById('vbtn-list').classList.toggle('active', v==='list');
-  document.getElementById('view-slot').style.display = v==='slot' ? 'block' : 'none';
-  document.getElementById('view-list').style.display = v==='list' ? 'block' : 'none';
-  renderDateFilter(); renderCurrentView();
+  curView=v;
+  ge('vbtn-slot').classList.toggle('active',v==='slot'); ge('vbtn-list').classList.toggle('active',v==='list');
+  ge('view-slot').style.display=v==='slot'?'block':'none'; ge('view-list').style.display=v==='list'?'block':'none';
+  renderDateFilter(); renderCurView();
 }
-function renderCurrentView() { if(currentView==='slot') renderAdmSlots(); else renderStatusTable(); }
+function renderCurView(){if(curView==='slot')renderAdmSlots();else renderStatusTable();}
 function renderDateFilter() {
-  var dates = Array.from(new Set(Object.values(statusAllSlots).map(function(s){ return s.date; }))).sort();
-  if(!admSelectedDate && dates.length) admSelectedDate = dates[0];
-  var tabs = document.getElementById('date-filter-tabs');
-  if(currentView === 'slot') {
-    tabs.innerHTML = dates.map(function(d) {
-      return '<div class="adm-date-tab' + (d===admSelectedDate?' active':'') + '" onclick="selectAdmDate('' + d + '')">' + formatDate(d) + '</div>';
-    }).join('');
+  var dates=Array.from(new Set(Object.values(statusAllSlots).map(function(s){return s.date;}))).sort();
+  if(!admDate&&dates.length) admDate=dates[0];
+  var tabs=ge('date-filter-tabs'); tabs.innerHTML='';
+  if(curView==='slot') {
+    dates.forEach(function(d){
+      var b=document.createElement('div'); b.className='adm-date-tab'+(d===admDate?' active':'');
+      b.textContent=fmtDate(d); b.setAttribute('data-d',d);
+      b.onclick=function(){admDate=this.getAttribute('data-d');renderDateFilter();renderAdmSlots();};
+      tabs.appendChild(b);
+    });
   } else {
-    tabs.innerHTML = '<div class="dft ' + (statusFilterDate==='all'?'active':'') + '" onclick="filterByDate('all')">전체</div>'
-      + dates.map(function(d){ return '<div class="dft ' + (statusFilterDate===d?'active':'') + '" onclick="filterByDate('' + d + '')">' + d.slice(5) + '</div>'; }).join('');
+    var all=document.createElement('div'); all.className='dft'+(statusFilterDate==='all'?' active':'');
+    all.textContent='전체'; all.onclick=function(){statusFilterDate='all';renderDateFilter();renderStatusTable();};
+    tabs.appendChild(all);
+    dates.forEach(function(d){
+      var b=document.createElement('div'); b.className='dft'+(statusFilterDate===d?' active':'');
+      b.textContent=d.slice(5); b.setAttribute('data-d',d);
+      b.onclick=function(){statusFilterDate=this.getAttribute('data-d');renderDateFilter();renderStatusTable();};
+      tabs.appendChild(b);
+    });
   }
 }
-function selectAdmDate(d) { admSelectedDate = d; renderDateFilter(); renderAdmSlots(); }
-function filterByDate(d) { statusFilterDate = d; renderDateFilter(); renderStatusTable(); }
 function renderStatusGrid() {
   db.ref('rounds').once('value', function(snap) {
-    var data = snap.val() || {};
-    var grid = document.getElementById('status-round-grid');
-    var rounds = Object.entries(data).sort(function(a,b){ return (b[1].createdAt||'').localeCompare(a[1].createdAt||''); });
-    if(!rounds.length) { grid.innerHTML = '<div style="color:#aaa">회차가 없습니다.</div>'; return; }
-    grid.innerHTML = rounds.map(function(entry) {
-      var id = entry[0], r = entry[1];
-      var booked = Object.values(r.slots||{}).filter(function(s){ return s.booked; }).length;
-      var total = Object.keys(r.slots||{}).length;
-      return '<div class="round-card ' + (selectedStatusRound===id?'selected':'') + '" onclick="selectStatusRound('' + id + '','' + r.title.replace(/'/g,"\'") + '')">'
-        + '<div class="rc-title">' + r.title + (r.active?' 🟢':'') + '</div>'
-        + '<div class="rc-meta">신청 ' + booked + ' / ' + total + '</div></div>';
-    }).join('');
-    if(!selectedStatusRound) {
-      var active = rounds.find(function(e){ return e[1].active; });
-      if(active) selectStatusRound(active[0], active[1].title);
-    }
+    var data=snap.val()||{}, grid=ge('status-round-grid'); grid.innerHTML='';
+    var rounds=Object.entries(data).sort(function(a,b){return (b[1].createdAt||'').localeCompare(a[1].createdAt||'');});
+    if(!rounds.length){grid.innerHTML='<div style="color:#aaa">회차가 없습니다.</div>';return;}
+    rounds.forEach(function(entry){
+      var id=entry[0],r=entry[1];
+      var booked=Object.values(r.slots||{}).filter(function(s){return s.booked;}).length;
+      var total=Object.keys(r.slots||{}).length;
+      var card=document.createElement('div'); card.className='round-card'+(selStatusRound===id?' selected':'');
+      card.innerHTML='<div class="rc-title">'+r.title+(r.active?' 🟢':'')+'</div><div class="rc-meta">신청 '+booked+' / '+total+'</div>';
+      card.setAttribute('data-id',id); card.setAttribute('data-title',r.title);
+      card.onclick=function(){
+        document.querySelectorAll('.round-card').forEach(function(c){c.classList.remove('selected');});
+        this.classList.add('selected');
+        selectStatusRound(this.getAttribute('data-id'),this.getAttribute('data-title'));
+      };
+      grid.appendChild(card);
+    });
+    if(!selStatusRound){var a=rounds.find(function(e){return e[1].active;});if(a)selectStatusRound(a[0],a[1].title);}
   });
 }
 function selectStatusRound(id, title) {
-  selectedStatusRound = id; statusFilterDate = 'all'; admSelectedDate = null;
-  document.querySelectorAll('.round-card').forEach(function(c){ c.classList.remove('selected'); });
-  if(event && event.currentTarget) event.currentTarget.classList.add('selected');
-  document.getElementById('status-content').style.display = 'block';
-  document.getElementById('status-title').textContent = title;
-  if(statusListener) { db.ref('rounds/' + selectedStatusRound + '/slots').off('value'); statusListener = null; }
-  db.ref('rounds/' + id).once('value', function(snap){ statusRoundData = snap.val() || {}; });
-  statusListener = db.ref('rounds/' + id + '/slots').on('value', function(snap) {
-    statusAllSlots = snap.val() || {};
-    var all = Object.values(statusAllSlots), booked = all.filter(function(s){ return s.booked; });
-    document.getElementById('stat-total').textContent = all.length;
-    document.getElementById('stat-booked').textContent = booked.length;
-    document.getElementById('stat-remain').textContent = all.length - booked.length;
-    document.getElementById('stat-rate').textContent = all.length ? Math.round(booked.length/all.length*100) + '%' : '-';
-    if(!admSelectedDate) { var dates = Array.from(new Set(all.map(function(s){ return s.date; }))).sort(); admSelectedDate = dates[0] || null; }
-    renderDateFilter(); renderCurrentView();
+  selStatusRound=id; statusFilterDate='all'; admDate=null;
+  ge('status-content').style.display='block'; ge('status-title').textContent=title;
+  if(statusListener){db.ref('rounds/'+selStatusRound+'/slots').off('value');statusListener=null;}
+  db.ref('rounds/'+id).once('value',function(snap){statusRoundData=snap.val()||{};});
+  statusListener=db.ref('rounds/'+id+'/slots').on('value',function(snap){
+    statusAllSlots=snap.val()||{};
+    var all=Object.values(statusAllSlots), booked=all.filter(function(s){return s.booked;});
+    ge('stat-total').textContent=all.length; ge('stat-booked').textContent=booked.length;
+    ge('stat-remain').textContent=all.length-booked.length;
+    ge('stat-rate').textContent=all.length?Math.round(booked.length/all.length*100)+'%':'-';
+    if(!admDate){var dates=Array.from(new Set(all.map(function(s){return s.date;}))).sort();admDate=dates[0]||null;}
+    renderDateFilter(); renderCurView();
   });
 }
 function renderAdmSlots() {
-  var grid = document.getElementById('adm-slots-grid');
-  var date = admSelectedDate;
-  if(!date) { grid.innerHTML = '<div style="color:#aaa;padding:20px">날짜를 선택하세요</div>'; return; }
-  var filtered = Object.entries(statusAllSlots).filter(function(e){ return e[1].date===date; }).sort(function(a,b){ return a[1].time.localeCompare(b[1].time); });
-  if(!filtered.length) { grid.innerHTML = '<div style="color:#aaa;padding:20px">슬롯이 없습니다</div>'; return; }
-  grid.innerHTML = filtered.map(function(entry) {
-    var key = entry[0], s = entry[1];
-    if(s.locked) return '<div class="adm-slot locked">🔒 ' + s.time + '<br><small>잠금됨</small></div>';
-    if(!s.booked) return '<div class="adm-slot avail">🟢 ' + s.time + '<br><small>신청 가능</small></div>';
-    var at = (s.bookedAt||'').slice(0,16).replace('T',' ');
-    var extra = '';
-    if(s.bookedFields) Object.entries(s.bookedFields).forEach(function(fe){ extra += '<div class="si-row"><span class="si-key">' + fe[0] + '</span><span class="si-val">' + fe[1] + '</span></div>'; });
-    return '<div class="adm-slot filled">'
-      + '<div class="slot-time">🕐 ' + s.time + '</div>'
-      + '<div>'
-      + '<div class="si-row"><span class="si-key">이름</span><span class="si-val">' + (s.bookedBy||'-') + '</span></div>'
-      + extra
-      + '<div class="si-row"><span class="si-key">비밀번호</span><span class="si-val">' + (s.bookedPw||'-') + '</span></div>'
-      + '<div class="si-row"><span class="si-key">신청시각</span><span class="si-val">' + at + '</span></div>'
-      + '</div>'
-      + buildContactBtns(s.bookedFields)
-      + '<button class="slot-cancel" onclick="adminCancel('' + selectedStatusRound + '','' + key + '')">✕ 신청 취소</button>'
-      + '</div>';
-  }).join('');
+  var grid=ge('adm-slots-grid'), date=admDate;
+  if(!date){grid.innerHTML='<div style="color:#aaa;padding:20px">날짜를 선택하세요</div>';return;}
+  var filtered=Object.entries(statusAllSlots).filter(function(e){return e[1].date===date;}).sort(function(a,b){return a[1].time.localeCompare(b[1].time);});
+  if(!filtered.length){grid.innerHTML='<div style="color:#aaa;padding:20px">슬롯이 없습니다</div>';return;}
+  grid.innerHTML='';
+  filtered.forEach(function(entry){
+    var key=entry[0],s=entry[1];
+    var div=document.createElement('div');
+    if(s.locked){div.className='adm-slot locked-slot';div.textContent='🔒 '+s.time;grid.appendChild(div);return;}
+    if(!s.booked){div.className='adm-slot avail';div.textContent='🟢 '+s.time;grid.appendChild(div);return;}
+    div.className='adm-slot filled';
+    var timeDiv=document.createElement('div');timeDiv.className='slot-time';timeDiv.textContent='🕐 '+s.time;
+    div.appendChild(timeDiv);
+    var infoDiv=document.createElement('div');
+    function addRow(k,v){var r=document.createElement('div');r.className='si-row';var ks=document.createElement('span');ks.className='si-key';ks.textContent=k;var vs=document.createElement('span');vs.className='si-val';vs.textContent=v||'-';r.appendChild(ks);r.appendChild(vs);infoDiv.appendChild(r);}
+    addRow('이름',s.bookedBy); if(s.bookedFields)Object.entries(s.bookedFields).forEach(function(e){addRow(e[0],e[1]);}); addRow('비밀번호',s.bookedPw); addRow('신청시각',(s.bookedAt||'').slice(0,16).replace('T',' '));
+    div.appendChild(infoDiv);
+    div.appendChild(buildContactBtns(s.bookedFields));
+    var cb=document.createElement('button');cb.className='slot-cancel';cb.textContent='✕ 신청 취소';
+    cb.setAttribute('data-rid',selStatusRound);cb.setAttribute('data-sk',key);
+    cb.onclick=function(){adminCancel(this.getAttribute('data-rid'),this.getAttribute('data-sk'));};
+    div.appendChild(cb); grid.appendChild(div);
+  });
 }
 function renderStatusTable() {
-  var all = Object.values(statusAllSlots);
-  var booked = all.filter(function(s){ return s.booked; });
-  var fields = (statusRoundData && statusRoundData.formFields) || [];
-  var filtered = (statusFilterDate==='all' ? booked : booked.filter(function(s){ return s.date===statusFilterDate; }))
-    .sort(function(a,b){ return (a.date+a.time).localeCompare(b.date+b.time); });
-  document.getElementById('status-thead-row').innerHTML =
-    '<th>날짜</th><th>시간</th><th>이름</th>'
-    + fields.map(function(f){ return '<th>' + f.label + '</th>'; }).join('')
-    + '<th>비밀번호</th><th>신청시각</th><th>연락/관리</th>';
-  var tbody = document.getElementById('status-tbody');
-  if(!filtered.length) { tbody.innerHTML = '<tr><td colspan="' + (5+fields.length) + '" class="empty">신청자가 없습니다.</td></tr>'; return; }
-  tbody.innerHTML = filtered.map(function(s) {
-    var sKey = '';
-    Object.entries(statusAllSlots).forEach(function(e){ if(e[1].date===s.date && e[1].time===s.time) sKey = e[0]; });
-    return '<tr><td>' + s.date + '</td><td>' + s.time + '</td><td>' + (s.bookedBy||'-') + '</td>'
-      + fields.map(function(f){ return '<td>' + ((s.bookedFields&&s.bookedFields[f.label])||'-') + '</td>'; }).join('')
-      + '<td>' + (s.bookedPw||'-') + '</td>'
-      + '<td style="white-space:nowrap">' + (s.bookedAt||'').slice(0,16).replace('T',' ') + '</td>'
-      + '<td><div style="display:flex;flex-direction:column;gap:4px">'
-      + buildContactBtns(s.bookedFields)
-      + '<button class="btn btn-danger btn-sm" onclick="adminCancel('' + selectedStatusRound + '','' + sKey + '')">취소</button>'
-      + '</div></td></tr>';
-  }).join('');
+  var all=Object.values(statusAllSlots),booked=all.filter(function(s){return s.booked;});
+  var fields=(statusRoundData&&statusRoundData.formFields)||[];
+  var filtered=(statusFilterDate==='all'?booked:booked.filter(function(s){return s.date===statusFilterDate;})).sort(function(a,b){return (a.date+a.time).localeCompare(b.date+b.time);});
+  var th=ge('status-thead-row'); th.innerHTML='<th>날짜</th><th>시간</th><th>이름</th>'+fields.map(function(f){return '<th>'+f.label+'</th>';}).join('')+'<th>비밀번호</th><th>신청시각</th><th>연락/관리</th>';
+  var tbody=ge('status-tbody');
+  if(!filtered.length){tbody.innerHTML='<tr><td colspan="'+(5+fields.length)+'" class="empty">신청자가 없습니다.</td></tr>';return;}
+  tbody.innerHTML='';
+  filtered.forEach(function(s){
+    var sKey='';
+    Object.entries(statusAllSlots).forEach(function(e){if(e[1].date===s.date&&e[1].time===s.time)sKey=e[0];});
+    var tr=document.createElement('tr');
+    var cells=['date','time','bookedBy'].map(function(k){var td=document.createElement('td');td.textContent=s[k]||'-';return td;});
+    fields.forEach(function(f){var td=document.createElement('td');td.textContent=(s.bookedFields&&s.bookedFields[f.label])||'-';cells.push(td);});
+    var pwTd=document.createElement('td');pwTd.textContent=s.bookedPw||'-';cells.push(pwTd);
+    var atTd=document.createElement('td');atTd.style.whiteSpace='nowrap';atTd.textContent=(s.bookedAt||'').slice(0,16).replace('T',' ');cells.push(atTd);
+    var mgTd=document.createElement('td');
+    var wrap=document.createElement('div');wrap.style.display='flex';wrap.style.flexDirection='column';wrap.style.gap='4px';
+    wrap.appendChild(buildContactBtns(s.bookedFields));
+    var cb=document.createElement('button');cb.className='btn btn-danger btn-sm';cb.textContent='취소';
+    cb.setAttribute('data-rid',selStatusRound);cb.setAttribute('data-sk',sKey);
+    cb.onclick=function(){adminCancel(this.getAttribute('data-rid'),this.getAttribute('data-sk'));};
+    wrap.appendChild(cb); mgTd.appendChild(wrap); cells.push(mgTd);
+    cells.forEach(function(td){tr.appendChild(td);}); tbody.appendChild(tr);
+  });
 }
 function adminCancel(roundId, slotKey) {
   if(!confirm('이 신청을 취소하시겠습니까?')) return;
-  db.ref('rounds/' + roundId + '/slots/' + slotKey).update({booked:false,bookedBy:null,bookedPw:null,bookedFields:null,bookedAt:null});
+  db.ref('rounds/'+roundId+'/slots/'+slotKey).update({booked:false,bookedBy:null,bookedPw:null,bookedFields:null,bookedAt:null});
 }
 function exportCSV() {
-  var rows = Array.from(document.getElementById('status-tbody').querySelectorAll('tr')).map(function(tr) {
-    return Array.from(tr.querySelectorAll('td')).slice(0,-1).map(function(td){ return '"' + td.textContent.trim() + '"'; }).join(',');
-  }).filter(function(r){ return r.indexOf('신청자가') < 0; });
-  if(!rows.length) { alert('데이터가 없습니다.'); return; }
-  var fields = (statusRoundData && statusRoundData.formFields) || [];
-  var header = ['"날짜"','"시간"','"이름"'].concat(fields.map(function(f){ return '"'+f.label+'"'; })).concat(['"비밀번호"','"신청시각"']).join(',');
-  var csv = '\uFEFF' + [header].concat(rows).join('\n');
-  var a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = '신청현황_' + new Date().toISOString().slice(0,10) + '.csv';
-  a.click();
+  var rows=[]; var fields=(statusRoundData&&statusRoundData.formFields)||[];
+  Array.from(ge('status-tbody').querySelectorAll('tr')).forEach(function(tr){
+    var tds=Array.from(tr.querySelectorAll('td')); if(tds.length<2) return;
+    var row=tds.slice(0,tds.length-1).map(function(td){return '"'+td.textContent.trim()+'"';}).join(',');
+    if(row.indexOf('신청자가')<0) rows.push(row);
+  });
+  if(!rows.length){alert('데이터가 없습니다.');return;}
+  var hdr=['"날짜"','"시간"','"이름"'].concat(fields.map(function(f){return '"'+f.label+'"';})).concat(['"비밀번호"','"신청시각"']).join(',');
+  var csv='\uFEFF'+hdr+'\n'+rows.join('\n');
+  var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='신청현황_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
 }
-function populateSlotRoundSelect() {
-  db.ref('rounds').once('value', function(snap) {
-    var sel = document.getElementById('slot-round-select');
-    var data = snap.val() || {};
-    sel.innerHTML = '<option value="">회차 선택</option>'
-      + Object.entries(data).sort(function(a,b){ return (b[1].createdAt||'').localeCompare(a[1].createdAt||''); })
-        .map(function(e){ return '<option value="' + e[0] + '">' + e[1].title + (e[1].active?' 🟢':'') + '</option>'; }).join('');
+function populateSlotSel() {
+  db.ref('rounds').once('value',function(snap){
+    var sel=ge('slot-round-select'),data=snap.val()||{};
+    sel.innerHTML='<option value="">회차 선택</option>';
+    Object.entries(data).sort(function(a,b){return (b[1].createdAt||'').localeCompare(a[1].createdAt||'');}).forEach(function(e){
+      var o=document.createElement('option');o.value=e[0];o.text=e[1].title+(e[1].active?' 🟢':'');sel.appendChild(o);
+    });
   });
 }
 function loadSlotMgmt() {
-  var id = document.getElementById('slot-round-select').value;
-  var content = document.getElementById('slot-mgmt-content');
-  if(!id) { content.innerHTML = '<div class="empty">회차를 선택하세요</div>'; return; }
-  db.ref('rounds/' + id + '/slots').once('value', function(snap) {
-    var slots = snap.val() || {};
-    var dates = Array.from(new Set(Object.values(slots).map(function(s){ return s.date; }))).sort();
-    if(!dates.length) { content.innerHTML = '<div class="empty">슬롯이 없습니다.</div>'; return; }
-    var html = '<div style="overflow-x:auto"><table class="status-table"><thead><tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr></thead><tbody>';
-    dates.forEach(function(date) {
-      Object.entries(slots).filter(function(e){ return e[1].date===date; }).sort(function(a,b){ return a[1].time.localeCompare(b[1].time); }).forEach(function(entry) {
-        var key = entry[0], s = entry[1];
-        var status = s.locked ? '🔒 잠금' : (s.booked ? '✅ 신청됨 (' + s.bookedBy + ')' : '⭕ 가능');
-        var btn = s.booked ? '-' : s.locked
-          ? '<button class="btn btn-success btn-sm" onclick="toggleLock('' + id + '','' + key + '',false)">해제</button>'
-          : '<button class="btn btn-warning btn-sm" onclick="toggleLock('' + id + '','' + key + '',true)">잠금</button>';
-        html += '<tr><td>' + s.date + '</td><td>' + s.time + '</td><td>' + status + '</td><td>' + btn + '</td></tr>';
+  var id=ge('slot-round-select').value, content=ge('slot-mgmt-content');
+  if(!id){content.innerHTML='<div class="empty">회차를 선택하세요</div>';return;}
+  db.ref('rounds/'+id+'/slots').once('value',function(snap){
+    var slots=snap.val()||{},dates=Array.from(new Set(Object.values(slots).map(function(s){return s.date;}))).sort();
+    if(!dates.length){content.innerHTML='<div class="empty">슬롯이 없습니다.</div>';return;}
+    var tbl=document.createElement('table');tbl.className='status-table';
+    var thead=document.createElement('thead');thead.innerHTML='<tr><th>날짜</th><th>시간</th><th>상태</th><th>관리</th></tr>';
+    var tbody=document.createElement('tbody');
+    dates.forEach(function(date){
+      Object.entries(slots).filter(function(e){return e[1].date===date;}).sort(function(a,b){return a[1].time.localeCompare(b[1].time);}).forEach(function(entry){
+        var key=entry[0],s=entry[1];
+        var tr=document.createElement('tr');
+        var status=s.locked?'🔒 잠금':(s.booked?'✅ 신청됨 ('+s.bookedBy+')':'⭕ 가능');
+        var btn=''; if(!s.booked){ var b=document.createElement('button'); b.className='btn btn-sm'+(s.locked?' btn-success':' btn-warning'); b.textContent=s.locked?'해제':'잠금'; b.setAttribute('data-id',id); b.setAttribute('data-key',key); b.setAttribute('data-lock',s.locked?'0':'1'); b.onclick=function(){toggleLock(this.getAttribute('data-id'),this.getAttribute('data-key'),this.getAttribute('data-lock')==='1');}; tr.dataset.btn=1; }
+        tr.innerHTML='<td>'+s.date+'</td><td>'+s.time+'</td><td>'+status+'</td>';
+        var td=document.createElement('td');
+        if(!s.booked){var b2=document.createElement('button');b2.className='btn btn-sm'+(s.locked?' btn-success':' btn-warning');b2.textContent=s.locked?'해제':'잠금';b2.setAttribute('data-id',id);b2.setAttribute('data-key',key);b2.setAttribute('data-lock',s.locked?'0':'1');b2.onclick=function(){toggleLock(this.getAttribute('data-id'),this.getAttribute('data-key'),this.getAttribute('data-lock')==='1');};td.appendChild(b2);}else{td.textContent='-';}
+        tr.appendChild(td); tbody.appendChild(tr);
       });
     });
-    content.innerHTML = html + '</tbody></table></div>';
+    tbl.appendChild(thead);tbl.appendChild(tbody);
+    var wrap=document.createElement('div');wrap.style.overflowX='auto';wrap.appendChild(tbl);
+    content.innerHTML='';content.appendChild(wrap);
   });
 }
-function toggleLock(roundId, slotKey, lock) {
-  db.ref('rounds/' + roundId + '/slots/' + slotKey).update({locked: lock}).then(function(){ loadSlotMgmt(); });
+function toggleLock(roundId,slotKey,lock){
+  db.ref('rounds/'+roundId+'/slots/'+slotKey).update({locked:lock}).then(function(){loadSlotMgmt();});
 }
 </script>
 
-<!-- ====== 로그인 전용 JS (완전 독립 블록) ====== -->
+<!-- ===== 로그인 전용 JS (완전 독립 블록) ===== -->
 <script>
 (function() {
   function el(id) { return document.getElementById(id); }
 
   function showOnly(name) {
     ['login-wrap','no-access-wrap','admin-wrap','loading-wrap'].forEach(function(id) {
-      var e = el(id); if(e) e.style.display = 'none';
+      var e=el(id); if(e) e.style.display='none';
     });
-    var t = el(name);
-    if(!t) return;
-    t.style.display = (name === 'admin-wrap') ? 'block' : 'flex';
+    var t=el(name); if(!t) return;
+    t.style.display = (name==='admin-wrap') ? 'block' : 'flex';
   }
 
   function setMsg(html, type) {
-    var e = el('login-status-msg'); if(!e) return;
-    if(type==='error')      { e.style.background='#fce4ec'; e.style.color='#c62828'; }
-    else if(type==='ok')    { e.style.background='#e8f5e9'; e.style.color='#2e7d32'; }
-    else                    { e.style.background='#e3f2fd'; e.style.color='#1565c0'; }
-    e.innerHTML = html;
-    e.style.display = 'block';
+    var e=el('login-status-msg'); if(!e) return;
+    if(type==='error'){e.style.background='#fce4ec';e.style.color='#c62828';}
+    else if(type==='ok'){e.style.background='#e8f5e9';e.style.color='#2e7d32';}
+    else{e.style.background='#e3f2fd';e.style.color='#1565c0';}
+    e.innerHTML=html; e.style.display='block';
   }
-  function clearMsg() { var e = el('login-status-msg'); if(e){ e.style.display='none'; e.innerHTML=''; } }
+  function clearMsg(){var e=el('login-status-msg');if(e){e.style.display='none';e.innerHTML='';}}
 
   function setBtnState(loading) {
-    var b = el('btn-popup'); if(!b) return;
-    b.disabled = loading;
-    b.innerHTML = loading
-      ? '&#9203; Google 로그인 창을 여는 중...'
-      : '<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"'
-        + ' style="width:20px;height:20px;vertical-align:middle;margin-right:8px">'
-        + 'Google 계정으로 로그인';
+    var b=el('btn-popup'); if(!b) return;
+    b.disabled=loading;
+    if(loading){
+      b.innerHTML='&#9203; Google 로그인 창을 여는 중...';
+    } else {
+      b.innerHTML='<img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" style="width:20px;height:20px;vertical-align:middle;margin-right:8px">Google 계정으로 로그인';
+    }
   }
 
   function errMsg(code, raw) {
-    if(code==='auth/popup-blocked') return '팝업이 차단되었습니다.<br>아래 "다른 방법으로 로그인" 버튼을 누르세요.';
-    if(code==='auth/popup-closed-by-user') return '';
-    if(code==='auth/cancelled-popup-request') return '';
+    if(code==='auth/popup-blocked') return '팝업이 차단되었습니다.<br>아래 버튼으로 로그인하세요.';
+    if(code==='auth/popup-closed-by-user'||code==='auth/cancelled-popup-request') return '';
     if(code==='auth/network-request-failed') return '네트워크 오류입니다.';
-    if(code==='auth/unauthorized-domain') return 'Firebase 승인 도메인 오류<br><b>' + location.hostname + '</b> 를 Firebase 콘솔에 추가 필요';
+    if(code==='auth/unauthorized-domain') return 'Firebase 승인 도메인 오류<br><b>'+location.hostname+'</b> 를 Firebase 콘솔에 추가 필요';
     if(code==='auth/operation-not-allowed') return 'Firebase에서 Google 로그인 활성화 필요';
-    return raw || code || '알 수 없는 오류';
+    return raw||code||'알 수 없는 오류';
   }
 
   window.doPopupLogin = function() {
     clearMsg(); setBtnState(true);
-    setMsg('&#9203; Google 로그인 창을 여는 중...', 'info');
+    setMsg('&#9203; Google 로그인 창을 여는 중...','info');
     auth.signInWithPopup(googleProvider)
-      .then(function() { clearMsg(); })
-      .catch(function(err) {
+      .then(function(){clearMsg();})
+      .catch(function(err){
         setBtnState(false);
-        var code = err ? err.code : '', msg = err ? err.message : '';
-        var m = errMsg(code, msg);
-        if(m) setMsg('&#10060; ' + m, 'error'); else clearMsg();
-        if(code==='auth/popup-blocked') { var rb = el('btn-redirect'); if(rb) rb.style.display='block'; }
+        var code=err?err.code:'', msg=err?err.message:'';
+        var m=errMsg(code,msg);
+        if(m) setMsg('&#10060; '+m,'error'); else clearMsg();
+        if(code==='auth/popup-blocked'){var rb=el('btn-redirect');if(rb)rb.style.display='block';}
       });
   };
 
   window.doRedirectLogin = function() {
-    setMsg('&#9203; Google 로그인 페이지로 이동합니다...', 'info');
-    var rb = el('btn-redirect'); if(rb) rb.disabled = true;
-    auth.signInWithRedirect(googleProvider).catch(function(err) {
-      if(rb) rb.disabled = false;
-      setMsg('&#10060; ' + errMsg(err?err.code:'', err?err.message:''), 'error');
+    setMsg('&#9203; Google 로그인 페이지로 이동합니다...','info');
+    var rb=el('btn-redirect'); if(rb) rb.disabled=true;
+    auth.signInWithRedirect(googleProvider).catch(function(err){
+      if(rb) rb.disabled=false;
+      setMsg('&#10060; '+errMsg(err?err.code:'',err?err.message:''),'error');
     });
   };
 
   window.doLogout = function() {
-    auth.signOut().catch(function(){}).finally(function() {
+    auth.signOut().catch(function(){}).finally(function(){
       showOnly('login-wrap'); clearMsg(); setBtnState(false);
-      var rb = el('btn-redirect'); if(rb){ rb.style.display='none'; rb.disabled=false; }
+      var rb=el('btn-redirect'); if(rb){rb.style.display='none';rb.disabled=false;}
     });
   };
 
-  auth.getRedirectResult().then(function(){}).catch(function(err) {
-    if(err && err.code && err.code !== 'auth/credential-already-in-use')
-      setMsg('&#10060; ' + errMsg(err.code, err.message), 'error');
+  auth.getRedirectResult().then(function(){}).catch(function(err){
+    if(err&&err.code&&err.code!=='auth/credential-already-in-use')
+      setMsg('&#10060; '+errMsg(err.code,err.message),'error');
   });
 
-  var adminInited = false;
-  auth.onAuthStateChanged(function(user) {
-    if(!user) { showOnly('login-wrap'); setBtnState(false); return; }
-    if(ADMIN_EMAILS.indexOf(user.email) === -1) {
-      var nm = el('no-access-msg');
-      if(nm) nm.innerHTML = '<b>' + user.email + '</b> 계정은 관리자로 등록되지 않았습니다.<br>'
-        + '<small style="color:#aaa">허용: ' + ADMIN_EMAILS.join(', ') + '</small>';
+  var adminInited=false;
+  auth.onAuthStateChanged(function(user){
+    if(!user){showOnly('login-wrap');setBtnState(false);return;}
+    if(ADMIN_EMAILS.indexOf(user.email)===-1){
+      var nm=el('no-access-msg');
+      if(nm) nm.innerHTML='<b>'+user.email+'</b> 계정은 관리자로 등록되지 않았습니다.<br><small style="color:#aaa">허용: '+ADMIN_EMAILS.join(', ')+'</small>';
       showOnly('no-access-wrap'); return;
     }
     showOnly('admin-wrap');
-    var ls = el('login-status');
-    if(ls) ls.innerHTML = (user.photoURL ? '<img src="' + user.photoURL + '">' : '')
-      + '<span class="uname">' + (user.displayName || user.email) + '</span>';
-    if(!adminInited) { adminInited = true; initAdmin(); }
+    var ls=el('login-status');
+    if(ls){
+      var img=user.photoURL?'<img src="'+user.photoURL+'">':'';
+      ls.innerHTML=img+'<span class="uname">'+(user.displayName||user.email)+'</span>';
+    }
+    if(!adminInited){adminInited=true; initAdmin();}
   });
 
-  window.addEventListener('load', function() {
-    var fs = el('fb-status'); if(!fs) return;
-    try {
-      fs.textContent = (typeof firebase !== 'undefined' && typeof auth !== 'undefined') ? 'Firebase OK ✅' : 'Firebase 로드 실패 ❌';
-      fs.style.color = (typeof firebase !== 'undefined' && typeof auth !== 'undefined') ? '#8bc34a' : '#ef9a9a';
-    } catch(ex) { fs.textContent = 'Firebase 오류: ' + ex.message; fs.style.color='#ef9a9a'; }
+  window.addEventListener('load',function(){
+    var fs=el('fb-status'); if(!fs) return;
+    try{
+      fs.textContent=(typeof firebase!=='undefined'&&typeof auth!=='undefined')?'Firebase OK ✅':'Firebase 로드 실패 ❌';
+      fs.style.color=(typeof firebase!=='undefined'&&typeof auth!=='undefined')?'#8bc34a':'#ef9a9a';
+    }catch(ex){fs.textContent='오류: '+ex.message;fs.style.color='#ef9a9a';}
   });
 })();
 </script>
-
 </body>
 </html>
